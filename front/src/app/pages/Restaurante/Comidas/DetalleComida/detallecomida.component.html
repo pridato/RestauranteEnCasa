@@ -1,0 +1,62 @@
+<div class="xl:mx-96 md:mx-32 my-16 mb-32 border rounded-3xl" id="detalle">
+  <a [routerLink]="['/Restaurante/Comidas']" class="flex w-20 h-12 justify-center items-center p-4 border border-orange-400 rounded-full text-orange-400 hover:text-white hover:bg-orange-400">
+    <i class="text-2xl fa-solid fa-arrow-left"></i>
+  </a>
+  @if(!this.comida){
+    <div class="my-64 flex justify-center uppercase font-bold text-xl">Axlo fue mal cargando el item {{this.id}}</div>
+  } @else {
+    <div class="my-10 py-5 grid grid-cols-1 xl:grid-cols-2">
+      <div class="font-bold flex flex-col items-center">
+        <img class="mb-10" src="data:image/png;base64,{{this.comida.imagenBASE64}}"/>
+        <h3 class="text-amber-900 uppercase text-2xl font-semibold">{{this.comida.nombre}}</h3>
+        <div class="text-sm my-2"><strong>{{this.comida.precio}}€</strong></div>
+        <div (click)="comprar()" class="text-xl cursor-pointer flex flex-row border bg-orange-500 rounded-xl justify-center items-center text-white p-2 px-4">
+          <button  class="mr-3 ">Ordenar</button>
+          <i class="fa-solid fa-utensils"></i>
+        </div>
+      </div>
+      <div class="">
+        <h2 class="font-sans px-10 py-2">{{this.comida.especificacion}}</h2>
+        <div class="mt-5 flex justify-center uppercase font-bold">¿Qué lleva?</div>
+        <div class="flex flex-col items-center justify-center">
+          <ul class="my-5 gap-y-2 flex flex-col justify-center items-center">
+              @for(ingrediente of this.comida.ingredientes; track ingrediente) {
+              <li class="text-gray-500">{{ingrediente}}</li>
+              }
+            </ul>
+          </div>
+      </div>
+  </div>
+  }
+  <div class="flex flex-col bg-white border-black rounded-b-2xl">
+    <h3 class="flex justify-center font-semibold text-xl my-5">Valor Nutricional</h3>
+    <div class="grid grid-cols-3 mx-10 xl:mx-32 xl:pl-40">
+      <div class=""></div>
+      <div class="text-gray-400">Por cada 100g</div>
+      <div class="text-gray-400">Ración 400g</div>
+
+      <div class="flex flex-col gap-y-2">
+        <div class="">Calorias</div>
+        <div class="">Carbohidratos</div>
+        <div>Grasas</div>
+        <div>Proteinas</div>
+      </div>
+      @if(this.comida) {
+        <div class="flex flex-col gap-y-2">
+          <div class="text-gray-500">{{this.comida.informacionAdicional.calorias}} Kcal</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.carbohidratos}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.grasas}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.proteinas}} g</div>
+        </div>
+        <div class="flex flex-col gap-y-2 ">
+          <div class="text-gray-500">{{this.comida.informacionAdicional.calorias * 4}} Kcal</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.carbohidratos * 4}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.grasas * 4}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.proteinas * 4}} g</div>
+        </div>
+      }
+      
+    </div>
+  </div>
+  
+</div>

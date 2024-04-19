@@ -1,0 +1,8 @@
+@media (min-width: 1800px) {
+  #gridTransform {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .platos {
+    justify-content: normal;
+  }
+}

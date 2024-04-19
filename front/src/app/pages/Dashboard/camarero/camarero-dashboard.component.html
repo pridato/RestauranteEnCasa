@@ -1,0 +1,12 @@
+<div class="flex justify-center items-center rounded-md">
+  <div class="container bg-amber-800 border border-gray-300 p-4 rounded-md">
+    <!-- primero vamos a hacer la prueba testeando como si hubiese 10 mesas.
+      Desde el dashboard de admin podría cambiar el número de mesas de 
+    -->
+    <div class="grid grid-cols-4 gap-4">
+      @for(i of this.mesas; track i) {
+        <div class="cursor-pointer p-10 px-20 m-10 bg-amber-900 rounded-md text-center text-lg">{{ i }}</div>
+      }
+    </div>
+  </div>
+</div>
