@@ -38,6 +38,5 @@ export class DetallecomidaComponent {
     this.toastr.success(`Su ${this.elementoComida.comida.nombre} ya está en proceso`, `Item Agregado `, {
       timeOut: 1500,
     })
-    console.log(this.storage.recuperarComidasCompradas())
   }
 }

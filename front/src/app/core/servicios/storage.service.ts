@@ -60,14 +60,16 @@ export class StorageService {
       let _index = this.comidasCompradas().findIndex((elemento) => elemento.comida.id === comida.comida.id)
       if(_index !== -1) {
         this.comidasCompradas.update((comidas) => {
+          comidas[_index].cantidad = 1
           comidas.splice(_index, 1)
-          return comidas
+          return []
         })
       }
       return
     }
 
     comida.cantidad = operacion === 'restar' && comida.cantidad > 1 ? comida.cantidad - 1 : comida.cantidad + 1
+    console.log(comida.cantidad)
     let _index = this.comidasCompradas().findIndex((elemento) => elemento.comida.id === comida.comida.id)
     if(_index !== -1) {
       this.comidasCompradas.update((comidas) => {

@@ -42,7 +42,6 @@ export class LoginComponent {
   async login() {
     try {
       const _res = await this.restService.login(this.credenciales)
-      console.log(_res)
       // obtenemos el rest message con todo 
       if (_res.codigo == 0){
         // si la respuesta de spring ha sido positiva guardamos tanto el cliente como el jwt
@@ -54,7 +53,6 @@ export class LoginComponent {
        throw new Error('Error en el login')
       }
     } catch (error) {
-      console.log(error)
       this.error = true
     }
     

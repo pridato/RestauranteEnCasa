@@ -27,6 +27,9 @@ export class ComidascompradasComponent {
     })
   }
 
+  /**
+   * emite el pedido y debería añadir a la base de datos el pedido realizado
+   */
   emitirPedido() {
     this.togglePedido.emit(!this.pedido)
   }

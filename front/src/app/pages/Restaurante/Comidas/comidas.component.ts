@@ -19,7 +19,6 @@ export class ComidasComponent {
   constructor(private storage:StorageService, private rest:RestService) {
     // pendiente al cambio de ruta actualizar a travñes del parametro y siempre mandarlo
     this.comidas = this.storage.comidas().filter(comida => !comida.tipo.match(/^b-/));
-    console.log('peti')
     let comidas = this.rest.obtenerComidas()
     comidas.subscribe(
       (comidas) => {

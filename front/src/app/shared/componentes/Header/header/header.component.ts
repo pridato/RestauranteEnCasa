@@ -33,13 +33,11 @@ export class HeaderComponent {
   user!:ICliente
   constructor(private storage: StorageService){
     effect(()=>{
-      console.log('comidasCompradas', this.storage.comidasCompradas())
       this.cantidad = this.storage.comidasCompradas().length
 
       // comprobamos el objeto cliente. Si se ha logueado redirigimos a Cliente/Panel
       this.user = this.storage.cliente()
       this.linkRol = this.user.rol ? `Dashboard/${this.user.rol.toLowerCase()}` : ''
-      console.log(this.linkRol)
     })
   }
 
