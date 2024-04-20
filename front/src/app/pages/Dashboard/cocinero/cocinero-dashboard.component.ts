@@ -43,4 +43,25 @@ export class CocineroDashboardComponent implements OnInit {
       }
     )
   }
+
+  /**
+   * una vez realizado el pedido. Quedaría
+   * En primer lugar que las camareras vayan a llevarlo al usuario que lo ha solicitado y guardarlo en bbdd como completado
+   * Una vez el usuario complete la compra finaliza
+   */
+  marcarPedidoListo(pedido:Pedido) {
+    this.pedidos = this.pedidos.filter(p => p !== pedido);
+  }
+
+  /**
+   * 
+   * @param date devolvemos la fecha actual en horas y minutos
+   * @returns 
+   */
+  formatDate(date: Date): string {
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0')
+    return `${hours}:${minutes}:${seconds}`;
+  }
 }
