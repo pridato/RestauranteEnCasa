@@ -18,12 +18,13 @@ export class ComidasComponent {
 
   constructor(private storage:StorageService, private rest:RestService) {
     // pendiente al cambio de ruta actualizar a travñes del parametro y siempre mandarlo
-    this.comidas = this.storage.comidas().filter(comida => !comida.tipo.match(/^b-/));
-    let comidas = this.rest.obtenerComidas()
-    comidas.subscribe(
-      (comidas) => {
+    const $_comidas = this.rest.obtenerComidas()
+    $_comidas.subscribe(
+      (comidas:IComida[]) => { 
+        this.storage.guardarComidas(comidas)
         this.comidas = comidas
       }
-    )
+    ),
+    (error: any) => console.log(error)
   }
 }

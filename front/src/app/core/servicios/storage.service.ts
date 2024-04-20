@@ -28,7 +28,7 @@ export class StorageService {
   public jwt = signal<string>('')
 
   public comidas = signal<IComida[]>([])
-  public comidasCompradas = signal<{comida:IComida, cantidad:number}[]>([])
+  public comidasCompradas = signal<{comida: IComida, cantidad:number}[]>([])
   //#endregion
 
   //#region METODOS DE ALMACENAMIENTO
@@ -54,6 +54,13 @@ export class StorageService {
     }
   }
 
+  /**
+   * 
+   * @param comida 
+   * @param operacion 
+   * @returns maneja las opciones de sumado, restado y eliminado del pedido.
+   * 
+   */
   actualizarComidasCompradas(comida:{comida:IComida, cantidad:number}, operacion:string) {
 
     if(operacion === 'eliminar') {

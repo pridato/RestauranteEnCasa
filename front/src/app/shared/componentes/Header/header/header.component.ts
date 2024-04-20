@@ -49,7 +49,7 @@ export class HeaderComponent {
     this.toggleMenu.emit(!this.menu);
   }
 
-  abrirPedido() {
+  abrirFavoritos() {
     this.togglePedido.emit(!this.pedido);
   }
 

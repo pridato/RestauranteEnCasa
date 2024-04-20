@@ -30,11 +30,7 @@ export class AppComponent {
   pedido:boolean = false
   
   constructor(private rest:RestService, private storage:StorageService) {
-    const $_comidas = this.rest.obtenerComidas()
-    $_comidas.subscribe(
-      (comidas:IComida[]) => this.storage.guardarComidas(comidas),
-    ),
-    (error: any) => console.log(error)
+    
   }
 
   onToggleMenu(menuState: boolean) {

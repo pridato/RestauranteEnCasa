@@ -46,7 +46,6 @@ public class UserService {
 
     Usuarios usuario = usuarioRepository.findByEmailAndPassword(email, password);
     RestMessage restMessage = new RestMessage();
-    System.out.println(usuario.toString());
     // si hemos encontrado el objeto usuario está bien. TODO password hashed...
     if(usuario != null) {
       // una vez logueado lo insertamos en el message para enviar al controller y directo a angular... pendiente mejora verificación de si es cocinero.

@@ -16,6 +16,5 @@ export const añadirJwtInterceptor: HttpInterceptorFn = (req, next) => {
         }
       })
     }
-  
   return next(req);
 };

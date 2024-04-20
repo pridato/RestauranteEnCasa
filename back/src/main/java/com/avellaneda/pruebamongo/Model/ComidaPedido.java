@@ -1,6 +1,13 @@
 package com.avellaneda.pruebamongo.Model;
 
-public class ComidPedido {
-    private Comida comida;
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class ComidaPedido {
+    private String comidaId;
     private int cantidad;
 }

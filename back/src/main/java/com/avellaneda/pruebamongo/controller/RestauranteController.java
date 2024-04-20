@@ -31,10 +31,11 @@ public class RestauranteController {
     public ResponseEntity<?> getComidaById(@PathVariable String id){
         try {
             Comida comida = comidaRepository.findById(id).orElse(new Comida());
-            System.out.println("comida: " + comida);
             return ResponseEntity.status(200).body(comida);
         } catch(Exception e){
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+
+
 }

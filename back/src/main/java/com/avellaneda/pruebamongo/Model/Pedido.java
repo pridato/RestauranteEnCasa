@@ -1,9 +1,18 @@
 package com.avellaneda.pruebamongo.Model;
 
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "pedidos")
+import java.util.List;
+
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Document(collection = "Pedidos")
 public class Pedido {
 
     /**
@@ -12,8 +21,7 @@ public class Pedido {
      */
     @Id
     private String id;
-    private String usuarioId;
-    private String cocineroId;
     private String estado;
-    private String[] platos;
+    private String usuarioId;
+    private List<ComidaPedido> comidas;
 }

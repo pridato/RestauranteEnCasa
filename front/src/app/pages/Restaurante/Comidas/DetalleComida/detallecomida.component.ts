@@ -35,8 +35,5 @@ export class DetallecomidaComponent {
 
   comprar(){
     this.storage.guardarComidasCompradas(this.elementoComida)
-    this.toastr.success(`Su ${this.elementoComida.comida.nombre} ya está en proceso`, `Item Agregado `, {
-      timeOut: 1500,
-    })
   }
 }
