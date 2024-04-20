@@ -43,8 +43,6 @@ public class JwtTokenProvider {
    * @return nos devuelve el body validado del token a través de los claims...
    */
   public Claims validateToken(String token) {
-    System.out.println("token nuestro = " +  this.token);
-    System.out.println("token nuestro = " +  token);
     try {
       Jws<Claims> claimsJws = Jwts.parserBuilder()
         .setSigningKey(Keys.hmacShaKeyFor(this.token.getBytes()))
