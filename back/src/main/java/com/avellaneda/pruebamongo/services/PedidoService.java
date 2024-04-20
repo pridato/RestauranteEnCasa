@@ -9,7 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -21,14 +24,15 @@ public class PedidoService {
 
     /**
      * simplemente recibimos un pedido y lo añadimos a mongo
+     *
      * @param pedido
      * @return
      */
     public RestMessage addPedido(Pedido pedido) {
         RestMessage restMessage = new RestMessage();
         // nos aseguramos que el pedido está "firmado" por un usuario
-        if(pedido.getUsuarioId() != null) {
-            if(pedido.getEstado() == null) {
+        if (pedido.getUsuarioId() != null) {
+            if (pedido.getEstado() == null) {
                 pedido.setEstado("En preparación");
             }
             // guardamos tmb la hora en la que se ha hecho el pedido
@@ -37,12 +41,20 @@ public class PedidoService {
             restMessage.setCodigo(0);
             restMessage.setMensaje("Pedido guardado correctamente en mongo");
             logger.info("comida guardada");
-        }
-        else {
+        } else {
             restMessage.setCodigo(1);
             restMessage.setError("No hay ningún usuario realizando el pedido error");
         }
 
         return restMessage;
+    }
+
+    public List<Pedido> obtenerPedidos() {
+        // devolver una lista de pedido ordenada x fecha en des.
+        List<Pedido> pedidos = this.pedidoRepository.findAll();
+        return pedidos
+                .stream()
+                .sorted(Comparator.comparing(Pedido::getHoraPedido).reversed())
+                .collect(Collectors.toList());
     }
 }

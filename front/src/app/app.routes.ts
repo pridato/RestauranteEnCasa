@@ -11,7 +11,7 @@ export const routes: Routes = [
     canActivate: [seguridadComidasGuard],
     loadChildren: () => import('./pages/Restaurante/comida.route').then(m => m.COMIDA_ROUTES)
   },
-  {path: 'Dashboard', loadChildren: () => import('./pages/Dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES) },
+  {path: 'Dashboard',  canActivate: [seguridadComidasGuard], loadChildren: () => import('./pages/Dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES) },
   // redirigir directamente a registro
   {
     path: '', redirectTo: '/Cliente/Login', pathMatch: 'full'

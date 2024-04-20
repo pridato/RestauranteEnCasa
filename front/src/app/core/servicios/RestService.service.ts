@@ -52,6 +52,10 @@ export class RestService {
     );
   }
 
+  
+
+  //#region ZONA PEDIDOS
+
   public realizarPedido(pedido: Pedido): Promise<IRestMessage> {
     console.log(springUrl + "/Pedido/addPedido")
     return lastValueFrom(
@@ -66,5 +70,14 @@ export class RestService {
       )
     );
   }
+
+  /**
+   * tendríamos que hacer una petición a pedidos cada muy poco tiempo e irlos insertando en un array general
+   * ordenado de más antiguos a nuevos. Podríamos usar toast para avisar al cocinero y una pequeña animación
+   */
+  public getPedidos(): Observable<Pedido[]> {
+    return this._httpClient.get<Pedido[]>(`${springUrl}/Pedido/obtener-pedidos`)
+  }
+  //#endregion
   //#endregion
 }

@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/Pedido")
 @CrossOrigin(origins = "http://localhost:4200")
@@ -26,6 +28,9 @@ public class PedidoController {
         return pedidoService.addPedido(pedido);
     }
 
-
+    @GetMapping("obtener-pedidos")
+    public List<Pedido> obtenerPedidos() {
+        return this.pedidoService.obtenerPedidos();
+    }
 
 }
