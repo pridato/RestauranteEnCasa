@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
 @Service
 public class PedidoService {
 
@@ -29,6 +31,8 @@ public class PedidoService {
             if(pedido.getEstado() == null) {
                 pedido.setEstado("En preparación");
             }
+            // guardamos tmb la hora en la que se ha hecho el pedido
+            pedido.setHoraPedido(new Date());
             pedidoRepository.save(pedido);
             restMessage.setCodigo(0);
             restMessage.setMensaje("Pedido guardado correctamente en mongo");

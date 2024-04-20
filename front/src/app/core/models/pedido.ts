@@ -5,5 +5,5 @@ export interface Pedido {
   id?:string,
   estado: string,
   usuarioId: string,
-  comidas: ComidaPedido[]
+  comidas: ComidaPedido[],
 }
