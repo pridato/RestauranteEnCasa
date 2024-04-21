@@ -53,7 +53,7 @@ export class RestService {
 
   public obtenerComida(id: string): Observable<IComida> {
     return this._httpClient.get<IComida>(
-      springUrl + `/restaurantes/comidas/${id}`
+      springUrl + `/restaurantes/get-comida-id?id=${id}`
     );
   }
 

@@ -57,4 +57,8 @@ public class PedidoService {
                 .sorted(Comparator.comparing(Pedido::getHoraPedido))
                 .collect(Collectors.toList());
     }
+
+    public String getNombrePedido(String id) {
+        return this.pedidoRepository.findById(id).get() + "";
+    }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { ICliente } from 'src/app/core/models/cliente';
+import { IComida } from 'src/app/core/models/comida';
 import { Pedido } from 'src/app/core/models/pedido';
 import { RestService } from 'src/app/core/servicios/RestService.service';
 
@@ -14,9 +15,10 @@ import { RestService } from 'src/app/core/servicios/RestService.service';
 export class CocineroDashboardComponent implements OnInit {
 
   pedidos:Pedido[] = []
-  usuario!:ICliente
+  
+  // vamos a evitar hacer constantemente peticiones a rest y sobrecargar el servidor
 
-  constructor(private rest:RestService, private toast:ToastrService) {
+  constructor(public rest:RestService, private toast:ToastrService) {
    
   }
   ngOnInit(): void {
@@ -35,25 +37,40 @@ export class CocineroDashboardComponent implements OnInit {
       (data) => {
         if(data.length > this.pedidos.length) {
           // -> cada vez k recarguemos los pedidos si tiene más se muestra x un toast
-          if(this.pedidos.length > 0)
+          if(this.pedidos.length > 0) {
             this.toast.info(`Se ha añadido a los pedidos un nuevo plato. `, 'Nuevo Pedido entrante')
+          }
+            
           // solo modificamos el array si ha habido cambios. Sino no creo necesario un cambio de array ocupando espacio
           this.pedidos = data
-          
-          // de cada pedido tendríamos que sacar de spring el nombre de usuario 
           this.pedidos.forEach(
             (pedido) => {
+              // queremos obtener para la vista el nombre de usuario y comidas que tiene
+              
               let $user = this.rest.obtenerClienteId(pedido.usuarioId)
               $user.subscribe(data => pedido.nombreUsuario = data.nombre)
-              
+
+              // iteramos cada comida para guardar el nombre
+              pedido.comidas.forEach(
+                comida => {
+                  let $comida = this.rest.obtenerComida(comida.comidaId)
+                  $comida.subscribe(data => comida.nombreComida = data.nombre)
+                }
+              )
+
             }
           )
+          
+          // de cada pedido tendríamos que sacar de spring el nombre de usuario 
+          
           
         }
         
       }
     )
   }
+
+
 
   /**
    * una vez realizado el pedido. Quedaría
@@ -62,6 +79,12 @@ export class CocineroDashboardComponent implements OnInit {
    */
   marcarPedidoListo(pedido:Pedido) {
     this.pedidos = this.pedidos.filter(p => p !== pedido);
+    // una vez realizado el pedido. Primero en la tabla de comidas habría que especificar el tiempo estimado 
+    // para el tiempo estimado de la tabla pedido usamos el length de esa comida y el tiempo fecha. pidió y la que finaliza
+
+    // y en pedidos guardamos "Listo"
+    
+
   }
 
   /**
@@ -71,7 +94,6 @@ export class CocineroDashboardComponent implements OnInit {
    */
   formatDate(date: Date): string {
     const fecha:Date = new Date(date)
-    console.log(fecha)
     const hours = fecha.getHours().toString().padStart(2, '0');
     const minutes = fecha.getMinutes().toString().padStart(2, '0');
     const seconds = fecha.getSeconds().toString().padStart(2, '0')

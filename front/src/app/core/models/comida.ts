@@ -12,4 +12,6 @@ export interface IComida {
     };
     precio: number;
     imagenBASE64?: string;
+    // tiempo se calcula una vez hechos los pedidos de la media...
+    tiempoEstimado?:number
 }
