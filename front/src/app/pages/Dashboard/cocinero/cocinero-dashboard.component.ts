@@ -38,6 +38,7 @@ export class CocineroDashboardComponent implements OnInit {
             this.toast.info(`Se ha añadido a los pedidos un nuevo plato. `, 'Nuevo Pedido entrante')
           // solo modificamos el array si ha habido cambios. Sino no creo necesario un cambio de array ocupando espacio
           this.pedidos = data
+          console.log(this.pedidos)
         }
         
       }
@@ -55,13 +56,15 @@ export class CocineroDashboardComponent implements OnInit {
 
   /**
    * 
-   * @param date devolvemos la fecha actual en horas y minutos
-   * @returns 
+   * @param date -> de mongo llega como string. Habría que parsearlo a date para despues sacar el tiempo
+   * @returns devolvemos la fecha actual en horas y minutos
    */
   formatDate(date: Date): string {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
-    const seconds = date.getSeconds().toString().padStart(2, '0')
+    const fecha:Date = new Date(date)
+    console.log(fecha)
+    const hours = fecha.getHours().toString().padStart(2, '0');
+    const minutes = fecha.getMinutes().toString().padStart(2, '0');
+    const seconds = fecha.getSeconds().toString().padStart(2, '0')
     return `${hours}:${minutes}:${seconds}`;
   }
 }

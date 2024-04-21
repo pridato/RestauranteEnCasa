@@ -1,9 +1,10 @@
-<div class="container mx-auto text-lg ">
-  <h1 class="text-2xl font-bold mb-4">Lista de Pedidos</h1>
-  <div class="flex overflow-x-hidden space-x-4">
+<div class="container text-lg flex flex-col justify-center mx-5 items-center border gap-y-10 p-6">
+  <h1 class="text-2xl font-bold mb-4 p-2">Lista de Pedidos</h1>
+  <div class="flex overflow-x-auto items-start">
       <!-- Aquí se mostrarán los pedidos -->
       @for(pedido of this.pedidos; track pedido) {
-        <div  class="border rounded p-4 flex-none min-w-[300px]">
+        <!-- card de cada pedido -->
+        <div class="border rounded p-8 flex-none max-w-[500px] mr-10 mb-10">
           <h2 class="text-lg font-semibold mb-2">{{ pedido.usuarioId }}</h2>
           <p class="mb-2">Hora de pedido: {{ formatDate(pedido.horaPedido!) }}</p>
           <p class="mb-2">Detalle: {{ pedido.comidas }}</p>
@@ -13,3 +14,4 @@
       }
   </div>
 </div>
+
