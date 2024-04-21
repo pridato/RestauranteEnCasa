@@ -54,7 +54,7 @@ public class PedidoService {
         List<Pedido> pedidos = this.pedidoRepository.findAll();
         return pedidos
                 .stream()
-                .sorted(Comparator.comparing(Pedido::getHoraPedido).reversed())
+                .sorted(Comparator.comparing(Pedido::getHoraPedido))
                 .collect(Collectors.toList());
     }
 }

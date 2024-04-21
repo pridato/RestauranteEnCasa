@@ -49,13 +49,9 @@ public class UsuariosController {
   }
 
 
-  @GetMapping("/{id}")
-  public ResponseEntity<?> getUsuarioById(@PathVariable String id) {
-    try {
-      return ResponseEntity.status(200).body(usuarioRepository.findById(id));
-    } catch (Exception e) {
-      return ResponseEntity.status(500).body("Error: " + e.getMessage());
-    }
+  @GetMapping("/obtener-cliente-id")
+  public Usuarios getUsuarioById(@RequestParam String id) {
+    return this.userService.getUsuarioById(id);
   }
 
   // updte user, find by id and update the full user

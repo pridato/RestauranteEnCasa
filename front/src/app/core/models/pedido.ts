@@ -6,5 +6,6 @@ export interface Pedido {
   estado: string,
   usuarioId: string,
   comidas: ComidaPedido[],
-  horaPedido?:Date
+  horaPedido?:Date,
+  nombreUsuario?:string
 }

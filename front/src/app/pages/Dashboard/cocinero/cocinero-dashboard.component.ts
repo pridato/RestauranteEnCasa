@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
+import { ICliente } from 'src/app/core/models/cliente';
 import { Pedido } from 'src/app/core/models/pedido';
 import { RestService } from 'src/app/core/servicios/RestService.service';
 
@@ -13,7 +14,7 @@ import { RestService } from 'src/app/core/servicios/RestService.service';
 export class CocineroDashboardComponent implements OnInit {
 
   pedidos:Pedido[] = []
-  
+  usuario!:ICliente
 
   constructor(private rest:RestService, private toast:ToastrService) {
    
@@ -38,7 +39,16 @@ export class CocineroDashboardComponent implements OnInit {
             this.toast.info(`Se ha añadido a los pedidos un nuevo plato. `, 'Nuevo Pedido entrante')
           // solo modificamos el array si ha habido cambios. Sino no creo necesario un cambio de array ocupando espacio
           this.pedidos = data
-          console.log(this.pedidos)
+          
+          // de cada pedido tendríamos que sacar de spring el nombre de usuario 
+          this.pedidos.forEach(
+            (pedido) => {
+              let $user = this.rest.obtenerClienteId(pedido.usuarioId)
+              $user.subscribe(data => pedido.nombreUsuario = data.nombre)
+              
+            }
+          )
+          
         }
         
       }

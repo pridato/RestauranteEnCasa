@@ -5,7 +5,7 @@
       @for(pedido of this.pedidos; track pedido) {
         <!-- card de cada pedido -->
         <div class="border rounded p-8 flex-none max-w-[500px] mr-10 mb-10">
-          <h2 class="text-lg font-semibold mb-2">{{ pedido.usuarioId }}</h2>
+          <h2 class="text-lg font-semibold mb-2">{{ pedido.nombreUsuario }}</h2>
           <p class="mb-2">Hora de pedido: {{ formatDate(pedido.horaPedido!) }}</p>
           <p class="mb-2">Detalle: {{ pedido.comidas }}</p>
           <!-- Agregar aquí un icono para indicar que el pedido está listo -->

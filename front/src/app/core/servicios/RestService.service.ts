@@ -37,6 +37,11 @@ export class RestService {
     );
   }
 
+  obtenerClienteId(id:string): Observable<ICliente> {
+    return this._httpClient.get<ICliente>(`${springUrl}/Cliente/obtener-cliente-id?id=${id}`)
+  }
+  
+
   //#endregion
 
   //#region ZONA RESTAURANTE

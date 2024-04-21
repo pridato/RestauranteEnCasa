@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -56,5 +57,20 @@ public class UserService {
     }
 
     return restMessage;
+  }
+
+  /**
+   * a partir del id simplemente devolvemos el obj. usuario Recordar que lleva la seguridad de las jwt
+   * @param id
+   * @return
+   */
+  public Usuarios getUsuarioById(String id) {
+    Optional<Usuarios> usuariosOptional = this.usuarioRepository.findById(id);
+    Usuarios usuarios = null;
+    if(usuariosOptional.isPresent()){
+      usuarios = usuariosOptional.get();
+    }
+
+    return usuarios;
   }
 }
