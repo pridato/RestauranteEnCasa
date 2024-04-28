@@ -1,8 +1,7 @@
-import { GoogleLoginProvider, SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { ICredenciales } from 'src/app/core/models/credenciales';
 import { RestService } from 'src/app/core/servicios/RestService.service';
 import { StorageService } from 'src/app/core/servicios/storage.service';
@@ -10,7 +9,7 @@ import { StorageService } from 'src/app/core/servicios/storage.service';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink, ReactiveFormsModule, FormsModule],
+  imports: [RouterLink, ReactiveFormsModule, FormsModule, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -22,8 +21,11 @@ export class LoginComponent {
   }
 
   error = false
-  user!: SocialUser;
   loggedIn!: boolean;
+
+  mostrarPassword:boolean = false
+  // mostrar ocultar display toggle (password - text)
+  estiloPassword:string = 'password'
   
   constructor (private restService:RestService, 
                private storage:StorageService, 
@@ -58,6 +60,12 @@ export class LoginComponent {
     
   }
 
-  loginGoogle() {
+  /**
+   * metodo para alternar password y text para mostrar texto
+   */
+  toggleMostrarPassword() {
+    this.mostrarPassword = !this.mostrarPassword
+    if(this.mostrarPassword) this.estiloPassword = 'text'
+    else this.estiloPassword = 'password'
   }
 }

@@ -62,7 +62,6 @@ export class RestService {
   //#region ZONA PEDIDOS
 
   public realizarPedido(pedido: Pedido): Promise<IRestMessage> {
-    console.log(springUrl + "/Pedido/addPedido")
     return lastValueFrom(
       this._httpClient.post<IRestMessage>(
         springUrl + "/Pedido/add",
@@ -82,6 +81,21 @@ export class RestService {
    */
   public getPedidos(): Observable<Pedido[]> {
     return this._httpClient.get<Pedido[]>(`${springUrl}/Pedido/obtener-pedidos`)
+  }
+
+  public eliminarPedido(id_pedido:string):Promise<Boolean> {
+    // modifica el pedido en bbdd para mostrar "hecho"
+    return lastValueFrom(
+      this._httpClient.post<Boolean>(
+        springUrl + "/Pedido/eliminar",
+        id_pedido,
+        {
+          headers: new HttpHeaders({
+            "Content-Type": "application/json",
+          }),
+        }
+      )
+    ); 
   }
   //#endregion
   //#endregion

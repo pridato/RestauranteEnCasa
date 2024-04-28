@@ -78,12 +78,17 @@ export class CocineroDashboardComponent implements OnInit {
    * Una vez el usuario complete la compra finaliza
    */
   marcarPedidoListo(pedido:Pedido) {
-    this.pedidos = this.pedidos.filter(p => p !== pedido);
+   
     // una vez realizado el pedido. Primero en la tabla de comidas habría que especificar el tiempo estimado 
     // para el tiempo estimado de la tabla pedido usamos el length de esa comida y el tiempo fecha. pidió y la que finaliza
 
     // y en pedidos guardamos "Listo"
-    
+    let $respuesta = this.rest.eliminarPedido(pedido.id!)
+    $respuesta.then(data => {
+      if(data) {
+        this.pedidos = this.pedidos.filter(p => p !== pedido);
+      }
+    })
 
   }
 

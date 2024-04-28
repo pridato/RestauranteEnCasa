@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,13 +53,27 @@ public class PedidoService {
     public List<Pedido> obtenerPedidos() {
         // devolver una lista de pedido ordenada x fecha en des.
         List<Pedido> pedidos = this.pedidoRepository.findAll();
+        // añadimos solo los pedidos "en preparacion". Una vez hechos se eliminarán para que los cocineros no lo vean
         return pedidos
                 .stream()
                 .sorted(Comparator.comparing(Pedido::getHoraPedido))
+                .filter(pedido -> pedido.getEstado().equals("En Preparación"))
                 .collect(Collectors.toList());
     }
 
-    public String getNombrePedido(String id) {
-        return this.pedidoRepository.findById(id).get() + "";
+
+    public Boolean modificarPedido(String id_pedido) {
+        // hay que modificar el pedido en especifico para mostrar estado = "Preparado"
+        List<Pedido> pedidos = this.pedidoRepository.findAll();
+
+        Pedido pedido = pedidos.stream().filter(data -> data.getId().equals(id_pedido)).findFirst().orElse(null);
+
+        if(pedido != null) {
+            logger.info(pedido.toString());
+            pedido.setEstado("Preparado");
+            this.pedidoRepository.save(pedido);
+        }
+        return pedido != null;
     }
+
 }

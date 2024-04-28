@@ -33,5 +33,10 @@ public class PedidoController {
         return this.pedidoService.obtenerPedidos();
     }
 
+    @PostMapping("eliminar")
+    public Boolean eliminarPedido(@RequestBody String id_pedido) {
+        return this.pedidoService.modificarPedido(id_pedido);
+    }
+
 
 }

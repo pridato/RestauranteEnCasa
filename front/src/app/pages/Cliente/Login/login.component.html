@@ -1,55 +1,67 @@
-<div class="px-5 w-full">
-  <div class="flex justify-center">
-    <div class="w-auto">
-      <div class="border-2 rounded-lg  px-16 pt-6 pb-8 mb-4">
-        <div class="error">
-          @if(this.error){
-            <div class=" text-red-500 p-4">
-              <p class="font-semibold">Error en el login...</p>
-            </div>
-          }
+<div class="px-5 w-full flex flex-col justify-center items-center">
+  <!-- Contenedor principal del formulario -->
+  <div class="border-2 rounded-lg  px-16 pt-6 pb-8 mb-4">
+    <!-- errores al login de vuelta de spring-->
+    <div class="error">
+      @if(this.error){
+        <div class=" text-red-500 p-4">
+          <p class="font-semibold">Error en el login...</p>
         </div>
-        <h1 class="text-2xl text-center text-blue-400 font-bold mb-5">
-          Login
-        </h1>
-        <button (click)="loginGoogle()" class="flex justify-center items-center border rounded-xl p-2 px-4 font-sans text-lg"> <i class="fa-brands fa-google mr-2"></i> Accede con Google</button>
-        <form>
-          <div class="mb-4 block text-gray-700 text-sm font-bold">
-            <label class="flex py-2" for="email"> Email </label>
-            <input
-              [(ngModel)]="credenciales.email"
-              name="email"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="email"
-              type="email"
-              placeholder="Email"
-            />
-          </div>
-          <div class="mb-4 block text-gray-700 text-sm font-bold">
-            <label class="flex py-2" for="password"> Contraseña </label>
-            <input
-              [(ngModel)]="credenciales.password"
-              name="password"
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              id="Contraseña"
-              type="password"
-              placeholder="Contraseña"
-            />
-          </div>
-          <div class="pt-4 flex justify-center">
-            <button
-            (click)="login()"
-              class="rounded-xl bg-blue-400 hover:bg-blue-700 text-white font-bold py-3 px-5 uppercase"
-            >
-            Enviar
-            </button>
-          </div>
-        </form>
-      </div>
-      <div class="flex flex-col justify-center items-center">
-          <span>Tu primera vez en TuRestaurante? </span>
-          <a class="font-bold hover:text-blue-400 " [routerLink]="['/Cliente/Registro']">Registrate aquí!</a>
-      </div>
+      }
     </div>
+    <!-- titulo -->
+    <h1 class="text-3xl font-bold mb-5">
+      Iniciar sesión 
+    </h1>
+
+    <!-- inicio de formulario -->
+    <form>
+      <!-- email -->
+      <div class="mb-4 block text-gray-700 text-sm font-bold">
+        <label class="flex py-2" for="email"> Email </label>
+        <input
+          [(ngModel)]="credenciales.email"
+          name="email"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="email"
+          type="email"
+          placeholder="email@gmail.com"
+        />
+      </div>
+
+      <!-- password -->
+      <div class="mb-4 text-gray-700 text-sm font-bold">
+        <label class="flex py-2" for="password"> Contraseña </label>
+
+        <!-- input unido a toggle password -->
+        <div class="flex items-center border rounded shadow focus:outline-none focus:shadow-outline">
+          <input
+          [(ngModel)]="credenciales.password"
+          name="password"
+          [type]="estiloPassword"
+          class=" w-full py-2 px-3 text-gray-700 focus:outline-none"
+          id="Contraseña"
+          type="password"
+          placeholder="Contraseña"
+        />
+          <span class="toggle-password ml-2 cursor-pointer relative right-2" (click)="toggleMostrarPassword()">
+            <i class="far fa-eye toggle-eye" [ngClass]="{'fa-eye': mostrarPassword, 'fa-eye-slash': !mostrarPassword}"></i>
+          </span>
+        </div>
+        
+      </div>
+      <!-- envio del button -->
+      <div class="pt-4 flex justify-center">
+        <button (click)="login()" class="w-full rounded-xl bg-[#A97D5D] hover:bg-[#6c4a32] text-white font-bold py-3 px-5 uppercase">
+          Enviar
+        </button>
+      </div>
+
+    </form>
+  </div>
+  <!-- redirects -->
+  <div class="flex flex-col justify-center items-center">
+      <span>Tu primera vez en TuRestaurante? </span>
+      <a class="font-bold hover:text-blue-400" [routerLink]="['/Cliente/Registro']">Registrate aquí!</a>
   </div>
 </div>
