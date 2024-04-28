@@ -5,7 +5,7 @@
   @if(!this.comida){
     <div class="my-64 flex justify-center uppercase font-bold text-xl">Axlo fue mal cargando el item {{this.id}}</div>
   } @else {
-    <div class="my-10 py-5 grid grid-cols-1 xl:grid-cols-2">
+    <div class="xl:my-10 xl:py-5 grid grid-cols-1 xl:grid-cols-2">
       <div class="font-bold flex flex-col items-center">
         <img class="mb-10" src="data:image/png;base64,{{this.comida.imagenBASE64}}"/>
         <h3 class="text-amber-900 uppercase text-2xl font-semibold">{{this.comida.nombre}}</h3>

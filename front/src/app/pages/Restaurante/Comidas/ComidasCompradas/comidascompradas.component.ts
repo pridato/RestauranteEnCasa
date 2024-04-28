@@ -31,6 +31,10 @@ export class ComidascompradasComponent {
   public comidasCompradas = this.storage.recuperarComidasCompradas();
 
   constructor() {
+    // si no hay usuario conectado redirigir ocultarla
+    if(!this.storage.cliente().nombre) {
+      this.emitirPedido()
+    }
     effect(() => {
       this.comidasCompradas = this.storage.recuperarComidasCompradas();
       console.log("new comidas compradas", this.comidasCompradas);

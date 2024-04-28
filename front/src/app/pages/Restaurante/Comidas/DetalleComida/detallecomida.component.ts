@@ -34,6 +34,7 @@ export class DetallecomidaComponent {
   }
 
   comprar(){
+    this.toastr.success(`Comida guardada ${this.elementoComida.comida.nombre}`, 'Item añadido a gustado')
     this.storage.guardarComidasCompradas(this.elementoComida)
   }
 }
