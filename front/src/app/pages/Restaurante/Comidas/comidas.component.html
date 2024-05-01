@@ -1,7 +1,6 @@
-<div class="2xl:mx-64 px-5 gap-y-5 pb-5 h-screen">
-  <app-tiposcomida />
-  <div  class="platos flex justify-center font-bold text-2xl ml-2 mb-2">Nuestros Platos más gustados</div>
-  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 md:gap-x-10" id="gridTransform">
+<div class="2xl:mx-64 mt-[150vh] md:mt-0 px-5 gap-y-5 pb-5 h-screen flex flex-col justify-center items-center" >
+  <div  class="platos font-bold text-3xl ml-2 mb-2 xl:mt-10 ">Nuestros Platos más gustados</div>
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-x-10">
     @for(comida of this.comidas ; track comida.id){
       <div class="flex flex-col justify-center items-center p-2">
         <a class="border shadow rounded-2xl">

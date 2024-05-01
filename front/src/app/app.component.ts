@@ -3,12 +3,11 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './shared/componentes/Footer/Footer.component';
 import { HeaderComponent } from './shared/componentes/Header/header/header.component';
 import { IconComponent } from './shared/componentes/themeIcon/icon.component';
-import { RestService } from './core/servicios/RestService.service';
-import { IComida } from './core/models/comida';
 import { StorageService } from './core/servicios/storage.service';
 import { ComidasComponent } from './pages/Restaurante/Comidas/comidas.component';
 import { ComidascompradasComponent } from './pages/Restaurante/Comidas/ComidasCompradas/comidascompradas.component';
 import { ICliente } from './core/models/cliente';
+import { SpinnerComponent } from './shared/componentes/spinner/spinner.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,7 +18,7 @@ import { ICliente } from './core/models/cliente';
     HeaderComponent, 
     IconComponent, 
     ComidasComponent,
-    ComidascompradasComponent
+    ComidascompradasComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
