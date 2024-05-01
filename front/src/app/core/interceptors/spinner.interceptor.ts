@@ -1,25 +1,29 @@
-import { HttpInterceptorFn } from '@angular/common/http';
-import { inject } from '@angular/core';
-import { SpinnerService } from '../servicios/spinner.service';
+import { HttpInterceptorFn } from "@angular/common/http";
+import { inject } from "@angular/core";
+import { delay, finalize } from "rxjs";
+import { springUrl } from "src/app/shared/globales/globales";
+import { SpinnerService } from "../servicios/spinner.service";
 
-/**
- * metodo que muestra un spinner cuando se realiza una request
- * @param req 
- * @param next 
- * @returns 
- */
 export const spinnerInterceptor: HttpInterceptorFn = (req, next) => {
 
-  let spinnerService = inject(SpinnerService);
-  // si la request incluye "restaurantes" se muestra el spinner
-  if(req.url.includes('restaurantes')) {
-    spinnerService.showSpinner();
+  let spinnerSvc = inject(SpinnerService)
 
-    // una vez que la request se completa, se oculta el spinner
-    next(req).subscribe({
-      complete: () => spinnerService.hideSpinner()
-    });
+  const url = req.url
+
+  // cuando hagamos carga de datos o al actualizar 
+  if (url.startsWith(`${springUrl}/restaurantes`)) {
+    // establecemos un tiempo mínimo que esté para evitar que en las peticiones que duran nada se vea raro
+    spinnerSvc.show()
+    spinnerSvc.isLoading$.subscribe(data => console.log(data))
+    return next(req).pipe(
+      delay(1000),
+      finalize(() => {
+        spinnerSvc.hide()
+      }
+      )
+    );
   }
-
-  return next(req);
+  // cuando la request finaliza metemos delay d 1 segundo lo volvemos a ocultar y listo
+  return next(req)
 };
+

@@ -9,17 +9,14 @@ import { BehaviorSubject } from 'rxjs';
  * Servicio que muestra un spinner cuando se realiza una request
  */
 export class SpinnerService {
-
-  // crear un observable para mostrar el spinner con beahviorSubject y dos mostrar hide
-
-  spinner$ = new BehaviorSubject<boolean>(false);
+  isLoading$ = new BehaviorSubject<boolean>(false)
   constructor() { }
 
-  showSpinner() {
-    this.spinner$.next(true);
+  hide(): void {
+    this.isLoading$.next(false)
   }
 
-  hideSpinner() {
-    this.spinner$.next(false);
+  show(): void {
+    this.isLoading$.next(true)
   }
 }
