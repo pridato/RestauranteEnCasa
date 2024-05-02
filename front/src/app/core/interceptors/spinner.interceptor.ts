@@ -14,7 +14,6 @@ export const spinnerInterceptor: HttpInterceptorFn = (req, next) => {
   if (url.startsWith(`${springUrl}/restaurantes`)) {
     // establecemos un tiempo mínimo que esté para evitar que en las peticiones que duran nada se vea raro
     spinnerSvc.show()
-    spinnerSvc.isLoading$.subscribe(data => console.log(data))
     return next(req).pipe(
       finalize(() => {
         spinnerSvc.hide()
