@@ -1,8 +1,8 @@
 <div class="flex flex-col justify-center items-center gap-y-10">
-  @if(selected){
-    <app-guardar-fecha [fecha]="this.selected"></app-guardar-fecha>
+  @if(this.mostrarDialog){
+    <app-guardar-fecha [fecha]="this.selected!" (cerrarDialog)="recibirDialog($event)"></app-guardar-fecha>
   } 
     <mat-card class="demo-inline-calendar-card z-10">
-      <mat-calendar [(selected)]="selected" (selectedChange)="aniadirCalendarioApple()"></mat-calendar>
+      <mat-calendar [(selected)]="selected" (selectedChange)="this.mostrarDialog = !this.mostrarDialog"></mat-calendar>
     </mat-card>
 </div>
