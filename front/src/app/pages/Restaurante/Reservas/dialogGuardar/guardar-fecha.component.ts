@@ -1,11 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DateFormatPipe } from "../../../../shared/pipes/date-format.pipe";
+import { googleCalendarUrl } from 'src/app/shared/globales/globales';
 
 @Component({
-  selector: 'app-guardar-fecha',
-  standalone: true,
-  imports: [],
-  templateUrl: './guardar-fecha.component.html',
-  styleUrl: './guardar-fecha.component.css'
+    selector: 'app-guardar-fecha',
+    standalone: true,
+    templateUrl: './guardar-fecha.component.html',
+    styleUrl: './guardar-fecha.component.css',
+    imports: [DateFormatPipe]
 })
 export class GuardarFechaComponent implements OnInit{
 
@@ -14,6 +16,12 @@ export class GuardarFechaComponent implements OnInit{
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.fecha)
+  }
+
+  guardarFecha() {
+    // guardar la fecha en google calendar
+    const fechaFormateada = this.fecha.toISOString().replace(/-|:|\.\d+/g, '');
+    const url = googleCalendarUrl + `${fechaFormateada}/${fechaFormateada}&title=Reserva&location=Restaurante&trp=false&sprop=&sprop=name:`
+    window.open(url, '_blank')
   }
 }

@@ -1,21 +1,40 @@
-<dialog [open]="fecha" class=" z-50 mt-40 flex flex-col justify-center items-center">
-  <div class="flex flex-col items-start cursor-pointer bg-slate-500">
-    <div class="flex flex-row items-center hover:bg-green-800 w-max">
-      <img class="w-5 h-5" src="../../../../../assets/apple.webp" alt="Apple"/>
-      <p class="font-semibold ml-2">Apple</p>
-    </div>
-    <div class="flex flex-row items-center hover:bg-green-800 w-max">
-      <img class="w-5 h-5" src="../../../../../assets/googleCalendar.svg" alt="Google Calendar"/>
-      <p class="font-semibold ml-2">Google Calendar</p>
-    </div>
-    <div class="flex flex-row items-center w-max hover:bg-green-800 ">
-      <img class="w-5 h-5" src="../../../../../assets/microsoft365.webp" alt="Microsoft 365"/>
-      <p class="font-semibold ml-2">Microsoft 365</p>
-    </div>
-    <div class="flex flex-row items-center hover:bg-green-800 w-max">
-      <img class="w-5 h-5" src="../../../../../assets/microsoftTeams.webp" alt="Microsoft Teams"/>
-      <p class="font-semibold ml-2">Microsoft Teams</p>
-    </div>
-  </div>
-</dialog>
+<!-- lo mejor sería reciclar el dialog que tengo tmb en detalles comida -->
+<div class="fixed z-20  inset-0 flex items-center justify-center backdrop-filter backdrop-blur-md">
+  <div class="rounded-lg p-8 shadow-lg border bg-[#2F695C]">
+      <div class="flex flex-col justify-between items-center h-full">
 
+          <!-- imagen -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#A97D5D" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+            <path d="M4 7a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12z" />
+            <path d="M16 3v4" />
+            <path d="M8 3v4" />
+            <path d="M4 11h16" />
+            <path d="M11 15h1" />
+            <path d="M12 15v3" />
+          </svg>
+
+          <p class="mt-4 text-xl font-bold text-gray-800 dark:text-gray-200 px-40 py-10">
+              Guardar fecha en google calendar
+          </p>
+          <div class="flex flex-col justify-center items-center gap-y-3">
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                  Fecha seleccionada:
+              </p>
+              <p class="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  {{fecha | dateFormat}}
+              </p>
+          </div>
+          <div class="flex items-center justify-between w-full gap-x-10 mt-8">
+            <button (click)="guardarFecha()" type="button" class="w-full py-2  bg-orange-500 hover:bg-orange-600 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-xl ">
+                  Aceptar
+              </button>
+              <button  type="button" class="w-full py-2 bg-white hover:bg-gray-300 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-indigo-500w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                  Cancelar
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
+
+<div>a</div>
