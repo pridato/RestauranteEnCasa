@@ -8,4 +8,5 @@ export interface Pedido {
   comidas: ComidaPedido[],
   horaPedido?:Date,
   nombreUsuario?:string,
+  mesa:number
 }

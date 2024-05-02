@@ -6,6 +6,7 @@ import {
   effect,
   inject,
 } from "@angular/core";
+import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { IComida } from "src/app/core/models/comida";
@@ -16,7 +17,7 @@ import { StorageService } from "src/app/core/servicios/storage.service";
 @Component({
   selector: "app-comidascompradas",
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: "./comidascompradas.component.html",
   styleUrl: "./comidascompradas.component.css",
 })
@@ -27,6 +28,9 @@ export class ComidascompradasComponent {
   @Input() pedido: boolean = false;
   @Output() togglePedido: EventEmitter<boolean> = new EventEmitter<boolean>();
   private toastr = inject(ToastrService)
+
+  showPedido: boolean = false; // mostrar o no dialog para seleccionar mesa
+  tableSelected: number = 0; // mesa seleccionada
 
   public comidasCompradas = this.storage.recuperarComidasCompradas();
 
@@ -61,10 +65,11 @@ export class ComidascompradasComponent {
    * con el id del usuario
    */
   realizarPedido() {
+
+    
     // guardamos el id de la comida junto a su comida para enlazarlo en mongo
     let Idcomidas: { comidaId: string; cantidad: number }[] = [];
-    let comidas: { comida: IComida; cantidad: number }[] =
-      this.storage.comidasCompradas();
+    let comidas: { comida: IComida; cantidad: number }[] = this.storage.comidasCompradas();
 
     for (let comida of comidas) {
       Idcomidas.push({ comidaId: comida.comida.id, cantidad: comida.cantidad });
@@ -74,6 +79,7 @@ export class ComidascompradasComponent {
       estado: "En Preparación",
       usuarioId: this.storage.recuperarCliente().id!,
       comidas: Idcomidas,
+      mesa: this.storage.recuperarCliente().mesa!
     };
 
     console.log(pedido);
@@ -84,6 +90,7 @@ export class ComidascompradasComponent {
       this.toastr.success(`Su Pedido ya está en proceso`, `Pedido en proceso `)
       this.storage.comidasCompradas.set([])
       this.emitirPedido()
+      this.showPedido = !this.showPedido
     });
   }
 }

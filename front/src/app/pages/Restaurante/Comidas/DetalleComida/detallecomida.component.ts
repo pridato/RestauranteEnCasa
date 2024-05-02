@@ -1,4 +1,5 @@
 import { Component, Input, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { IComida } from 'src/app/core/models/comida';
@@ -8,7 +9,7 @@ import { StorageService } from 'src/app/core/servicios/storage.service';
 @Component({
   selector: 'app-detallecomida',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, FormsModule],
   templateUrl: './detallecomida.component.html',
   styleUrl: './detallecomida.component.css'
 })
@@ -18,7 +19,7 @@ export class DetallecomidaComponent {
 
   private toastr = inject(ToastrService)
   private rest = inject(RestService)
-  private storage = inject(StorageService)
+  public storage = inject(StorageService)
 
   comida!:IComida
   elementoComida!:{comida:IComida, cantidad:number}
@@ -33,8 +34,21 @@ export class DetallecomidaComponent {
     });
   }
 
+  showPedido: boolean = false; // mostrar o no dialog para seleccionar mesa
+  tableSelected!: number; // mesa seleccionada
+
   comprar(){
-    this.toastr.success(`Comida guardada ${this.elementoComida.comida.nombre}`, 'Item añadido a gustado')
-    this.storage.guardarComidasCompradas(this.elementoComida)
+
+    // si se ha guardado la mesa guaramos la compra sino mostramos la mesa
+    if(this.tableSelected > 0) {
+      // guardamos la mesa
+      this.storage.cliente().mesa = this.tableSelected
+      this.toastr.success(`Comida guardada ${this.elementoComida.comida.nombre}`, 'Item añadido a gustado')
+      this.storage.guardarComidasCompradas(this.elementoComida)
+      
+    } 
+
+    this.showPedido = !this.showPedido
+    
   }
 }

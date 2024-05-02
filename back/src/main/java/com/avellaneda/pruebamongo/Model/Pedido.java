@@ -26,4 +26,5 @@ public class Pedido {
     private String usuarioId;
     private List<ComidaPedido> comidas;
     private Date horaPedido;
+    private int mesa;
 }

@@ -9,4 +9,5 @@ export interface ICliente {
   direccion: string;
   fechaRegistro: Date;
   rol: string;
+  mesa?: number
 }

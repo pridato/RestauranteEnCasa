@@ -33,4 +33,6 @@ public class Usuarios {
     private Date fechaRegistro;
     @NonNull
     private String rol;
+
+    private int mesa;
 }
