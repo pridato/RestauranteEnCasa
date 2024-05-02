@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable, afterNextRender } from "@angular/core";
 import { IRestMessage } from "../models/message";
-import { Observable, lastValueFrom } from "rxjs";
+import { Observable, lastValueFrom, of } from "rxjs";
 import { ICredenciales } from "../models/credenciales";
 import { ICliente } from "../models/cliente";
 import { IComida } from "../models/comida";

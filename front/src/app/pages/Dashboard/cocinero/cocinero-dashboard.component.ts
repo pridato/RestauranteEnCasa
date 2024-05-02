@@ -22,10 +22,12 @@ export class CocineroDashboardComponent implements OnInit {
    
   }
   ngOnInit(): void {
-    this.getData()
-    setInterval( () => {
       this.getData()
-    }, 10000) // -> cada 10 segundos refrescamos los pedidos...
+      // el problema de aquí el tiempo que deberías de poner en spring security estar...
+      setInterval( () => {
+        this.getData()
+      }, 10000) // -> cada 10 segundos refrescamos los pedidos...
+    
   }
 
   /**
@@ -60,10 +62,6 @@ export class CocineroDashboardComponent implements OnInit {
 
             }
           )
-          
-          // de cada pedido tendríamos que sacar de spring el nombre de usuario 
-          
-          
         }
         
       }
