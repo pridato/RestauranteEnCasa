@@ -19,11 +19,9 @@ import { CommonModule } from '@angular/common';
 export class ComidasComponent {
   
   comidas:IComida[] = []
-  isLoading:boolean = false
 
   constructor(private storage:StorageService, private rest:RestService, public spinner:SpinnerService) {
     
-    this.spinner.isLoading$.subscribe(data => this.isLoading = data)
     // pendiente al cambio de ruta actualizar a travñes del parametro y siempre mandarlo
     const $_comidas = this.rest.obtenerComidas()
     $_comidas.subscribe(

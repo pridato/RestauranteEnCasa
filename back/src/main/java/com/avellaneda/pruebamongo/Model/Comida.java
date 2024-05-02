@@ -7,9 +7,11 @@ import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
+@Setter
 @ToString
 @Document(collection = "Comidas")
 public class Comida {
@@ -22,6 +24,8 @@ public class Comida {
     private double precio;
     private String imagenBASE64;
     private String especificacion;
+    private int tiempoPreparacion; // tiempo en minutos
+    private int vecesComprado = 0;
 
     @Getter 
     @Setter
@@ -31,5 +35,6 @@ public class Comida {
         private int grasas;
         private int proteinas;
         private int carbohidratos;
+
     }
 }

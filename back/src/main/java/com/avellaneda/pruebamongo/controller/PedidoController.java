@@ -2,12 +2,10 @@ package com.avellaneda.pruebamongo.controller;
 
 import com.avellaneda.pruebamongo.Model.Pedido;
 import com.avellaneda.pruebamongo.Model.RestMessage;
-import com.avellaneda.pruebamongo.repository.PedidoRepository;
 import com.avellaneda.pruebamongo.services.PedidoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

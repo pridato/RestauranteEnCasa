@@ -16,14 +16,13 @@ export const spinnerInterceptor: HttpInterceptorFn = (req, next) => {
     spinnerSvc.show()
     spinnerSvc.isLoading$.subscribe(data => console.log(data))
     return next(req).pipe(
-      delay(1000),
       finalize(() => {
         spinnerSvc.hide()
       }
       )
     );
   }
-  // cuando la request finaliza metemos delay d 1 segundo lo volvemos a ocultar y listo
+  
   return next(req)
 };
 

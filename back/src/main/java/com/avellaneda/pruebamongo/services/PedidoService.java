@@ -1,14 +1,18 @@
 package com.avellaneda.pruebamongo.services;
 
+import com.avellaneda.pruebamongo.Model.Comida;
+import com.avellaneda.pruebamongo.Model.ComidaPedido;
 import com.avellaneda.pruebamongo.Model.Pedido;
 import com.avellaneda.pruebamongo.Model.RestMessage;
 import com.avellaneda.pruebamongo.controller.PedidoController;
+import com.avellaneda.pruebamongo.repository.ComidaRepository;
 import com.avellaneda.pruebamongo.repository.PedidoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +26,8 @@ public class PedidoService {
 
     @Autowired
     private PedidoRepository pedidoRepository;
+    @Autowired
+    private ComidaRepository comidaRepository;
 
     /**
      * simplemente recibimos un pedido y lo añadimos a mongo
@@ -71,6 +77,24 @@ public class PedidoService {
         if(pedido != null) {
             logger.info(pedido.toString());
             pedido.setEstado("Preparado");
+
+            List<String> idComidas = pedido.getComidas().stream().map(ComidaPedido::getComidaId).toList();
+
+            // a partir del id de la comida lo dividimos entre el length de la lista
+
+            for (String id: idComidas) {
+                // sacamos la comida a partir del id y metemos el tiempo de preparacion
+                Comida comida = comidaRepository.findById(id).orElse(null);
+                if (comida != null) {
+
+                    int minutosPreparacion = (int) ChronoUnit.MINUTES.between(pedido.getHoraPedido().toInstant(), new Date().toInstant()) / idComidas.size();
+
+                    // aumentamos las veces que se ha preparado y lo dividimos entre este
+                    comida.setVecesComprado(comida.getVecesComprado() + 1);
+                    comida.setTiempoPreparacion(minutosPreparacion / comida.getVecesComprado());
+                    comidaRepository.save(comida);
+                }
+            }
             this.pedidoRepository.save(pedido);
         }
         return pedido != null;
