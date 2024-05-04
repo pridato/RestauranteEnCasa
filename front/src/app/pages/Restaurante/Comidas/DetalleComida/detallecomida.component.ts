@@ -40,7 +40,6 @@ export class DetallecomidaComponent {
    * @returns
    */
   comprar() {
-    console.log(this.storage.cliente().mesa);
     // guardamos en tableSelected lo que haya por si mostramos o no la mesa
     // si se ha guardado la mesa guaramos la compra sino mostramos la mesa
     if (this.storage.cliente().mesa! > 0) {
@@ -63,6 +62,5 @@ export class DetallecomidaComponent {
       `Comida guardada ${this.elementoComida.comida.nombre}`,
       "Item añadido a gustado"
     );
-    this.storage.guardarComidasCompradas(this.elementoComida);
   }
 }
