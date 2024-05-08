@@ -20,6 +20,6 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes, withComponentInputBinding()),
     provideAnimations(),
-    provideToastr(), provideAnimationsAsync(),
+    provideToastr(), provideAnimationsAsync(), provideAnimationsAsync(),
   ]
 };

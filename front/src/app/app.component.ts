@@ -28,6 +28,8 @@ export class AppComponent {
 
   menu:boolean = false
   pedido:boolean = false
+
+  mostrarNavbar: boolean = false;
   
   constructor(private router:Router, private storage:StorageService) {
     
@@ -46,5 +48,12 @@ export class AppComponent {
     let cliente!:ICliente
     this.storage.guardarCliente(cliente)
     this.router.navigateByUrl('/Cliente/Login')
+  }
+/**
+ * metodo que recibe el estado de la navbar del hijo
+ * @param navbar 
+ */
+  recibirNavbar(navbar: boolean) {
+    this.mostrarNavbar = navbar;
   }
 }
