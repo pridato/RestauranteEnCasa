@@ -36,5 +36,8 @@ public class PedidoController {
         return this.pedidoService.modificarPedido(id_pedido);
     }
 
-
+    @GetMapping("obtener-pedidos-usuario")
+    public List<Pedido> obtenerPedidosUsuario(@RequestParam("id") String id_usuario) {
+        return this.pedidoService.obtenerPedidosUsuario(id_usuario);
+    }
 }

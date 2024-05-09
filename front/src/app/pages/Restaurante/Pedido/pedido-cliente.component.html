@@ -1,30 +1,34 @@
-<div class="mt-10">
-  <mat-stepper>
-    <mat-step label="Pedido en preparación" state="cocinero">
-      <p>Nuestros cocineros están preparando tu deliciosa comida!!!</p>
-    </mat-step>
-    <mat-step label="Pendiente llegada" state="chat">
-      <p>Uno de nuestros camareros le acercará la comida</p>
-      <div>
-        <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
-      </div>
-    </mat-step>
-    <mat-step matIconPrefix="chat" label="Pendiente de pago">
-      <p>Esperemos que todo le haya gustado. Puede pagar x nuestra aplicación</p>
-    </mat-step>
-  
-    <!-- Icon overrides. -->
-    <ng-template matStepperIcon="cocinero">
-      
-    </ng-template>
-    <ng-template matStepperIcon="chat"> 
-      <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chef-hat" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-        <path d="M12 3c1.918 0 3.52 1.35 3.91 3.151a4 4 0 0 1 2.09 7.723l0 7.126h-12v-7.126a4 4 0 1 1 2.092 -7.723a4 4 0 0 1 3.908 -3.151z" />
-        <path d="M6.161 17.009l11.839 -.009" />
-      </svg>
-    </ng-template>
-  </mat-stepper>
-  
+<div class=" flex flex-col justify-center items-center gap-y-3 border rounded-lg p-4 mt-10 min-w-[70vw]">
+  <!-- select pedido del usuario -->
+  <mat-form-field class="w-full">
+    <mat-label>Selecciona el pedido</mat-label>
+    <mat-select required [(ngModel)]="idPedidoSeleccionado" (ngModelChange)="toggleStepper()">
+      <mat-option>--</mat-option>
+      @for(pedido of this.pedidosUsuario; track pedido.id) {
+        <mat-option [value]="pedido.id">{{pedido.id}} ({{pedido.horaPedido | dateFormatHours}})</mat-option>
+      }
+      </mat-select>
+      <mat-error>Pedido no seleccionado </mat-error>
+  </mat-form-field>
+
+  <!-- estado -->
+  @if(this.mostrarStepper) {
+    <div class="">
+      <mat-stepper [linear]="isLinear" [selectedIndex]="selectedStepIndex" >
+        <mat-step [stepControl]="firstFormGroup" label="Pedido en preparación" >
+          <p>Nuestros cocineros están preparando tu deliciosa comida!!!</p>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup" label="Pendiente llegada" >
+          <p>Uno de nuestros camareros le acercará la comida</p>
+        </mat-step>
+        <mat-step label="Pendiente de pago">
+          <p>Esperemos que todo le haya gustado. Puede pagar x nuestra aplicación</p>
+        </mat-step>
+        <mat-step label="Pago completado">
+          <p>Esperemos verle pronto!</p>
+        </mat-step>
+      </mat-stepper>
+    </div>
+  }
 </div>
+

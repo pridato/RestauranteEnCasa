@@ -100,4 +100,12 @@ public class PedidoService {
         return pedido != null;
     }
 
+    /**
+     * metodo para obtener los pedidos del usuario para que lo compruebe
+     * @param id_usuario
+     * @return
+     */
+    public List<Pedido> obtenerPedidosUsuario(String id_usuario) {
+        return this.pedidoRepository.findByUsuarioId(id_usuario).stream().sorted(Comparator.comparing(Pedido::getHoraPedido)).collect(Collectors.toList());
+    }
 }
