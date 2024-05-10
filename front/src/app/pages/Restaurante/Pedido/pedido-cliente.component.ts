@@ -40,6 +40,8 @@ import { DateFormatHoursPipe } from 'src/app/shared/pipes/date-format-hours.pipe
 })
 export class PedidoClienteComponent {
 
+  @ViewChild('stepper', { static: false }) stepper!: MatStepper;
+
 
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
@@ -52,6 +54,8 @@ export class PedidoClienteComponent {
   mostrarStepper = false;
   selectedStepIndex: number = 0;
   idPedidoSeleccionado!:string
+
+  pedidoActual!:Pedido
 
   pedidosUsuario:Pedido[] = []
 
@@ -76,17 +80,21 @@ export class PedidoClienteComponent {
    * metodo para seleccionar el index del stepper a partir del estado del pedido
    */
   generarStepIndex() {
-    console.log(this.idPedidoSeleccionado)
-    let pedidoActual:Pedido = this.pedidosUsuario.find(pedido => pedido.id === this.idPedidoSeleccionado)!
-
-    if(pedidoActual.estado === 'En Preparación') {
+    if(this.pedidoActual.estado === 'En Preparación') {
+      this.selectedStepIndex = 0
+    } else if(this.pedidoActual.estado === 'Preparado') {
       this.selectedStepIndex = 1
-    } else if(pedidoActual.estado === 'Preparado') {
-      this.selectedStepIndex = 2
     } 
+    
+    if(this.stepper) {
+      this.stepper.selectedIndex = this.selectedStepIndex
+    }
+
+    console.log(this.selectedStepIndex)
   }
 
   toggleStepper() {
+    this.pedidoActual = this.pedidosUsuario.find(pedido => pedido.id === this.idPedidoSeleccionado)!
     this.generarStepIndex()
     this.mostrarStepper = true 
   }

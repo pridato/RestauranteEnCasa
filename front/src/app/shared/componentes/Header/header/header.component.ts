@@ -61,6 +61,7 @@ export class HeaderComponent {
   }
 
   abrirFavoritos() {
+    this.mostrarOpcionesUsuario = !this.mostrarOpcionesUsuario;
     this.togglePedido.emit(!this.pedido);
   }
 

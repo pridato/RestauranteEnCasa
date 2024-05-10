@@ -14,7 +14,7 @@
   <!-- estado -->
   @if(this.mostrarStepper) {
     <div class="">
-      <mat-stepper [linear]="isLinear" [selectedIndex]="selectedStepIndex" >
+      <mat-stepper #stepper [selectedIndex]="selectedStepIndex" >
         <mat-step [stepControl]="firstFormGroup" label="Pedido en preparación" >
           <p>Nuestros cocineros están preparando tu deliciosa comida!!!</p>
         </mat-step>

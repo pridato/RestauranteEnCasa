@@ -106,6 +106,6 @@ public class PedidoService {
      * @return
      */
     public List<Pedido> obtenerPedidosUsuario(String id_usuario) {
-        return this.pedidoRepository.findByUsuarioId(id_usuario).stream().sorted(Comparator.comparing(Pedido::getHoraPedido)).collect(Collectors.toList());
+        return this.pedidoRepository.findByUsuarioId(id_usuario).stream().sorted(Comparator.comparing(Pedido::getHoraPedido).reversed()).toList();
     }
 }
