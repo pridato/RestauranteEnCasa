@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, Output, effect } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ICliente } from 'src/app/core/models/cliente';
+import { BusquedaComidasService } from 'src/app/core/servicios/busqueda-comidas.service';
 import { StorageService } from 'src/app/core/servicios/storage.service';
 
 @Component({
@@ -8,7 +10,8 @@ import { StorageService } from 'src/app/core/servicios/storage.service';
   standalone: true,
   imports: [
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    FormsModule
   ],
   templateUrl: './header.component.html',
   styles: `
@@ -35,25 +38,31 @@ export class HeaderComponent {
   user!:ICliente
   mostrarOpcionesUsuario: boolean = false;
 
-  constructor(private storage: StorageService, private router:Router){
+  busqueda: string = '';
+
+  constructor(private storage: StorageService, private router:Router, private busquedaSvc:BusquedaComidasService){
     effect(()=>{
       this.cantidad = this.storage.comidasCompradas().length
-
       // comprobamos el objeto cliente. Si se ha logueado redirigimos a Cliente/Panel
       this.user = this.storage.cliente()
       this.linkRol = this.user.rol ? `Dashboard/${this.user.rol.toLowerCase()}` : ''
     })
 
-    // cada vez que se cambie la ruta mostrar opciones de usuario en false
+    // cada vez que se cambie la ruta mostrar opciones de usuario en false y además reseteamos el buscador
     this.router.events.subscribe(() => {
       this.mostrarOpcionesUsuario = false;
+      this.busquedaSvc.setTextoABuscar('')
     });
   }
 
 
-
   toggleBusqueda() {
     this.hacerBusqueda = !this.hacerBusqueda;
+  }
+
+  handleSearch() {
+    this.busquedaSvc.setTextoABuscar(this.busqueda)
+    
   }
 
   abrirMenu() {

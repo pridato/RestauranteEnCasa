@@ -107,9 +107,10 @@
       @else{
       <!-- los que se muestran solo si se ha hecho busqueda -->
       <input type="text" id="searchInput"
+      [(ngModel)]="busqueda"
         class="appearance-none border rounded focus:outline-none focus:shadow-outline p-1 text-black text-sm"
         placeholder="Tu comida favorita...">
-      <span (click)="toggleBusqueda()" class="cursor-pointer mx-3"><i class="fa-solid fa-magnifying-glass"></i></span>
+      <span (click)="handleSearch()" class="cursor-pointer mx-3"><i class="fa-solid fa-magnifying-glass"></i></span>
       <span (click)="toggleBusqueda()" class="cursor-pointer"><i class="fa-solid fa-x"></i></span>
 
       }
