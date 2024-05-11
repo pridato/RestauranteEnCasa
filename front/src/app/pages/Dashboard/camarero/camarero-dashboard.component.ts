@@ -95,6 +95,10 @@ export class CamareroDashboardComponent {
     this.camareroSvc.actualizarPedido(pedido!).subscribe(
       (data) => {
           this.toastr.success('Pedido completado')
+          // eliminar el pedido de la lista
+          const index = this.pedidos.indexOf(pedido!)
+          this.pedidos.splice(index, 1)
+          this.getPedidos()
       }
     )
   }
