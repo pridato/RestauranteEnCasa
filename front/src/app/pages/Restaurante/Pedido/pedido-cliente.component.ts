@@ -84,7 +84,9 @@ export class PedidoClienteComponent {
       this.selectedStepIndex = 0
     } else if(this.pedidoActual.estado === 'Preparado') {
       this.selectedStepIndex = 1
-    } 
+    } else if(this.pedidoActual.estado === 'Pendiente Pago') {
+      this.selectedStepIndex = 2
+    }
     
     if(this.stepper) {
       this.stepper.selectedIndex = this.selectedStepIndex

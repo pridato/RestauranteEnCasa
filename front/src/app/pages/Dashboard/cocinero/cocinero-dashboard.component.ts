@@ -49,6 +49,7 @@ export class CocineroDashboardComponent implements OnInit {
             (pedido) => {
               // queremos obtener para la vista el nombre de usuario y comidas que tiene
               
+              // al no estar el nombre del usuario en rest lo recuperamos del end point creado. Lo mismo pasaría con el nombre de la comida
               let $user = this.rest.obtenerClienteId(pedido.usuarioId)
               $user.subscribe(data => pedido.nombreUsuario = data.nombre)
 

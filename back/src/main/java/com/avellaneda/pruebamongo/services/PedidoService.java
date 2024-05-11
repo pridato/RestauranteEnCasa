@@ -108,4 +108,8 @@ public class PedidoService {
     public List<Pedido> obtenerPedidosUsuario(String id_usuario) {
         return this.pedidoRepository.findByUsuarioId(id_usuario).stream().sorted(Comparator.comparing(Pedido::getHoraPedido).reversed()).toList();
     }
+
+    public List<Pedido> obtenerPedidosHechos() {
+        return this.pedidoRepository.findAll().stream().filter(pedido -> pedido.getEstado().equals("Preparado")).sorted(Comparator.comparing(Pedido::getHoraPedido).reversed()).toList();
+    }
 }

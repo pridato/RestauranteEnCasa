@@ -40,4 +40,9 @@ public class PedidoController {
     public List<Pedido> obtenerPedidosUsuario(@RequestParam("id") String id_usuario) {
         return this.pedidoService.obtenerPedidosUsuario(id_usuario);
     }
+
+    @GetMapping("obtener-pedidos-hechos")
+    public List<Pedido> obtenerPedidosHechos() {
+        return this.pedidoService.obtenerPedidosHechos();
+    }
 }

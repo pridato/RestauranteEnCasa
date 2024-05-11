@@ -9,6 +9,7 @@ import {
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
+import { ComidaPedido } from "src/app/core/models/ComidaPedido";
 import { IComida } from "src/app/core/models/comida";
 import { Pedido } from "src/app/core/models/pedido";
 import { RestService } from "src/app/core/servicios/RestService.service";
@@ -68,11 +69,11 @@ export class ComidascompradasComponent {
 
     
     // guardamos el id de la comida junto a su comida para enlazarlo en mongo
-    let Idcomidas: { comidaId: string; cantidad: number }[] = [];
+    let Idcomidas: ComidaPedido[] = [];
     let comidas: { comida: IComida; cantidad: number }[] = this.storage.comidasCompradas();
 
     for (let comida of comidas) {
-      Idcomidas.push({ comidaId: comida.comida.id, cantidad: comida.cantidad });
+      Idcomidas.push({ comidaId: comida.comida.id, cantidad: comida.cantidad, nombreComida: comida.comida.nombre });
     }
     // creamos un objeto pedido añadiendo el id del cliente guardado en storage y como estado en preparación
     let pedido: Pedido = {
@@ -82,7 +83,6 @@ export class ComidascompradasComponent {
       mesa: this.storage.recuperarCliente().mesa!
     };
 
-    console.log(pedido);
     let respuesta = this.rest.realizarPedido(pedido);
     respuesta.then((resp) => {
       // una vez hecho el pedido escondemos el navbar. Liberamos todas las comidas y mostramos mensaje.
