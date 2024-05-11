@@ -3,6 +3,6 @@
     <app-guardar-fecha [fecha]="this.selected!" (cerrarDialog)="recibirDialog($event)"></app-guardar-fecha>
   } 
     <mat-card class="demo-inline-calendar-card z-10">
-      <mat-calendar [(selected)]="selected" (selectedChange)="this.mostrarDialog = !this.mostrarDialog"></mat-calendar>
+      <mat-calendar [(selected)]="selected" (selectedChange)="handleDateChange($event)"></mat-calendar>
     </mat-card>
 </div>
