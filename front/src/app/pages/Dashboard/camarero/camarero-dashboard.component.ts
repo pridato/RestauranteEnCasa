@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { Observable } from 'rxjs';
 import { ComidaPedido } from 'src/app/core/models/ComidaPedido';
 import { ICliente } from 'src/app/core/models/cliente';
 import { Pedido } from 'src/app/core/models/pedido';
