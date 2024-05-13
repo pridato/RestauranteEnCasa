@@ -1,4 +1,4 @@
-<nav class="flex items-center justify-between bg-teal-500 xl:p-6 max-w-full sticky z-20">
+<nav class="flex items-center justify-between bg-teal-500 xl:p-6 max-w-full sticky top-0 z-20">
   <!-- titulo -->
   <div class="p-5 flex items-center justify-center text-white pl-3 xl:pl-5 xl:mr-6 gap-x-5">
     <a class="cursor-pointer font-semibold text-xl tracking-tight">TuRestauranteEnCasa</a>
@@ -105,15 +105,14 @@
       }
     }
       @else{
-      <!-- los que se muestran solo si se ha hecho busqueda -->
-      <input type="text" id="searchInput"
-      [(ngModel)]="busqueda" 
-      (keyup)="handleSearch()"
-        class="appearance-none border rounded focus:outline-none focus:shadow-outline p-1 text-black text-sm"
-        placeholder="Tu comida favorita...">
-      <span  (click)="handleSearch()" class="cursor-pointer mx-3"><i class="fa-solid fa-magnifying-glass"></i></span>
-      <span (click)="toggleBusqueda()" class="cursor-pointer"><i class="fa-solid fa-x"></i></span>
-
+        <!-- los que se muestran solo si se ha hecho busqueda -->
+        <input type="text" id="searchInput" 
+        [(ngModel)]="busqueda" 
+        (keyup)="handleSearch()"
+          class="appearance-none border rounded focus:outline-none focus:shadow-outline p-1 text-black text-sm"
+          placeholder="Tu comida favorita...">
+        <span  (click)="handleSearch()" class="cursor-pointer mx-3"><i class="fa-solid fa-magnifying-glass"></i></span>
+        <span (click)="toggleBusqueda()" class="cursor-pointer"><i class="fa-solid fa-x"></i></span>
       }
     </div>
 

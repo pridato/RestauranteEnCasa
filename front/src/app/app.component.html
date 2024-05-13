@@ -20,7 +20,7 @@
       </div>
     </div>
   } @else {
-      <app-header class="w-full" [menu]="menu" (emitirNavbar)="recibirNavbar($event)" (toggleMenu)="onToggleMenu($event)" [pedido]="pedido" (togglePedido)="onTogglePedido($event)"/>
+      <app-header class="w-full sticky top-0 z-20" [menu]="menu" (emitirNavbar)="recibirNavbar($event)" (toggleMenu)="onToggleMenu($event)" [pedido]="pedido" (togglePedido)="onTogglePedido($event)"/>
       @if(this.pedido){
           <app-comidascompradas [pedido]="pedido" (togglePedido)="onTogglePedido($event)" />
       }
