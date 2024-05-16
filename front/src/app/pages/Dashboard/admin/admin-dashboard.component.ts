@@ -10,11 +10,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
+import { DateFormatPipe } from 'src/app/shared/pipes/date-format.pipe';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [MatExpansionModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, FormsModule ],
+  imports: [MatExpansionModule, DateFormatPipe, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, FormsModule ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
@@ -35,11 +36,13 @@ export class AdminDashboardComponent {
     })
   }
 
-  toggleFecha() {
-    
+  toggleFecha(event:any) {
+    console.log(event.target.value)
+    this.fechaSeleccionada = new Date(event.target.value)
     this.adminSvc.cargarPedidosEntrantes(this.fechaSeleccionada).subscribe(pedidos => {
+      this.pedidosEntrantes = []
       this.pedidosEntrantes = pedidos
-      this.pedidosTotales = pedidos.length
+      this.pedidosTotales = this.pedidosEntrantes.length
       this.mostrarFecha = true
     })
   }
