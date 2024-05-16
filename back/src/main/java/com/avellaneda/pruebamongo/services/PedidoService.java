@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
@@ -109,28 +110,52 @@ public class PedidoService {
 
         // obtenemos todas las fechas
         List<Pedido> pedidos = new ArrayList<>();
-
-        // nos interesa solo el día y el mes por lo que lo parseamos
-        // a partir del string sacamos el día y el mes
+        
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
-            Date fechaSeleccionada = formatter.parse(fecha);
+
+            Calendar calFechaSeleccionada = getCalendar(fecha);
+            int diaSeleccionado = calFechaSeleccionada.get(Calendar.DAY_OF_MONTH);
+            int mesSeleccionado = calFechaSeleccionada.get(Calendar.MONTH);
 
             return this.pedidoRepository.findAll()
                     .stream()
                     .filter(pedido -> {
-                        String horaPedidoFormateada = formatter.format(pedido.getHoraPedido());
-                        return horaPedidoFormateada.equals(fechaSeleccionada.toString());
+                        Calendar calPedido = Calendar.getInstance();
+                        calPedido.setTime(pedido.getHoraPedido());
+                        int diaPedido = calPedido.get(Calendar.DAY_OF_MONTH);
+                        int mesPedido = calPedido.get(Calendar.MONTH);
+
+                        return diaPedido == diaSeleccionado && mesPedido == mesSeleccionado;
                     })
                     .toList();
 
-        } catch (Exception e) {
-            logger.error("Error al parsear la fecha");
-
+        } catch (ParseException e) {
+            System.err.println("Error al parsear la fecha");
         }
+
         return pedidos;
 
+    }
 
+    /**
+     * metodo para parsear correctamente la fecha
+     *
+     * @param fecha => formato "Thu May 16 2024 19:46:24 GMT+0200"
+     * @return
+     * @throws ParseException
+     */
+    private static Calendar getCalendar(String fecha) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("EE MMM dd yyyy HH:mm:ss z ", Locale.ENGLISH);
+        Date fechaSeleccionada = formatter.parse(fecha);
+
+
+
+        // nos interesa solo el día y el mes por lo que lo parseamos
+        // a partir del string sacamos el día y el mes
+        // usamos calendar para sacar el día y el mes y comp. solo estos evitando mins y segs
+        Calendar calFechaSeleccionada = Calendar.getInstance();
+        calFechaSeleccionada.setTime(fechaSeleccionada);
+        return calFechaSeleccionada;
     }
 
     /**
