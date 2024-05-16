@@ -12,11 +12,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,7 +72,7 @@ public class PedidoService {
 
         Pedido pedido = pedidos.stream().filter(data -> data.getId().equals(id_pedido)).findFirst().orElse(null);
 
-        if(pedido != null) {
+        if (pedido != null) {
             logger.info(pedido.toString());
             pedido.setEstado("Preparado");
 
@@ -82,7 +80,7 @@ public class PedidoService {
 
             // a partir del id de la comida lo dividimos entre el length de la lista
 
-            for (String id: idComidas) {
+            for (String id : idComidas) {
                 // sacamos la comida a partir del id y metemos el tiempo de preparacion
                 Comida comida = comidaRepository.findById(id).orElse(null);
                 if (comida != null) {
@@ -101,7 +99,43 @@ public class PedidoService {
     }
 
     /**
+     * metodo para devolver los pedidos filtrados a través de una fecha
+     * damos x omitido horas y segundos, solo nos interesa el día. PENDIENTE rango fechas
+     *
+     * @param fecha
+     * @return
+     */
+    public List<Pedido> obtenerPedidosFecha(String fecha) {
+
+        // obtenemos todas las fechas
+        List<Pedido> pedidos = new ArrayList<>();
+
+        // nos interesa solo el día y el mes por lo que lo parseamos
+        // a partir del string sacamos el día y el mes
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM");
+            Date fechaSeleccionada = formatter.parse(fecha);
+
+            return this.pedidoRepository.findAll()
+                    .stream()
+                    .filter(pedido -> {
+                        String horaPedidoFormateada = formatter.format(pedido.getHoraPedido());
+                        return horaPedidoFormateada.equals(fechaSeleccionada.toString());
+                    })
+                    .toList();
+
+        } catch (Exception e) {
+            logger.error("Error al parsear la fecha");
+
+        }
+        return pedidos;
+
+
+    }
+
+    /**
      * metodo para obtener los pedidos del usuario para que lo compruebe
+     *
      * @param id_usuario
      * @return
      */

@@ -45,4 +45,9 @@ public class PedidoController {
     public List<Pedido> obtenerPedidosHechos() {
         return this.pedidoService.obtenerPedidosHechos();
     }
+
+    @GetMapping("obtener-pedidos-fecha")
+    public List<Pedido> obtenerPedidosFecha(@RequestParam("fecha") String fecha) {
+        return this.pedidoService.obtenerPedidosFecha(fecha);
+    }
 }

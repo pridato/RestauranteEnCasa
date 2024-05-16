@@ -1,25 +1,75 @@
-<div class="flex flex-col w-full border gap-y-5">
+<div class="flex flex-col w-full bg-[#F3F4F6] gap-y-5 px-14 my-14 py-4 rounded-lg">
   <!-- Header bienvenido usuario -->
-  <header class="w-full bg-blue-400">
-    Bienvenido user...
+  <header>
+    <div class="w-full flex flex-col items-start justify-start">
+      <h1 class="text-5xl font-bold">Bienvenido {{this.cliente.nombre}}</h1>
+      <h5 class="text-gray-500 text-2xl">Aquí están las últimas operaciones.</h5>
+    </div>
   </header>
 
   <!-- vista administrador... -->
-  <nav class="flex flex-row justify-around items-center">
-    <div>Excel</div>
-    <div>
-      <div>Fechas ver usuarios conectados...</div>
-      <div>filtrado</div>
-    </div>
-  </nav>
-  <main class="w-full border">
-    <div class="flex flex-col  ">
-      <div class="flex flex-row gap-x-4 justify-around items-center p-2">
-        <!-- Ingresos de los ultimos x días... filtrado arriba-->
-        <div class="w-40 border">VISTA INGRESOS </div>
-        <div class="w-40 border">VISTA USUARIOS CONECTADOS</div>
-        <div class="w-40 border">PEDIDOS REALIZADOS</div>
+  <div class="flex flex-col justify-around items-center gap-y-6 w-full">
+    <!-- importar excel -->
+    <mat-accordion class="w-full">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Importar Comidas
+          </mat-panel-title>
+          <mat-panel-description>
+            ¿Desea integrar nuevas comidas al menú?
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form action="">
+          <input type="file" name="file" id="file" accept=".xlsx">
+          <button type="submit">Importar</button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="mt-5">
+      <!-- mostrar fecha actual y el contador de usuarios contectados -->
+      <div class="flex flex-row justify-between items-center gap-x-4">
+        <div class="flex flex-col gap-y-2">
+          <h3 class="text-2xl font-bold">Usuarios Conectados</h3>
+          <p class="text-gray-500 text-lg pb-8">{{this.usuariosConectados}}</p>
+        </div>
       </div>
     </div>
-  </main>
+
+    <div class="w-full justify-center items-center flex flex-col gap-y-3">
+      <!-- input fecha -->
+      <mat-form-field class="example-full-width">
+        <mat-label>Selecciona una fecha para ver los pedidos: </mat-label>
+        <input (ngModelChange)="toggleFecha()" [(ngModel)]="this.fechaSeleccionada" matInput [matDatepicker]="picker">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker">
+          <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- ver pedidos del día seleccionado -->
+      @if(this.mostrarFecha) {
+        <div>
+          <h3 class="text-2xl font-bold">Pedidos del día {{this.fechaSeleccionada}}</h3>
+          <div class="flex flex-col gap-y-3">
+            <div class="flex flex-row justify-between items-center gap-x-4">
+              <div class="flex flex-col gap-y-2">
+                <h3 class="text-2xl font-bold">Pedidos Registrados</h3>
+                @for(pedido of this.pedidosEntrantes; track pedido.id) {
+                  <p class="text-gray-500 text-lg pb-8">{{pedido.comidas}}</p>
+                }
+                <p class="text-gray-500 text-lg pb-8">{{this.pedidosTotales}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- pedidos registrados -->
+
+
 </div>
