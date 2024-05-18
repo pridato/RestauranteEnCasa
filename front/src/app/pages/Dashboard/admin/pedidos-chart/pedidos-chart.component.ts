@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
+import { AdminDashboardService } from 'src/app/core/servicios/admin-dashboard.service';
 
 @Component({
   selector: 'app-pedidos-chart',
@@ -13,9 +14,10 @@ import { BaseChartDirective } from 'ng2-charts';
  * clase que se encarga de mostrar el grafico de pedidos con las tecnologías chart.js y ng2-charts
  * npm install chart.js --save
  */
-export class PedidosChartComponent implements OnChanges {
+export class PedidosChartComponent {
 
-  @Input() pedidos: { date: Date, count: number }[] = [];
+  counts: number[] = []
+  dates: Date[] = []
 
   //#region CHART CONFIGURATION
   /**
@@ -43,32 +45,60 @@ export class PedidosChartComponent implements OnChanges {
   public lineChartLegend = true;
   //#endregion
 
-  constructor() {
-    this.updateChartData()
+  constructor(private adminSvc:AdminDashboardService) {
+    this.getPedidosDateRange()
   }
 
-  ngOnChanges(): void {
-    this.updateChartData()
+  /**
+   * TODO input de fechas
+   * por el momento vamos a dar las fechas desde hace 1 semana hasta la fecha actual
+   */
+  getPedidosDateRange() {
+    const fechaActual = new Date()
+    const fechaInicio = new Date(fechaActual)
+    fechaInicio.setDate(fechaInicio.getDate() - 7)
+    
+    this.adminSvc.cargarPedidosTotalesRango(fechaInicio, fechaActual).subscribe(pedidos => {
+      for (const [fecha, total] of Object.entries(pedidos)) {
+        this.counts.push(total)
+        this.dates.push(new Date(fecha))
+      }
+      this.updateChartData();
+    })
+    
   }
 
   /**
    * metodo que se encarga de cargar el grafico con los pedidos
    */
   updateChartData(): void {
-    const dates = this.pedidos.map(pedido => pedido.date);
-    const counts = this.pedidos.map(pedido => pedido.count);
+    console.log(this.counts)
+    console.log(this.dates)
+
 
     this.lineChartData = {
       datasets: [
         {
-          data: counts,
+          data: this.counts,
           label: 'Pedidos',
           borderColor: 'black',
           backgroundColor: 'rgba(255,0,0,0.3)',
         },
       ],
-      labels: dates,
+      labels: this.formatearFecha(),
     };
+
+    
   }
 
+  /**
+   * metodo que se encarga de formatear la fecha -> dd-mm
+   */
+  formatearFecha() {
+    return this.dates.map(date => {
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'short' }); // Obtener el nombre corto del mes
+      return `${day}-${month}`;
+    });
+  }
 }

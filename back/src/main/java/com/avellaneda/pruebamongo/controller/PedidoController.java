@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/Pedido")
@@ -50,5 +51,10 @@ public class PedidoController {
     @GetMapping("obtener-pedidos-fecha")
     public List<Pedido> obtenerPedidosFecha(@RequestParam("fecha") String fecha) {
         return this.pedidoService.obtenerPedidosFecha(fecha);
+    }
+
+    @GetMapping("obtener-pedidos-rango-fechas")
+    public Map<Date, Integer> obtenerPedidosRangoFechas(@RequestParam("fechaInicio") String fecha1, @RequestParam("fechaFin") String fecha2) {
+        return this.pedidoService.obtenerPedidosRangoFechas(fecha1, fecha2);
     }
 }

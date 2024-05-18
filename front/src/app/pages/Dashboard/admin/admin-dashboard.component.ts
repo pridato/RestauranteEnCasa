@@ -26,35 +26,12 @@ export class AdminDashboardComponent {
   storage = inject(StorageService)
   cliente: ICliente = this.storage.cliente()
   usuariosConectados: number = 0
-  fechaSeleccionada: Date = new Date()
-  pedidosEntrantes: Pedido[] = []
-  pedidosTotales:number = 0
-  mostrarFecha:boolean = false
 
-  pedidosAimportar: { date: Date, count: number }[] = []
 
   constructor(private adminSvc:AdminDashboardService) {
     this.adminSvc.cargarUsuariosConectados().subscribe(usuarios => {
       this.usuariosConectados = usuarios
     })
-    
   }
 
-  /**
-   * metodo para carga r los metodos. TODO
-   * @param event 
-   */
-  toggleFecha(event:any) {
-    console.log(event.target.value)
-    this.fechaSeleccionada = new Date(event.target.value)
-    this.adminSvc.cargarPedidosEntrantes(this.fechaSeleccionada).subscribe(pedidos => {
-      this.pedidosEntrantes = []
-      this.pedidosEntrantes = pedidos
-      this.pedidosTotales = this.pedidosEntrantes.length
-      this.mostrarFecha = true
-      this.pedidosAimportar = this.pedidosEntrantes.map(pedido => {
-        return { date: pedido.horaPedido!, count: 1 }
-      })
-    })
-  }
 }

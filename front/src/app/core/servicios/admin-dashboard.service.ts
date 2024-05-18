@@ -19,4 +19,8 @@ export class AdminDashboardService {
     console.log(date)
     return this.http.get<Pedido[]>(`${springUrl}/Pedido/obtener-pedidos-fecha?fecha=${date}`)
   }
+
+  public cargarPedidosTotalesRango(dateInicio:Date, dateFin:Date) :Observable<Map<Date, number>> {
+    return this.http.get<Map<Date, number>>(`${springUrl}/Pedido/obtener-pedidos-rango-fechas?fechaInicio=${dateInicio}&fechaFin=${dateFin}`)
+  }
 }
