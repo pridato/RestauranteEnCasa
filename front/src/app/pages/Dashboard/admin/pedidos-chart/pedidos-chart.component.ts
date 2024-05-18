@@ -75,7 +75,6 @@ export class PedidosChartComponent {
     console.log(this.counts)
     console.log(this.dates)
 
-
     this.lineChartData = {
       datasets: [
         {

@@ -145,7 +145,7 @@ public class PedidoService {
      */
     public Map<Date, Integer> obtenerPedidosRangoFechas(String fecha1, String fecha2) {
         // Crear un map fecha -> num total de pedidos
-        Map<Date, Integer> pedidosPorFecha = new HashMap<>();
+        Map<Date, Integer> pedidosPorFecha = new TreeMap<>();
 
         // tenemos un rango x ejem del 1 de mayo al 5, vamos a calcular de cada dia el numero total de pedidos e integrarlo en el map
         try {
