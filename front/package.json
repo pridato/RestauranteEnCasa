@@ -23,6 +23,8 @@
     "@angular/router": "^17.2.0",
     "angular-calendar": "^0.31.0",
     "angular-websocket": "^2.0.1",
+    "chart.js": "^4.4.3",
+    "ng2-charts": "^6.0.1",
     "ngx-toastr": "^18.0.0",
     "primeng": "^17.9.0",
     "rxjs": "~7.8.0",

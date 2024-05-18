@@ -11,11 +11,12 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { DateFormatPipe } from 'src/app/shared/pipes/date-format.pipe';
+import { PedidosChartComponent } from './pedidos-chart/pedidos-chart.component';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [MatExpansionModule, DateFormatPipe, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, FormsModule ],
+  imports: [MatExpansionModule, DateFormatPipe, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatIconModule, FormsModule, PedidosChartComponent ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
@@ -30,12 +31,19 @@ export class AdminDashboardComponent {
   pedidosTotales:number = 0
   mostrarFecha:boolean = false
 
+  pedidosAimportar: { date: Date, count: number }[] = []
+
   constructor(private adminSvc:AdminDashboardService) {
     this.adminSvc.cargarUsuariosConectados().subscribe(usuarios => {
       this.usuariosConectados = usuarios
     })
+    
   }
 
+  /**
+   * metodo para carga r los metodos. TODO
+   * @param event 
+   */
   toggleFecha(event:any) {
     console.log(event.target.value)
     this.fechaSeleccionada = new Date(event.target.value)
@@ -44,6 +52,9 @@ export class AdminDashboardComponent {
       this.pedidosEntrantes = pedidos
       this.pedidosTotales = this.pedidosEntrantes.length
       this.mostrarFecha = true
+      this.pedidosAimportar = this.pedidosEntrantes.map(pedido => {
+        return { date: pedido.horaPedido!, count: 1 }
+      })
     })
   }
 }
