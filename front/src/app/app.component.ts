@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FooterComponent } from './shared/componentes/Footer/Footer.component';
 import { HeaderComponent } from './shared/componentes/Header/header/header.component';
@@ -28,10 +28,17 @@ export class AppComponent {
 
   menu:boolean = false
   pedido:boolean = false
+  user!:ICliente
+  // enlace al dashborad del rol
+  linkRol:string = ''
 
   mostrarNavbar: boolean = false;
   
   constructor(private router:Router, private storage:StorageService) {
+    effect(()=>{
+      this.user = this.storage.cliente()
+      this.linkRol = this.user.rol ? `Dashboard/${this.user.rol.toLowerCase()}` : ''
+    })
     
   }
 

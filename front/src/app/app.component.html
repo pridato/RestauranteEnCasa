@@ -1,5 +1,6 @@
 <div class="flex flex-col justify-center items-center ">
   @if (this.menu) {
+    <!-- TODO refactorizar esto al header -->
     <div id="mobile" class="flex justify-center items-center  fixed inset-0 text-white">
       <div  (click)="onToggleMenu(!this.menu)" class="font-bold text-4xl" >
         <span class="cursor-pointer absolute right-20 top-20 ">
@@ -8,13 +9,12 @@
         <div class="flex flex-col gap-y-10  justify-center items-center">
           <a [routerLink]="['/Restaurante/Comidas']" class="cursor-pointer">Carta</a>
           <span class="cursor-pointer">Quiénes somos</span>
-          <a [routerLink]="['/Cliente/Login']" class="cursor-pointer">Iniciar sesión</a>
+          <a [routerLink]="[this.linkRol]" class="cursor-pointer">zona {{ this.user.rol }}</a>
           <span (click)="onTogglePedido(true)" class="cursor-pointer">Gustados</span>
-          <span class="cursor-pointer">Buscar</span>
           <span [routerLink]="['/Restaurante/Reservas']" class="px-5 block mt-4 xl:inline-block xl:mt-0">
             Reservar
           </span>
-          <span (click)="this.menu = !this.menu; this.pedido = true" class="cursor-pointer">Pedido</span>
+          <a [routerLink]="['Restaurante/Pedido']" class="cursor-pointer">Comprados</a>
           <span (click)="logout()" class="cursor-pointer text-red-500"><i class="fa-solid fa-arrow-right-from-bracket"></i></span>
         </div>
       </div>
