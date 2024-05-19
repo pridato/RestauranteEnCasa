@@ -40,6 +40,7 @@ public class SecurityConfig {
 
                 )
                 .csrf(AbstractHttpConfigurer::disable)
+                .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer.loginPage("/Cliente/login"))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

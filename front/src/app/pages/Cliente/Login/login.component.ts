@@ -68,4 +68,11 @@ export class LoginComponent {
     if(this.mostrarPassword) this.estiloPassword = 'text'
     else this.estiloPassword = 'password'
   }
+
+  /**
+   * Metodo para loguearse con google
+   */
+  loginGoogle() {
+    // lógica debe ser notificar al back de 
+  }
 }
