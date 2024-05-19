@@ -49,8 +49,9 @@ export class PedidosChartComponent {
     this.getPedidosDateRange()
   }
 
+  //  TODO - añadir select de fechas 1 semana 2 o 1 mes
   /**
-   * TODO input de fechas
+   *
    * por el momento vamos a dar las fechas desde hace 1 semana hasta la fecha actual
    */
   getPedidosDateRange() {

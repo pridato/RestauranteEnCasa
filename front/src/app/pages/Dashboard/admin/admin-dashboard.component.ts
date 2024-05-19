@@ -28,6 +28,7 @@ export class AdminDashboardComponent {
   usuariosConectados: number = 0
 
 
+  // TODO Implementar import de comidas via excel
   constructor(private adminSvc:AdminDashboardService) {
     this.adminSvc.cargarUsuariosConectados().subscribe(usuarios => {
       this.usuariosConectados = usuarios
