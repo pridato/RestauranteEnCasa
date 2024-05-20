@@ -1,7 +1,7 @@
 # TuRestauranteEnCasa
 
 TuRestauranteEnCasa es un proyecto que permite a los usuarios disfrutar de la experiencia culinaria de un restaurante desde la comodidad de sus hogares. Este sistema está desarrollado utilizando Angular para el frontend y Spring para el backend. Además, se implementan tecnologías como JSON Web Tokens (JWT) y MongoDB como base de datos.
-a
+
 ## Características
 
 - **Interfaz intuitiva:** La interfaz de usuario está diseñada con Angular para proporcionar una experiencia de usuario fluida e intuitiva.
