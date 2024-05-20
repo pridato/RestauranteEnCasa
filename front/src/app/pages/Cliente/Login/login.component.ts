@@ -73,6 +73,13 @@ export class LoginComponent {
    * Metodo para loguearse con google
    */
   loginGoogle() {
-    // lógica debe ser notificar al back de 
+    // 1º de spring obtenemos la url del redirect de google
+    try {
+      this.restService.getUrlGoogle().subscribe(res => {
+        window.location.href = res.url
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

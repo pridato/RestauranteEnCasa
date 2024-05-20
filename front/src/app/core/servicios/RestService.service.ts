@@ -41,7 +41,20 @@ export class RestService {
     return this._httpClient.get<ICliente>(`${springUrl}/Cliente/obtener-cliente-id?id=${id}`)
   }
   
+  getUrlGoogle(): Observable<any> {
+    try {
+      return this._httpClient.get(`${springUrl}/google/get-url-redirect`, {
+        headers: new HttpHeaders({
+          "Content-Type": "application/json",
+        }),
+      });
+    } catch (error) {
+      console.log("error", error);
+    }
 
+    return of("");
+  }
+  
   //#endregion
 
   //#region ZONA RESTAURANTE

@@ -34,13 +34,14 @@ public class SecurityConfig {
         return http
                 .authorizeHttpRequests(request -> request.requestMatchers(
                         new AntPathRequestMatcher("/Cliente/**")).permitAll())
+                .authorizeHttpRequests(request -> request.requestMatchers(
+                        new AntPathRequestMatcher("/google/**")).permitAll())
                 .authorizeHttpRequests(request -> request.requestMatchers(new
                                 AntPathRequestMatcher("/**"))
                         .authenticated()
 
                 )
                 .csrf(AbstractHttpConfigurer::disable)
-                .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer.loginPage("/Cliente/login"))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
