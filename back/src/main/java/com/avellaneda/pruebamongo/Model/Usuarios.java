@@ -1,9 +1,6 @@
 package com.avellaneda.pruebamongo.Model;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +8,7 @@ import javax.annotation.processing.Generated;
 import java.util.Date;
 
 @RequiredArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
 @Document(collection = "Usuarios")

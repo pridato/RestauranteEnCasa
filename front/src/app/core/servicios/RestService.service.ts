@@ -54,6 +54,12 @@ export class RestService {
 
     return of("");
   }
+
+  getClientByEmail(email: string): Observable<ICliente> {
+    return this._httpClient.get<ICliente>(
+      springUrl + `/Cliente/get-cliente-email?email=${email}`
+    );
+  }
   
   //#endregion
 

@@ -59,6 +59,15 @@ public class UserService {
     return restMessage;
   }
 
+    /**
+     * a partir del email simplemente devolvemos el obj. usuario Recordar que lleva la seguridad de las jwt
+     * @param email
+     * @return
+     */
+    public Usuarios getUsuarioByEmail(String email) {
+      return this.usuarioRepository.findByEmail(email);
+    }
+
   /**
    * a partir del id simplemente devolvemos el obj. usuario Recordar que lleva la seguridad de las jwt
    * @param id

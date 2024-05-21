@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ICredenciales } from 'src/app/core/models/credenciales';
 import { RestService } from 'src/app/core/servicios/RestService.service';
 import { StorageService } from 'src/app/core/servicios/storage.service';
@@ -29,9 +29,27 @@ export class LoginComponent {
   
   constructor (private restService:RestService, 
                private storage:StorageService, 
-               private router:Router
-              ) {
+               private router:Router,
+               private route: ActivatedRoute) {
 
+        this.readQueryParams()
+  }
+
+  readQueryParams() {
+    this.route.queryParams.subscribe(params => {
+      // leer parametro email y jwt
+      let email = params['email']
+      let jwt = params['jwt']
+      
+      if (email && jwt) {
+        this.restService.getClientByEmail(email).subscribe(res => {
+          // guardamos el cliente y el jwt
+          this.storage.guardarCliente(res)
+          this.storage.guardarJwt(jwt)
+          this.router.navigateByUrl('/Restaurante/Comidas')
+        })
+      }
+    })
   }
 
   /**

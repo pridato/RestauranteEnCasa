@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,5 +19,6 @@ public class RestMessage {
     private  String token;
     private  Usuarios datosCliente;
     private  Object otrosDatos;
+
 
 }

@@ -48,6 +48,11 @@ public class UsuariosController {
     return ResponseEntity.status(200).body(restMessage);
   }
 
+  @GetMapping("/get-cliente-email")
+    public Usuarios getUsuarioByEmail(@RequestParam String email) {
+        return this.userService.getUsuarioByEmail(email);
+    }
+
 
   @GetMapping("/obtener-cliente-id")
   public Usuarios getUsuarioById(@RequestParam String id) {
