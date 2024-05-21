@@ -1,68 +1,69 @@
-import { Component, EventEmitter, Input, Output, effect } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { ICliente } from 'src/app/core/models/cliente';
-import { BusquedaComidasService } from 'src/app/core/servicios/busqueda-comidas.service';
-import { StorageService } from 'src/app/core/servicios/storage.service';
+import { Component, EventEmitter, Input, Output, effect } from "@angular/core";
+import { FormsModule } from "@angular/forms";
+import { Router, RouterLink, RouterLinkActive } from "@angular/router";
+import { ICliente } from "src/app/core/models/cliente";
+import { BusquedaComidasService } from "src/app/core/servicios/busqueda-comidas.service";
+import { StorageService } from "src/app/core/servicios/storage.service";
 
 @Component({
-  selector: 'app-header',
+  selector: "app-header",
   standalone: true,
-  imports: [
-    RouterLink,
-    RouterLinkActive,
-    FormsModule
-  ],
-  templateUrl: './header.component.html',
+  imports: [RouterLink, RouterLinkActive, FormsModule],
+  templateUrl: "./header.component.html",
   styles: `
     nav {
       background-color: #2f695C;
     }
-  `,
+    .scale-up-tr{-webkit-animation:scale-up-tr .3s cubic-bezier(.39,.575,.565,1.000) both;animation:scale-up-tr .3s cubic-bezier(.39,.575,.565,1.000) both}
+    @-webkit-keyframes scale-up-tr{0%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:100% 0;transform-origin:100% 0}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0}}@keyframes scale-up-tr{0%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:100% 0;transform-origin:100% 0}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0}}
+    `
 })
-export class HeaderComponent { 
+export class HeaderComponent {
   hacerBusqueda: boolean = false;
 
   @Output() emitirNavbar: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-
-  @Input()menu:boolean = false
+  @Input() menu: boolean = false;
   @Output() toggleMenu: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Input()pedido:boolean = false
+  @Input() pedido: boolean = false;
   @Output() togglePedido: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   // Cada trabajador tiene una función en específico que es Dashboard/{rol} siempre que sean diferntes a usuario
-  linkRol:string = ''
+  linkRol: string = "";
 
   cantidad: number = 0;
-  user!:ICliente
+  user!: ICliente;
   mostrarOpcionesUsuario: boolean = false;
 
-  busqueda: string = '';
+  busqueda: string = "";
 
-  constructor(private storage: StorageService, private router:Router, private busquedaSvc:BusquedaComidasService){
-    effect(()=>{
-      this.cantidad = this.storage.comidasCompradas().length
+  constructor(
+    private storage: StorageService,
+    private router: Router,
+    private busquedaSvc: BusquedaComidasService
+  ) {
+    effect(() => {
+      this.cantidad = this.storage.comidasCompradas().length;
       // comprobamos el objeto cliente. Si se ha logueado redirigimos a Cliente/Panel
-      this.user = this.storage.cliente()
-      this.linkRol = this.user.rol ? `Dashboard/${this.user.rol.toLowerCase()}` : ''
-    })
+      this.user = this.storage.cliente();
+      this.linkRol = this.user.rol
+        ? `Dashboard/${this.user.rol.toLowerCase()}`
+        : "";
+    });
 
     // cada vez que se cambie la ruta mostrar opciones de usuario en false y además reseteamos el buscador
     this.router.events.subscribe(() => {
       this.mostrarOpcionesUsuario = false;
-      this.busquedaSvc.setTextoABuscar('')
+      this.busquedaSvc.setTextoABuscar("");
     });
   }
-
 
   toggleBusqueda() {
     this.hacerBusqueda = !this.hacerBusqueda;
   }
 
   handleSearch() {
-    this.busquedaSvc.setTextoABuscar(this.busqueda)
-    
+    this.busquedaSvc.setTextoABuscar(this.busqueda);
   }
 
   abrirMenu() {
@@ -74,12 +75,10 @@ export class HeaderComponent {
     this.togglePedido.emit(!this.pedido);
   }
 
-
-
   logout() {
-    this.storage.guardarJwt('')
-    let cliente!:ICliente
-    this.storage.guardarCliente(cliente)
-    this.linkRol = ''
+    this.storage.guardarJwt("");
+    let cliente!: ICliente;
+    this.storage.guardarCliente(cliente);
+    this.linkRol = "";
   }
 }

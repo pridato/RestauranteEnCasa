@@ -1,10 +1,10 @@
-<div class="2xl:mx-64 md:mt-0 px-5 gap-y-5 pb-5 flex flex-col justify-center items-center">
+<div class="2xl:mx-64 md:mt-0 px-5 gap-y-5 pb-5 flex flex-col justify-center items-center ">
   @if(this.spinner.isLoading$ | async) {
     <app-spinner></app-spinner>
   } 
   @else {
     <div class="platos font-bold text-3xl ml-2 mb-2 xl:mt-10 ">Nuestros Platos más gustados</div>
-    <div class="flex flex-col justify-center items-center">
+    <div class="flex flex-col justify-center items-center p-4 px-8 rounded-lg shadow-md">
       <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 md:gap-x-10 justify-center items-center">
         @for(comida of this.comidas ; track comida.id){
           <div class="flex flex-col justify-center items-center p-2">
