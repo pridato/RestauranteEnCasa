@@ -8,6 +8,7 @@ export enum TipoComidaImagen {
   POSTRE = 'assets/images/postre.png',
   BEBIDA = 'assets/images/bebida.png',
   FRUTA = 'assets/images/fruta.png', 
+  'COMIDAS RAPIDAS' = 'assets/images/rapido.png'
 }
 
 export type TipoComidaKeys = keyof typeof TipoComidaImagen;

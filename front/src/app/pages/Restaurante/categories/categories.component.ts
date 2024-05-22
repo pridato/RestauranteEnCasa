@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CategoriesService } from 'src/app/core/servicios/categories.service';
 import { TipoComidaImagen, TipoComidaKeys } from 'src/app/shared/enums/TipoComidaImagen';
+import {  categoriaEspecial } from 'src/app/shared/globales/globales';
 
 @Component({
   selector: 'app-categories',
@@ -19,6 +20,7 @@ export class CategoriesComponent {
 
   constructor(private categoriesSvc:CategoriesService) {
     this.getCategories()
+    
   }
 
   /**
@@ -27,6 +29,7 @@ export class CategoriesComponent {
   getCategories() {
     this.categoriesSvc.getCategories().subscribe(res => {
       this.categories = res
+      this.addLocalCategories()
     })
   }
 
@@ -36,13 +39,20 @@ export class CategoriesComponent {
    * @returns string de la url de la imagen de la categoria
    */
   getCategoryImageUrl(category: string): string {
-    console.log('category', category);
 
     if (category.toUpperCase() in TipoComidaImagen) {
       const categoria: TipoComidaKeys = category.toUpperCase() as TipoComidaKeys;
       return TipoComidaImagen[categoria];
     } else {
-      return 'url_por_defecto_para_categorias_desconocidas.jpg';
+      return 'assets/images/plato.png';
     }
+  }
+
+  /**
+   * metodo para añadir las categorias guardadas en globales
+   */
+  addLocalCategories() {
+    this.categories.push(categoriaEspecial)
+    console.log('categories', this.categories);
   }
 }
