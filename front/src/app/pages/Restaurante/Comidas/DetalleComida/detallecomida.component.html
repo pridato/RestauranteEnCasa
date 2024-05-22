@@ -1,4 +1,4 @@
-<div class="xl:mx-96 md:mx-32 border rounded-3xl px-4 py-4 mt-8 pb-5" id="detalle">
+<div class="xl:mx-96 md:mx-32 border rounded-3xl shadow-lg px-4 py-4 mt-8 pb-5" id="detalle">
   <a [routerLink]="['/Restaurante/Comidas']" class="flex w-20 h-12 justify-center items-center p-4 border border-orange-400 rounded-full text-orange-400 hover:text-white hover:bg-orange-400">
     <i class="text-2xl fa-solid fa-arrow-left"></i>
   </a>
@@ -41,27 +41,27 @@
       </div>
   </div>
   }
-  <div class="flex flex-col bg-white border-black rounded-b-2xl">
+  <div class="flex flex-col bg-white border-black rounded-2xl">
     <h3 class="flex justify-center font-semibold text-xl my-5">Valor Nutricional</h3>
-    <div class="grid grid-cols-3 mx-10 xl:mx-32 xl:pl-40">
+    <div class="grid grid-cols-3 mx-10 mb-5">
       <div class=""></div>
       <div class="text-gray-400">Por cada 100g</div>
       <div class="text-gray-400">Ración 400g</div>
 
-      <div class="flex flex-col gap-y-2">
+      <div class="flex flex-col gap-y-2 mt-5">
         <div class="">Calorias</div>
         <div class="">Carbohidratos</div>
         <div>Grasas</div>
         <div>Proteinas</div>
       </div>
       @if(this.comida) {
-        <div class="flex flex-col gap-y-2">
+        <div class="flex flex-col gap-y-2 mt-5">
           <div class="text-gray-500">{{this.comida.informacionAdicional.calorias}} Kcal</div>
           <div class="text-gray-500">{{this.comida.informacionAdicional.carbohidratos}} g</div>
           <div class="text-gray-500">{{this.comida.informacionAdicional.grasas}} g</div>
           <div class="text-gray-500">{{this.comida.informacionAdicional.proteinas}} g</div>
         </div>
-        <div class="flex flex-col gap-y-2 ">
+        <div class="flex flex-col gap-y-2 mt-5">
           <div class="text-gray-500">{{this.comida.informacionAdicional.calorias * 4}} Kcal</div>
           <div class="text-gray-500">{{this.comida.informacionAdicional.carbohidratos * 4}} g</div>
           <div class="text-gray-500">{{this.comida.informacionAdicional.grasas * 4}} g</div>

@@ -1,0 +1,13 @@
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-10 py-20 my-8 rounded-xl shadow-md border">
+  <!-- Iterar sobre las categorías -->
+  @for(category of categories; track category) {
+    <!-- Tarjeta de cada tipo con una imagen -->
+    <button class="shadow-sm border rounded-lg flex justify-center items-center flex-col">
+      <div class="absolute inset-x-0 top-0 h-6 bg-orange-400 rounded-xl"></div>
+      <!-- Imagen de la categoría -->
+      <img [src]="getCategoryImageUrl(category)" width="300" height="300" alt="">
+      <div>{{category}}</div>
+    </button>
+  }
+
+</div>

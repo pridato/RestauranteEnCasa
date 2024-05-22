@@ -27,4 +27,12 @@ public class ComidaService {
 
         return comida;
     }
+
+    /**
+     * metodo para obtener las categorias de las comidas
+     * @return lista de categorias
+     */
+    public List<String> getCategories() {
+        return this.comidaRepository.findAll().stream().map(Comida::getTipo).toList();
+    }
 }

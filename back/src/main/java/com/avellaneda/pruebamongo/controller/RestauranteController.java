@@ -35,4 +35,13 @@ public class RestauranteController {
     }
 
 
+    @GetMapping(value = "/get-categories", produces = "application/json", consumes = "application/json")
+    public ResponseEntity<?> getCategories(){
+        try {
+            List<String> categories = comidaService.getCategories();
+            return ResponseEntity.status(200).body(categories);
+        } catch(Exception e){
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
 }
