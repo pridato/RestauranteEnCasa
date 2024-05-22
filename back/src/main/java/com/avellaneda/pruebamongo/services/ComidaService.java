@@ -33,6 +33,6 @@ public class ComidaService {
      * @return lista de categorias
      */
     public List<String> getCategories() {
-        return this.comidaRepository.findAll().stream().map(Comida::getTipo).toList();
+        return this.comidaRepository.findAll().stream().map(Comida::getTipo).distinct().toList();
     }
 }
