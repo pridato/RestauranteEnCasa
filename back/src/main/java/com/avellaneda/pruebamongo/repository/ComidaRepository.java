@@ -7,4 +7,5 @@ import org.springframework.data.mongodb.repository.Query;
 import java.util.List;
 
 public interface ComidaRepository extends MongoRepository<Comida, String> {
+        List<Comida> findByTipo(String tipo);
 }

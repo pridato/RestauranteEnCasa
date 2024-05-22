@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { StorageService } from 'src/app/core/servicios/storage.service';
 import { TiposcomidaComponent } from './tiposComidas/tiposcomida.component';
 import { IComida } from 'src/app/core/models/comida';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RestService } from 'src/app/core/servicios/RestService.service';
 import { SpinnerComponent } from 'src/app/shared/componentes/spinner/spinner.component';
 import { SpinnerService } from 'src/app/core/servicios/spinner.service';
@@ -13,7 +13,7 @@ import { BusquedaComidasService } from 'src/app/core/servicios/busqueda-comidas.
 @Component({
   selector: 'app-comidas',
   standalone: true,
-  imports: [TiposcomidaComponent, RouterLink, SpinnerComponent, CommonModule, MatPaginatorModule],
+  imports: [TiposcomidaComponent,RouterLink, SpinnerComponent, CommonModule, MatPaginatorModule],
   providers: [SpinnerService],
   templateUrl: './comidas.component.html',
   styleUrl: './comidas.component.css'
@@ -22,22 +22,52 @@ export class ComidasComponent {
   
   comidas:IComida[] = []
 
-  constructor(private storage:StorageService, private rest:RestService, public spinner:SpinnerService, private busquedaSvc:BusquedaComidasService) {
+  titulo:String = 'Nuestros Platos'
+
+  constructor(private storage:StorageService,private route: ActivatedRoute, private rest:RestService, public spinner:SpinnerService, private busquedaSvc:BusquedaComidasService) {
+    this.loadAndFilterComidas();
     
-    // pendiente al cambio de ruta actualizar a travñes del parametro y siempre mandarlo
-    this.spinner.show()
-    const $_comidas = this.rest.obtenerComidas()
+  }
+
+  /**
+   * metodo para cargar las comidas y filtrarlas
+   */
+  private loadAndFilterComidas() {
+    const $_comidas = this.rest.obtenerComidas();
     $_comidas.subscribe(
-      
-      (comidas:IComida[]) => { 
-        this.storage.guardarComidas(comidas)
-        this.comidas = comidas
-        this.spinner.hide()
-        this.filtrarComidas()
+
+      (comidas: IComida[]) => {
+        this.readQueryParams()
+        this.storage.guardarComidas(comidas);
+        
+        this.comidas = comidas;
+        this.spinner.hide();
+        this.filtrarComidas();
         // recogemos el texto de busqueda
       }
     ),
-    (error: any) => console.log(error)
+      (error: any) => console.log(error);
+  }
+
+  /**
+   * metodo para leer los parametros de la query
+   */
+  readQueryParams() {
+    this.route.queryParams.subscribe(
+      params => {
+        // al iniciar acceder al parametro filter que se recibe desde categories para comenzar el filtrado
+        if (params['filter']) {
+          // seteamos titulo de la vista y mandamos a spring un filtrado x la categoria seleccionada
+          this.titulo = params['filter']
+
+          this.rest.filterByCategory(params['filter']).subscribe(
+            (comidas: IComida[]) => {
+              this.comidas = comidas
+            }
+          )
+        }
+      }
+    )
   }
 
   filtrarComidas() {

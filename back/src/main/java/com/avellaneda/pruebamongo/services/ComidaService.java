@@ -35,4 +35,13 @@ public class ComidaService {
     public List<String> getCategories() {
         return this.comidaRepository.findAll().stream().map(Comida::getTipo).distinct().toList();
     }
+
+    /**
+     * metodo para obtener las comidas por categoria
+     * @param category
+     * @return
+     */
+    public List<Comida> getComidaByCategory(String category) {
+        return this.comidaRepository.findByTipo(category);
+    }
 }

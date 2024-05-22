@@ -76,6 +76,12 @@ export class RestService {
     );
   }
 
+  public filterByCategory(category: string): Observable<IComida[]> {
+    return this._httpClient.get<IComida[]>(
+      springUrl + `/restaurantes/filter-by-category?category=${category}`
+    );
+  }
+
   
 
   //#region ZONA PEDIDOS

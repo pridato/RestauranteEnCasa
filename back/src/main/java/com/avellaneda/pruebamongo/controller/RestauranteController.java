@@ -44,4 +44,14 @@ public class RestauranteController {
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }
+
+    @GetMapping("/filter-by-category")
+    public ResponseEntity<?> getComidaByCategory(@RequestParam("category") String category){
+        try {
+            List<Comida> comidas = comidaService.getComidaByCategory(category);
+            return ResponseEntity.status(200).body(comidas);
+        } catch(Exception e){
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
 }
