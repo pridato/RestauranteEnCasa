@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { CategoriesService } from 'src/app/core/servicios/categories.service';
 import { TipoComidaImagen, TipoComidaKeys } from 'src/app/shared/enums/TipoComidaImagen';
 import {  categoriaEspecial } from 'src/app/shared/globales/globales';
@@ -7,7 +8,7 @@ import {  categoriaEspecial } from 'src/app/shared/globales/globales';
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
@@ -17,9 +18,6 @@ import {  categoriaEspecial } from 'src/app/shared/globales/globales';
 export class CategoriesComponent {
 
   categories: string[] = [];
-
-  // variable para guardar la categoria seleccionada
-  hoveredCategory: string | null = ''
 
   constructor(private categoriesSvc:CategoriesService) {
     this.getCategories()
