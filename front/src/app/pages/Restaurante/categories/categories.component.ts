@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { CategoriesService } from 'src/app/core/servicios/categories.service';
 import { TipoComidaImagen, TipoComidaKeys } from 'src/app/shared/enums/TipoComidaImagen';
@@ -6,7 +7,7 @@ import {  categoriaEspecial } from 'src/app/shared/globales/globales';
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
@@ -16,11 +17,12 @@ import {  categoriaEspecial } from 'src/app/shared/globales/globales';
 export class CategoriesComponent {
 
   categories: string[] = [];
-  TipoComidaImagen = TipoComidaImagen
+
+  // variable para guardar la categoria seleccionada
+  hoveredCategory: string | null = ''
 
   constructor(private categoriesSvc:CategoriesService) {
     this.getCategories()
-    
   }
 
   /**
@@ -39,11 +41,11 @@ export class CategoriesComponent {
    * @returns string de la url de la imagen de la categoria
    */
   getCategoryImageUrl(category: string): string {
-
     if (category.toUpperCase() in TipoComidaImagen) {
       const categoria: TipoComidaKeys = category.toUpperCase() as TipoComidaKeys;
       return TipoComidaImagen[categoria];
     } else {
+      // si no hay x defec. buscar esta imagen, pendiente sacarla de globales 
       return 'assets/images/plato.png';
     }
   }
@@ -53,6 +55,5 @@ export class CategoriesComponent {
    */
   addLocalCategories() {
     this.categories.push(categoriaEspecial)
-    console.log('categories', this.categories);
   }
 }

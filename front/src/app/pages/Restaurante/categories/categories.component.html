@@ -1,14 +1,23 @@
 <div class="flex flex-col items-center justify-center gap-y-5 mt-10 container">
-  <div class="text-3xl w-[80%] border bg-orange-700 rounded-lg text-white px-4 py-2 flex items-center justify-center">¿Qué te apetece comer hoy?</div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-10 py-20 my-2 rounded-xl shadow-md border">
-    <!-- Iterar sobre las categorías -->
+  <!-- Título de la página -->
+  <div class="text-3xl w-[80%] border bg-[#692F3D] rounded-lg text-white px-8 py-4 flex items-center justify-center">¿Qué te apetece comer hoy?</div>
+  <!-- container grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 px-10 py-20 my-2">
     @for(category of categories; track category) {
       <!-- Tarjeta de cada tipo con una imagen -->
-      <button class="shadow-sm border rounded-lg flex justify-center items-center flex-col px-8 py-4">
-        <div class="absolute inset-x-0 top-0 h-6 bg-orange-400 rounded-xl"></div>
-        <!-- Imagen de la categoría -->
-        <img [src]="getCategoryImageUrl(category)" width="300" height="300" alt="">
-        <div>{{category}}</div>
+      <button 
+        (mouseenter)="hoveredCategory = category"
+        (mouseleave)="hoveredCategory = null"
+        class="relative transition-opacity duration-200 rounded-xl hover:border-x border-b border-[#692F3D]  hover:shadow-lg hover:scale-y-150 transform hover:z-10"
+      >
+        <!-- Rectángulo de color en la parte superior -->
+        <div class="absolute top-0 left-0 right-0 h-2 bg-[#692F3D] rounded-t-lg"></div>
+        <!-- Contenido de la tarjeta -->
+        <div class="shadow-sm border rounded-lg flex justify-center items-center flex-col px-8 py-4">
+          <!-- Imagen de la categoría -->
+          <img [src]="getCategoryImageUrl(category)" width="300" height="300" alt="">
+          <div>{{category}}</div>
+        </div>
       </button>
     }
   </div>

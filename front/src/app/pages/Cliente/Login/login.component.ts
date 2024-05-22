@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ICliente } from 'src/app/core/models/cliente';
 import { ICredenciales } from 'src/app/core/models/credenciales';
 import { RestService } from 'src/app/core/servicios/RestService.service';
 import { StorageService } from 'src/app/core/servicios/storage.service';
@@ -44,12 +45,18 @@ export class LoginComponent {
       if (email && jwt) {
         this.restService.getClientByEmail(email).subscribe(res => {
           // guardamos el cliente y el jwt
-          this.storage.guardarCliente(res)
-          this.storage.guardarJwt(jwt)
-          this.router.navigateByUrl('/Restaurante/Comidas')
+          this.updateStorageAndRedirect(res, jwt);
         })
       }
     })
+  }
+
+
+
+  private updateStorageAndRedirect(res: ICliente, jwt: any) {
+    this.storage.guardarCliente(res);
+    this.storage.guardarJwt(jwt);
+    this.router.navigateByUrl('/Restaurante/categories');
   }
 
   /**
@@ -65,9 +72,7 @@ export class LoginComponent {
       // obtenemos el rest message con todo 
       if (_res.codigo == 0){
         // si la respuesta de spring ha sido positiva guardamos tanto el cliente como el jwt
-        this.storage.guardarCliente(_res.datosCliente!)
-        this.storage.guardarJwt(_res.token!)
-        this.router.navigateByUrl('/Restaurante/Comidas')
+        this.updateStorageAndRedirect(_res.datosCliente!, _res.token)
 
       } else {
        throw new Error('Error en el login')
