@@ -42,6 +42,17 @@ public class ComidaService {
      * @return
      */
     public List<Comida> getComidaByCategory(String category) {
+        if(category.equals("COMIDAS RAPIDAS")) {
+        return this.getFoodFast();
+        }
         return this.comidaRepository.findByTipo(category);
+    }
+
+    /**
+     * metodo para obtener las comidas cuyo tiempo de preparacion es menor que 15 minutos
+     * @return
+     */
+    private List<Comida> getFoodFast() {
+        return this.comidaRepository.findAll().stream().filter(comida -> comida.getTiempoPreparacion() < 3).toList();
     }
 }
