@@ -56,7 +56,7 @@ export class LoginComponent {
   private updateStorageAndRedirect(res: ICliente, jwt: any) {
     this.storage.guardarCliente(res);
     this.storage.guardarJwt(jwt);
-    this.router.navigateByUrl('/Restaurante/categories');
+    this.getRedirectByRole(res.rol)
   }
 
   /**
@@ -104,5 +104,17 @@ export class LoginComponent {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  /**
+   * metodo para preparar un redirect para la funcion que deberia desempeñar ese usuario en concreto
+   * @param rol 
+   */
+  getRedirectByRole(rol:string) :void {
+    console.log(rol)
+    if(rol == 'ADMINISTRADOR') this.router.navigateByUrl('Dashboard/administrador')
+    else if(rol == 'CAMARERO') this.router.navigateByUrl('Dashboard/camarero')
+    else if(rol == 'COCINERO') this.router.navigateByUrl('Dashboard/cocinero')
+    else this.router.navigateByUrl('Restaurante/categories')
   }
 }

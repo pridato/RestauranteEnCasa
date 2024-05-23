@@ -73,8 +73,6 @@ export class PedidosChartComponent {
    * metodo que se encarga de cargar el grafico con los pedidos
    */
   updateChartData(): void {
-    console.log(this.counts)
-    console.log(this.dates)
 
     this.lineChartData = {
       datasets: [
