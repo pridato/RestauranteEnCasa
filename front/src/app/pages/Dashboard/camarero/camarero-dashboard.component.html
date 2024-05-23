@@ -7,15 +7,15 @@
       @for(i of this.mesas; track i) {
         @if(comprobarMesaOcupada(i)) {
           <!-- comidas para llevar -->
-          @for(comida of getComidasByMesa(i); track comida) {
-            <div  (click)=" this.marcarPedidoCompletado(i)" class="wobble-hor-top container relative">
-              <div class="cursor-pointer p-10 px-10 m-10 bg-amber-900 rounded-md text-center text-lg">{{ comida.nombreComida }}</div>
-              <!-- icono del numero de comidas -->
-              <div class="absolute top-0 right-0 mt-2 mr-2 bg-red-800 rounded-full text-white text-center text-lg w-8 h-8">
-                <span>{{ comida.cantidad }}</span>
-              </div>  
+          <div  (click)=" this.marcarPedidoCompletado(i)" class="wobble-hor-top container relative">
+            <div class="cursor-pointer p-10 px-10 m-10 bg-amber-900 rounded-md text-center text-lg">
+                @for(comida of getComidasByMesa(i); track comida) {
+                  {{ comida.nombreComida }}
+                }
+                <div class="absolute top-0 right-0 mt-2 mr-2 bg-red-800 rounded-full text-white text-center text-lg w-8 h-8">{{getComidasByMesa(i).length}}</div>
             </div>
-          }
+          </div>
+         
         } @else {
           <div class="cursor-pointer p-10 px-10 m-10 bg-amber-900 rounded-md text-center text-lg">{{ i }}</div>
         }
