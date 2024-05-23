@@ -43,7 +43,7 @@ public class ComidaService {
      */
     public List<Comida> getComidaByCategory(String category) {
         if(category.equals("COMIDAS RAPIDAS")) {
-        return this.getFoodFast();
+            return this.getFoodFast();
         }
         return this.comidaRepository.findByTipo(category);
     }

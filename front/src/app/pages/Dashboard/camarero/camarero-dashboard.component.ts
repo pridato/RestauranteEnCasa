@@ -33,9 +33,7 @@ export class CamareroDashboardComponent {
   getPedidos() {
     this.camareroSvc.cargarPedidos().subscribe(pedidos => {
       // añadir al array el nuevo array solo los cambios. Por ejem si se añade un pedido nuevo o si se elimina
-      
       this.comprobarCambiosPedido(pedidos);
-
       this.marcarMesaComoOcupadas()
       
       // lo mismo que en el dashboard de cocinero, el nombre del usuario y de las comidas tendremos que recuperarlas de rest
@@ -86,17 +84,20 @@ export class CamareroDashboardComponent {
     return pedido?.comidas || []
   }
 
+  /**
+   * metodo para marcar un pedido como completado 
+   * @param mesa index de la mesa señalada
+   */
   marcarPedidoCompletado(mesa:number) {
     const pedido = this.pedidos.find(pedido => pedido.mesa === mesa)
     pedido!.estado = 'Pendiente Pago'
-    console.log(pedido)
     // enviar a rest para actualizar el estado 
     this.camareroSvc.actualizarPedido(pedido!).subscribe(
       (data) => {
           this.toastr.success('Pedido completado')
           // eliminar el pedido de la lista
-          const index = this.pedidos.indexOf(pedido!)
-          this.pedidos.splice(index, 1)
+          // volvemos a setear el numero a la mesa en vez del nombre de la mesa
+          this.mesasOcupadas = this.mesasOcupadas.filter(m => m !== mesa)
           this.getPedidos()
       }
     )

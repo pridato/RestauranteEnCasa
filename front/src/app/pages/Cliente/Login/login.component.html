@@ -17,7 +17,7 @@
     <!-- inicio de formulario -->
     <form>
       <!-- google form -->
-      <button (click)="loginGoogle()"
+      <button (click)="loginGoogle()" type="button"
         class="group h-12 px-6 border-2 border-gray-300 rounded-full transition duration-300 hover:border-blue-400 focus:bg-blue-50 active:bg-blue-100">
         <div class="relative flex items-center space-x-4 justify-center">
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="absolute left-0 w-5" alt="google logo">
@@ -54,7 +54,7 @@
       </div>
       <!-- envio del button -->
       <div class="pt-4 flex justify-center">
-        <button (click)="login()"
+        <button (click)="login()" type="submit"
           class="w-full rounded-xl bg-[#A97D5D] hover:bg-[#6c4a32] text-white font-bold py-3 px-5 uppercase">
           Enviar
         </button>

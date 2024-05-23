@@ -27,12 +27,15 @@ export class AppComponent {
   title = 'proyecto';
 
   menu:boolean = false
-  pedido:boolean = false
+
+  showPedido:boolean = false
   user!:ICliente
   // enlace al dashborad del rol
   linkRol:string = ''
 
   mostrarNavbar: boolean = false;
+
+  //
   
   constructor(private router:Router, private storage:StorageService) {
     effect(()=>{
@@ -47,7 +50,14 @@ export class AppComponent {
   }
 
   onTogglePedido(pedidoState: boolean) {
-    this.pedido = pedidoState;
+    this.showPedido = pedidoState;
+  }
+
+  togglePedido() {
+    console.log('togglePedido')
+    if (this.showPedido) {
+      this.showPedido = false;
+    }
   }
 
   logout() {

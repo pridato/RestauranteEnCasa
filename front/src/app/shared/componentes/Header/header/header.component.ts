@@ -14,8 +14,8 @@ import { StorageService } from "src/app/core/servicios/storage.service";
     nav {
       background-color: #2f695C;
     }
-    .scale-up-tr{-webkit-animation:scale-up-tr .3s cubic-bezier(.39,.575,.565,1.000) both;animation:scale-up-tr .3s cubic-bezier(.39,.575,.565,1.000) both}
-    @-webkit-keyframes scale-up-tr{0%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:100% 0;transform-origin:100% 0}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0}}@keyframes scale-up-tr{0%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:100% 0;transform-origin:100% 0}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0}}
+    .scale-in-tr{-webkit-animation:scale-in-tr .5s cubic-bezier(.25,.46,.45,.94) both;animation:scale-in-tr .5s cubic-bezier(.25,.46,.45,.94) both}    @-webkit-keyframes scale-up-tr{0%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:100% 0;transform-origin:100% 0}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0}}@keyframes scale-up-tr{0%{-webkit-transform:scale(.5);transform:scale(.5);-webkit-transform-origin:100% 0;transform-origin:100% 0}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0}}
+    @-webkit-keyframes scale-in-tr{0%{-webkit-transform:scale(0);transform:scale(0);-webkit-transform-origin:100% 0;transform-origin:100% 0;opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0;opacity:1}}@keyframes scale-in-tr{0%{-webkit-transform:scale(0);transform:scale(0);-webkit-transform-origin:100% 0;transform-origin:100% 0;opacity:1}100%{-webkit-transform:scale(1);transform:scale(1);-webkit-transform-origin:100% 0;transform-origin:100% 0;opacity:1}}
     `
 })
 export class HeaderComponent {
@@ -46,6 +46,7 @@ export class HeaderComponent {
       this.cantidad = this.storage.comidasCompradas().length;
       // comprobamos el objeto cliente. Si se ha logueado redirigimos a Cliente/Panel
       this.user = this.storage.cliente();
+      console.log(this.user);
       this.linkRol = this.user.rol
         ? `Dashboard/${this.user.rol.toLowerCase()}`
         : "";
