@@ -29,9 +29,11 @@ export class StorageService {
 
   public comidas = signal<IComida[]>([])
   public comidasCompradas = signal<{comida: IComida, cantidad:number}[]>([])
+
   //#endregion
 
   //#region METODOS DE ALMACENAMIENTO
+
 
   guardarJwt(jwt:string) {
     this.jwt.set(jwt)

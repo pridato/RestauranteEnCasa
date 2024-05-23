@@ -42,7 +42,7 @@ export class DetallecomidaComponent {
   comprar() {
     // guardamos en tableSelected lo que haya por si mostramos o no la mesa
     // si se ha guardado la mesa guaramos la compra sino mostramos la mesa
-    if (this.storage.cliente().mesa! > 0) {
+    if (this.storage.cliente().mesa) {
       // si ya existe pasamos a la compra sino mostramos la mesa...
       this.aceptarCompra();
     } else {
@@ -56,7 +56,10 @@ export class DetallecomidaComponent {
    */
   aceptarCompra() {
     // en el boton de aceptar añadimos el ocultar y listooo
-    this.storage.cliente().mesa = this.tableSelected ? this.tableSelected : 0;
+    // si ya hemos guardado 1 vez la tabla no reescribimos el valor
+    if(this.tableSelected) 
+      this.storage.cliente().mesa = this.tableSelected 
+
     this.storage.guardarComidasCompradas(this.elementoComida);
     this.toastr.success(
       `Comida guardada ${this.elementoComida.comida.nombre}`,

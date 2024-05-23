@@ -30,8 +30,12 @@ export class CamareroDashboardComponent {
     }, 20000)
   }
 
+  /**
+   * metodo para obtener los pedidos de la base de datos
+   */
   getPedidos() {
     this.camareroSvc.cargarPedidos().subscribe(pedidos => {
+      console.log(pedidos)
       // añadir al array el nuevo array solo los cambios. Por ejem si se añade un pedido nuevo o si se elimina
       this.comprobarCambiosPedido(pedidos);
       this.marcarMesaComoOcupadas()
