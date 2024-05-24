@@ -6,6 +6,7 @@ import com.avellaneda.pruebamongo.services.ComidaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -45,11 +46,20 @@ public class RestauranteController {
         }
     }
 
-    @GetMapping("/filter-by-category")
+    @GetMapping(value = "/filter-by-category", produces = "application/json", consumes = "application/json")
     public ResponseEntity<?> getComidaByCategory(@RequestParam("category") String category){
         try {
             List<Comida> comidas = comidaService.getComidaByCategory(category);
             return ResponseEntity.status(200).body(comidas);
+        } catch(Exception e){
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/import-food")
+    public ResponseEntity<?> importFood(@RequestBody MultipartFile file){
+        try {
+           return comidaService.importFood(file);
         } catch(Exception e){
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }

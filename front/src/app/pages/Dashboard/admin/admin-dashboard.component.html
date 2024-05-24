@@ -20,7 +20,7 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <form action="">
-          <input type="file" name="file" id="file" accept=".xlsx">
+          <input (change)="onFileChange($event)" type="file" name="file" id="file" accept=".xlsx">
         </form>
       </mat-expansion-panel>
     </mat-accordion>

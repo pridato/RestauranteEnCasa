@@ -23,4 +23,15 @@ export class AdminDashboardService {
   public cargarPedidosTotalesRango(dateInicio:Date, dateFin:Date) :Observable<Map<Date, number>> {
     return this.http.get<Map<Date, number>>(`${springUrl}/Pedido/obtener-pedidos-rango-fechas?fechaInicio=${dateInicio}&fechaFin=${dateFin}`)
   }
+
+  /**
+   * metodo para importar comida a través de un archivo excel => admin-dashboard
+   * @param file  el archivo a importar
+   * @returns  response entity con el resultado de la importación
+   */
+  importFood(file:File) :Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${springUrl}/restaurantes/import-food`, formData)
+  }
 }

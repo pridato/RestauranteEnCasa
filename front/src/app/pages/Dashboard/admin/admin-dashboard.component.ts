@@ -12,6 +12,7 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import { DateFormatPipe } from 'src/app/shared/pipes/date-format.pipe';
 import { PedidosChartComponent } from './pedidos-chart/pedidos-chart.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -29,10 +30,28 @@ export class AdminDashboardComponent {
 
 
   // TODO Implementar import de comidas via excel
-  constructor(private adminSvc:AdminDashboardService) {
+  constructor(private adminSvc:AdminDashboardService, private toastr:ToastrService) { 
     this.adminSvc.cargarUsuariosConectados().subscribe(usuarios => {
       this.usuariosConectados = usuarios
     })
+  }
+
+  /**
+   * metodo para las importaciones de comida unicamente a través de excels
+   * @param event 
+   */
+  onFileChange(event:any) {
+    console.log(event.target.files[0])
+    const file = event.target.files[0]
+    this.adminSvc.importFood(file).subscribe(
+      res => {
+        this.toastr.success(res.mensaje, 'Comidas importadas')
+      },
+      err => {
+        // devolvemos el resultado de la operacion como toastr
+        this.toastr.error(err.error.mensaje, 'Error al importar comidas')
+      }
+    )
   }
 
 }
