@@ -15,7 +15,7 @@ import { BusquedaComidasService } from "src/app/core/servicios/busqueda-comidas.
   standalone: true,
   imports: [
     TiposcomidaComponent,
-    RouterLink,
+    RouterLink, 
     SpinnerComponent,
     CommonModule,
     MatPaginatorModule,

@@ -7,6 +7,7 @@ import com.avellaneda.pruebamongo.security.JwtTokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,71 +16,99 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-  private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-  // actualizado
-  @Autowired
-  private UsuarioRepository usuarioRepository;
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    // variable para controlar los intentos de login
+    private int tries = 0;
+    // actualizado
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-  @Autowired
-  private JwtTokenProvider jwtTokenProvider;
-  /**
-   *
-   * @param usuario
-   * @return enviamos el objeto usuario a crear y devolvemos el rest message con el usuario para angular
-   */
-  public RestMessage crearUsuario(Usuarios usuario) {
-    usuarioRepository.save(usuario);
-    RestMessage restMessage = new RestMessage();
-    restMessage.setCodigo(0);
-    restMessage.setDatosCliente(usuario);
-    restMessage.setMensaje("Cliente creado correctamente");
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
-    return restMessage;
-  }
+    @Autowired
+    // autowired al haberse configurado en securityconffig...
+    private PasswordEncoder passwordEncoder ;
 
-  /**
-   *
-   * @param email
-   * @param password
-   * @return logueamos el usuario y devolvemos el objeto de cliente con mensaje de todo ok. Pendiente mejorar insertando jwt
-   */
-  public RestMessage login(String email, String password) {
+    /**
+     * @param usuario
+     * @return enviamos el objeto usuario a crear y devolvemos el rest message con el usuario para angular
+     */
+    public RestMessage crearUsuario(Usuarios usuario) {
+        usuarioRepository.save(usuario);
+        RestMessage restMessage = new RestMessage();
+        restMessage.setCodigo(0);
+        restMessage.setDatosCliente(usuario);
+        restMessage.setMensaje("Cliente creado correctamente");
 
-    Usuarios usuario = usuarioRepository.findByEmailAndPassword(email, password);
-    RestMessage restMessage = new RestMessage();
-    // si hemos encontrado el objeto usuario está bien. TODO password hashed...
-    if(usuario != null) {
-      // una vez logueado lo insertamos en el message para enviar al controller y directo a angular... pendiente mejora verificación de si es cocinero.
-      // Por el momento no añadido.
-      restMessage.setCodigo(0);
-      restMessage.setDatosCliente(usuario);
-      restMessage.setToken(jwtTokenProvider.generarToken(usuario));
+        return restMessage;
     }
 
-    return restMessage;
-  }
+    /**
+     * @param email
+     * @param password
+     * @return logueamos el usuario y devolvemos el objeto de cliente con mensaje de todo ok. Pendiente mejorar insertando jwt
+     */
+    public RestMessage login(String email, String password) {
+
+        // rest message to notify angular
+        RestMessage restMessage = new RestMessage();
+        Usuarios usuarios = usuarioRepository.findByEmail(email);
+
+        // email no encontrado... devolver error
+        if (usuarios == null) {
+            restMessage.setCodigo(1);
+            restMessage.setMensaje("Email no encontrado");
+            restMessage.setOtrosDatos(tries);
+            return restMessage;
+        }
+
+        // encode la contraseña y comprobar si todo ok
+        // TODO encode en el registro...
+        // String passwordEncoded = passwordEncoder.encode(password);
+        // String passwordDTOEncoded = passwordEncoder.encode(usuarios.getPassword());
+
+        if(!password.equals(usuarios.getPassword())){
+            restMessage.setCodigo(1);
+            restMessage.setMensaje("Contraseña incorrecta");
+            restMessage.setOtrosDatos(tries);
+            return restMessage;
+        }
+
+        // si sigue aquí reiniciar errores y devolver okkk
+        restMessage.setCodigo(0);
+        restMessage.setDatosCliente(usuarios);
+        restMessage.setMensaje("Cliente logueado correctamente");
+
+        // mandamos el jwt para autorizar todas las operaciones
+        restMessage.setToken(jwtTokenProvider.generarToken(usuarios));
+
+        return restMessage;
+    }
 
     /**
      * a partir del email simplemente devolvemos el obj. usuario Recordar que lleva la seguridad de las jwt
+     *
      * @param email
      * @return
      */
     public Usuarios getUsuarioByEmail(String email) {
-      return this.usuarioRepository.findByEmail(email);
+        return this.usuarioRepository.findByEmail(email);
     }
 
-  /**
-   * a partir del id simplemente devolvemos el obj. usuario Recordar que lleva la seguridad de las jwt
-   * @param id
-   * @return
-   */
-  public Usuarios getUsuarioById(String id) {
-    Optional<Usuarios> usuariosOptional = this.usuarioRepository.findById(id);
-    Usuarios usuarios = null;
-    if(usuariosOptional.isPresent()){
-      usuarios = usuariosOptional.get();
-    }
+    /**
+     * a partir del id simplemente devolvemos el obj. usuario Recordar que lleva la seguridad de las jwt
+     *
+     * @param id
+     * @return
+     */
+    public Usuarios getUsuarioById(String id) {
+        Optional<Usuarios> usuariosOptional = this.usuarioRepository.findById(id);
+        Usuarios usuarios = null;
+        if (usuariosOptional.isPresent()) {
+            usuarios = usuariosOptional.get();
+        }
 
-    return usuarios;
-  }
+        return usuarios;
+    }
 }

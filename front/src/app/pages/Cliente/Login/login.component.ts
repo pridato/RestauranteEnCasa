@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { ICliente } from 'src/app/core/models/cliente';
 import { ICredenciales } from 'src/app/core/models/credenciales';
 import { RestService } from 'src/app/core/servicios/RestService.service';
@@ -21,7 +22,7 @@ export class LoginComponent {
     password: ''
   }
 
-  error = false
+  error = ''
   loggedIn!: boolean;
 
   mostrarPassword:boolean = false
@@ -31,7 +32,8 @@ export class LoginComponent {
   constructor (private restService:RestService, 
                private storage:StorageService, 
                private router:Router,
-               private route: ActivatedRoute) {
+               private route: ActivatedRoute,
+               private toastr: ToastrService) {
 
         this.readQueryParams()
   }
@@ -66,20 +68,19 @@ export class LoginComponent {
    *
    * @memberof LoginComponent
    */
-  async login() {
-    try {
-      const _res = await this.restService.login(this.credenciales)
-      // obtenemos el rest message con todo 
-      if (_res.codigo == 0){
-        // si la respuesta de spring ha sido positiva guardamos tanto el cliente como el jwt
-        this.updateStorageAndRedirect(_res.datosCliente!, _res.token)
-
-      } else {
-       throw new Error('Error en el login')
+   login() {
+    this.restService.login(this.credenciales).then(res => {
+      if(res.codigo === 0) {
+        // limpiamos errores
+        this.error = ''
+        this.updateStorageAndRedirect(res.datosCliente!, res.token);
+      } 
+    }).catch(err => {
+      this.error = err.error.mensaje
+      if(!this.error) {
+        this.toastr.error('Error no controlado', 'Error')
       }
-    } catch (error) {
-      this.error = true
-    }
+    })    
     
   }
 

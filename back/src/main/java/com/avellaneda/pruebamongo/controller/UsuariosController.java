@@ -45,7 +45,11 @@ public class UsuariosController {
   @GetMapping("/login")
   public ResponseEntity<?> getUsuarioByCredenciales(@RequestParam String email, @RequestParam String password) {
     RestMessage restMessage = userService.login(email, password);
-    return ResponseEntity.status(200).body(restMessage);
+    if (restMessage.getCodigo() == 0) {
+      return ResponseEntity.status(200).body(restMessage);
+    } else {
+      return ResponseEntity.status(401).body(restMessage);
+    }
   }
 
   @GetMapping("/get-cliente-email")
