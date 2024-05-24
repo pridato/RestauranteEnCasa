@@ -7,7 +7,7 @@ import {
   inject,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { ComidaPedido } from "src/app/core/models/ComidaPedido";
 import { IComida } from "src/app/core/models/comida";
@@ -35,7 +35,13 @@ export class ComidascompradasComponent {
 
   public comidasCompradas = this.storage.recuperarComidasCompradas();
 
-  constructor() {
+  constructor(private route:Router) {
+
+    // si el usuario se está moviendo x la app, ocultar el pedido
+    this.route.events.subscribe((event) => {
+      this.emitirPedido()
+    });
+    
     // si no hay usuario conectado redirigir ocultarla
     if(!this.storage.cliente().nombre) {
       this.emitirPedido()
@@ -47,10 +53,11 @@ export class ComidascompradasComponent {
   }
 
   /**
-   * emite el pedido y debería añadir a la base de datos el pedido realizado
+   * oculta el pedido, si está visible. Muestra el pedido si está oculto
    */
   emitirPedido() {
-    this.togglePedido.emit(!this.pedido);
+    // mandamos false siempre para evitar si está oculto mostrarlo x algun error 
+    this.togglePedido.emit(false);
   }
 
   handleCantidad(
