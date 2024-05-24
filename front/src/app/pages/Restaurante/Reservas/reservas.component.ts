@@ -27,7 +27,9 @@ export class ReservasComponent {
       this.selected = event
       this.mostrarDialog = true
     } else {
+      this.toastr.clear()
       this.toastr.error('La fecha seleccionada no puede ser anterior a la actual', 'Error reservando')
+      this.selected = null
     }
     
   }
