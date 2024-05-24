@@ -55,6 +55,11 @@ export class DetallecomidaComponent {
    *
    */
   aceptarCompra() {
+    if(this.tableSelected > 12 || this.tableSelected < 1) {
+      this.toastr.error("Mesa no existente, selecciona una entre 1 y 12", "Error");
+      this.showPedido = !this.showPedido;
+      return;
+    }
     // en el boton de aceptar añadimos el ocultar y listooo
     // si ya hemos guardado 1 vez la tabla no reescribimos el valor
     if(this.tableSelected) 
@@ -62,7 +67,7 @@ export class DetallecomidaComponent {
 
     this.storage.guardarComidasCompradas(this.elementoComida);
     this.toastr.success(
-      `Comida guardada ${this.elementoComida.comida.nombre}`,
+      `Comida guardada ${this.elementoComida.comida.nombre}, revise sus favoritos para procesar el pedido`,
       "Item añadido a gustado"
     );
   }

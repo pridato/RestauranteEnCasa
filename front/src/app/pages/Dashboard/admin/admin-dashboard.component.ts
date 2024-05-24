@@ -41,7 +41,6 @@ export class AdminDashboardComponent {
    * @param event 
    */
   onFileChange(event:any) {
-    console.log(event.target.files[0])
     const file = event.target.files[0]
     this.adminSvc.importFood(file).subscribe(
       res => {
