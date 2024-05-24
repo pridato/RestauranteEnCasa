@@ -17,7 +17,6 @@ export class RestService {
   //#region  ZONA CLIENTE
 
   insertCliente(cliente: ICliente): Promise<IRestMessage> {
-    console.log(springUrl + "/Cliente/add");
     return lastValueFrom(
       this._httpClient.post<IRestMessage>(springUrl + "/Cliente/add", cliente, {
         headers: new HttpHeaders({
@@ -49,7 +48,6 @@ export class RestService {
         }),
       });
     } catch (error) {
-      console.log("error", error);
     }
 
     return of("");
@@ -66,7 +64,6 @@ export class RestService {
   //#region ZONA RESTAURANTE
 
   public obtenerComidas(): Observable<IComida[]> {
-    console.log("llamada");
     return this._httpClient.get<IComida[]>(springUrl + "/restaurantes/comidas");
   }
 

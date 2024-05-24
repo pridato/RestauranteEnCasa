@@ -54,7 +54,6 @@ export class AppComponent {
   }
 
   togglePedido() {
-    console.log('togglePedido')
     if (this.showPedido) {
       this.showPedido = false;
     }

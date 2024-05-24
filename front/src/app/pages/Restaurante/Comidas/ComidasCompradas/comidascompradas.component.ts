@@ -67,7 +67,11 @@ export class ComidascompradasComponent {
    */
   realizarPedido() {
 
-    
+    if(this.storage.comidasCompradas().length === 0) {
+      this.toastr.error(`No hay comidas guardadas`, `Error`)
+      this.emitirPedido()
+      return
+    }
     // guardamos el id de la comida junto a su comida para enlazarlo en mongo
     let Idcomidas: ComidaPedido[] = [];
     let comidas: { comida: IComida; cantidad: number }[] = this.storage.comidasCompradas();

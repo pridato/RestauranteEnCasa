@@ -103,7 +103,6 @@ export class LoginComponent {
         window.location.href = res.url
       })
     } catch (error) {
-      console.log(error)
     }
   }
 
@@ -112,7 +111,6 @@ export class LoginComponent {
    * @param rol 
    */
   getRedirectByRole(rol:string) :void {
-    console.log(rol)
     if(rol == 'ADMINISTRADOR') this.router.navigateByUrl('Dashboard/administrador')
     else if(rol == 'CAMARERO') this.router.navigateByUrl('Dashboard/camarero')
     else if(rol == 'COCINERO') this.router.navigateByUrl('Dashboard/cocinero')
