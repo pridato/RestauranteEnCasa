@@ -6,12 +6,13 @@ import { ICliente } from 'src/app/core/models/cliente';
 import { Pedido } from 'src/app/core/models/pedido';
 import { RestService } from 'src/app/core/servicios/RestService.service';
 import { CamareroDashboardService } from 'src/app/core/servicios/camarero-dashboard.service';
+import { SpinnerComponent } from 'src/app/shared/componentes/spinner/spinner.component';
 import { mesas } from 'src/app/shared/globales/globales';
 
 @Component({
   selector: 'app-camarero-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SpinnerComponent],
   templateUrl: './camarero-dashboard.component.html',
   styleUrl: './camarero-dashboard.component.css'
 })
