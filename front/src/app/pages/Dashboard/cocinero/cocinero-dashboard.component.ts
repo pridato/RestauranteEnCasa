@@ -86,6 +86,7 @@ export class CocineroDashboardComponent implements OnInit {
     $respuesta.then(data => {
       if(data) {
         this.pedidos = this.pedidos.filter(p => p !== pedido);
+        this.toast.success('Pedido listo para servir', 'Pedido completado')
       }
     })
 
