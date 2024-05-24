@@ -26,9 +26,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   /**
    *
-   * @param request
-   * @param response
-   * @param chain
+   * @param request lee la request de angular en este caso, la propia url
+   * @param response respuesta de este mismo
+   * @param chain cadena de filtros para denegar acceso a la aplicacion
    * @throws IOException
    * @throws ServletException
    * Las request que tengan el header de Authorization y comiencen x bearer hacemos la validación del token. Si todo ok enviamos la request

@@ -19,9 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class SecurityConfig {
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
     JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
@@ -30,7 +27,7 @@ public class SecurityConfig {
     }
 
     /**
-     * @param http
+     * @param http configuramos la seguridad de la app
      * @return permitimos la conexion sin autentificar en Cliente y en todas las demas ha de estar
      * autentificado a través de jwt para garantizar una seguridad en la app
      * @throws Exception

@@ -73,6 +73,7 @@ public class GoogleLoginService {
     public RedirectView login(String code, String scope, String authuser, String prompt) {
         // 1º intercambiamos el token de autorizacion por el token de acceso
 
+        // creamos una url para acceder al token que nos habilita el acceso a la informacion del usuario
         HttpEntity<MultiValueMap<String, String>> request = createRequest(code);
         String accessToken = getAccessToken(request);
         Map<String, Object> userInfo = getUserInfo(accessToken);

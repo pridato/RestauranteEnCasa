@@ -24,7 +24,6 @@ public class PedidoController {
 
     @PostMapping("/add")
     public RestMessage anadirPedido(@RequestBody Pedido pedido) {
-        logger.info(pedido.toString());
         return pedidoService.addPedido(pedido);
     }
 
