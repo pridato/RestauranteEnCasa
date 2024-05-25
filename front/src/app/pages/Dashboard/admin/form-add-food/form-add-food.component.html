@@ -45,9 +45,6 @@
         </mat-form-field>
 
 
-
-
-
         <!-- precio y especificacion -->
         <div class="w-full flex items-center justify-center p-5 gap-x-5">
           <!-- precio -->
@@ -59,10 +56,12 @@
           <!-- Resumen -->
           <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
             <mat-label>Detalles</mat-label>
-            <input type="number" matInput placeholder="Detalles de la comida" required
+            <input type="text" matInput placeholder="Detalles de la comida" required
               class="w-full p-2 border rounded-md">
           </div>
         </div>
+
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperNext>Siguiente</button>
       </form>
     </mat-step>
 
@@ -96,14 +95,20 @@
             class="w-full p-2 border rounded-md">
         </div>
       </div>
+
+      <div class="flex items-center justify-center gap-x-3">
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperPrevious>Anterior</button>
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperNext>Siguiente</button>
+      </div>
+      
     </mat-step>
-    <!-- segundo input imagen -->
+    <!-- 3 input imagen -->
     <mat-step label="Imagen de la comida">
       <form action="" class="flex flex-col items-center justify-center mt-5">
         <div>b</div>
       </form>
     </mat-step>
-    <!-- tercer vista general del nuevo producto opcion guardar -->
+    <!-- 4 vista general del nuevo producto opcion guardar -->
     <mat-step label="Confirmar cambios">
       <form action="" class="flex flex-col items-center justify-center mt-5">
         <div>c</div>
