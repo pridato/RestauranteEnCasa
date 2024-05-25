@@ -14,7 +14,7 @@
           <!-- tipo -->
           <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
             <mat-label>Tipo</mat-label>
-            <input matInput placeholder="Tipo de comida" required class="w-full p-2 border rounded-md"
+            <input (input)="filterFoods($event)" matInput placeholder="Tipo de comida" required class="w-full p-2 border rounded-md"
               [matAutocomplete]="auto">
             <!-- tipos de comida -->
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">

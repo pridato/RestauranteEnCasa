@@ -67,6 +67,25 @@ export class FormAddFoodComponent {
     );
   }
 
+  /**
+   * metodo para filtrar los tipos de comida x los escritos por user
+   * @param value el input mismo pasado para sacar el nuevo buscador 
+   * @returns null
+   */
+  filterFoods(value:any) {
+    // antes de cada filtro reseteamos los tipos de comida para al ir borrando salgan más 
+    // lo llamamos aqui en vez de en el servicio para evitar problemas de async, sino podríamos crear otro obs. general para ambos y listo
+    this.formAddFoodService.getFoodTypes().subscribe(
+      (data) => {
+        this.foodTypes = data;
+        const filterValue = value.target.value.toLowerCase();
+        this.foodTypes = this.foodTypes.filter((food) =>
+          food.toLowerCase().includes(filterValue)
+        );
+      })
+   
+  }
+
   // METODOS PARA LOS CHIPS DE INGREDIENTES
 
   /**
