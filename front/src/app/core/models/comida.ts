@@ -1,5 +1,5 @@
 export interface IComida {
-  id: string;
+  id?: string;
     nombre: string;
     tipo: string;
     ingredientes: string[];

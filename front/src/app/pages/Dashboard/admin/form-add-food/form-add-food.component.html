@@ -1,0 +1,62 @@
+<div class="mt-5 w-full">
+  <mat-stepper [linear]="false">
+    <!-- 1º formulario básico de la comida nombre, valor nutr... -->
+    <mat-step label="Nueva comida">
+      <form action="" class="w-full flex flex-col items-center border justify-center mt-5">
+        <!-- form nombre <=> tipo -->
+        <div class="flex items-center justify-center w-full  p-5 gap-x-5">
+          <!-- nombre -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Nombre</mat-label>
+            <input matInput placeholder="Nombre de la comida" required class="w-full p-2 border rounded-md">
+          </div>
+
+          <!-- tipo -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Tipo</mat-label>
+            <input matInput placeholder="Tipo de comida" required class="w-full p-2 border rounded-md"
+              [matAutocomplete]="auto">
+            <!-- tipos de comida -->
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              @for (option of foodTypes; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-autocomplete>
+          </div>
+        </div>
+
+        <!-- ingredientes (array) -->
+        <mat-form-field class="w-full mt-2 px-5 flex flex-col items-center justify-center ">
+          <mat-label>Ingredientes</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Escribe ingredientes">
+            @for (ingrediente of comida.ingredientes; track ingrediente) {
+              <mat-chip-row (removed)="removeIngredient(ingrediente)" [editable]="true"
+                (edited)="editIngredient(ingrediente, $event)" [aria-description]="'press enter to edit ' + ingrediente">
+                {{ingrediente}}
+                <button matChipRemove [attr.aria-label]="'remove ' + ingrediente">
+                  <mat-icon>cancel</mat-icon>
+                </button>
+              </mat-chip-row>
+            }
+            <input class="w-full p-2 border rounded-md" matInput [matChipInputFor]="chipGrid"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addIngredient($event)" placeholder="Escribe ingredientes">
+          </mat-chip-grid>
+        </mat-form-field>
+      </form>
+    </mat-step>
+
+    <!-- segundo input imagen -->
+    <mat-step label="Imagen de la comida">
+      <form action="" class="flex flex-col items-center justify-center mt-5">
+        <div>b</div>
+      </form>
+    </mat-step>
+    <!-- tercer vista general del nuevo producto opcion guardar -->
+    <mat-step label="Confirmar cambios">
+      <form action="" class="flex flex-col items-center justify-center mt-5">
+        <div>c</div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>

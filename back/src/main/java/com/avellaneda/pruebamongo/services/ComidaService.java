@@ -2,6 +2,7 @@ package com.avellaneda.pruebamongo.services;
 
 import com.avellaneda.pruebamongo.Model.Comida;
 import com.avellaneda.pruebamongo.Model.RestMessage;
+import com.avellaneda.pruebamongo.enums.ClasesComida;
 import com.avellaneda.pruebamongo.repository.ComidaRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -86,6 +87,14 @@ public class ComidaService {
             restMessage.setMensaje("Error: No has importado ningun archivo");
             return ResponseEntity.status(500).body(restMessage);
         }
+    }
+
+    /**
+     * metodo para obtener las categorias de las comidas
+     * @return lista de categorias
+     */
+    public List<ClasesComida> getCategoriesEnum() {
+        return List.of(ClasesComida.values());
     }
 
     /**

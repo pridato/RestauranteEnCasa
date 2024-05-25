@@ -84,7 +84,7 @@ export class ComidascompradasComponent {
     let comidas: { comida: IComida; cantidad: number }[] = this.storage.comidasCompradas();
 
     for (let comida of comidas) {
-      Idcomidas.push({ comidaId: comida.comida.id, cantidad: comida.cantidad, nombreComida: comida.comida.nombre });
+      Idcomidas.push({ comidaId: comida.comida.id!, cantidad: comida.cantidad, nombreComida: comida.comida.nombre });
     }
     // creamos un objeto pedido añadiendo el id del cliente guardado en storage y como estado en preparación
     let pedido: Pedido = {

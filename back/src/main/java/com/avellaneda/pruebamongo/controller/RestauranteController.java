@@ -57,6 +57,15 @@ public class RestauranteController {
         }
     }
 
+    @GetMapping("get-categories-enum")
+    public ResponseEntity<?> getCategoriesEnum(){
+        try {
+            return ResponseEntity.status(200).body(comidaService.getCategoriesEnum());
+        } catch(Exception e){
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
     @PostMapping("/import-food")
     public ResponseEntity<?> importFood(@RequestBody MultipartFile file){
         try {
