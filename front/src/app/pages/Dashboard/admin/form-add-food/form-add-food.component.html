@@ -14,8 +14,8 @@
           <!-- tipo -->
           <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
             <mat-label>Tipo</mat-label>
-            <input (input)="filterFoods($event)" matInput placeholder="Tipo de comida" required class="w-full p-2 border rounded-md"
-              [matAutocomplete]="auto">
+            <input (input)="filterFoods($event)" matInput placeholder="Tipo de comida" required
+              class="w-full p-2 border rounded-md" [matAutocomplete]="auto">
             <!-- tipos de comida -->
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
               @for (option of foodTypes; track option) {
@@ -30,22 +30,73 @@
           <mat-label>Ingredientes</mat-label>
           <mat-chip-grid #chipGrid aria-label="Escribe ingredientes">
             @for (ingrediente of comida.ingredientes; track ingrediente) {
-              <mat-chip-row (removed)="removeIngredient(ingrediente)" [editable]="true"
-                (edited)="editIngredient(ingrediente, $event)" [aria-description]="'press enter to edit ' + ingrediente">
-                {{ingrediente}}
-                <button matChipRemove [attr.aria-label]="'remove ' + ingrediente">
-                  <mat-icon>cancel</mat-icon>
-                </button>
-              </mat-chip-row>
+            <mat-chip-row (removed)="removeIngredient(ingrediente)" [editable]="true"
+              (edited)="editIngredient(ingrediente, $event)" [aria-description]="'press enter to edit ' + ingrediente">
+              {{ingrediente}}
+              <button matChipRemove [attr.aria-label]="'remove ' + ingrediente">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
             }
             <input class="w-full p-2 border rounded-md" matInput [matChipInputFor]="chipGrid"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
               (matChipInputTokenEnd)="addIngredient($event)" placeholder="Escribe ingredientes">
           </mat-chip-grid>
         </mat-form-field>
+
+
+
+
+
+        <!-- precio y especificacion -->
+        <div class="w-full flex items-center justify-center p-5 gap-x-5">
+          <!-- precio -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Precio</mat-label>
+            <input type="number" matInput placeholder="Precio de la comida" required
+              class="w-full p-2 border rounded-md">
+          </div>
+          <!-- Resumen -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Detalles</mat-label>
+            <input type="number" matInput placeholder="Detalles de la comida" required
+              class="w-full p-2 border rounded-md">
+          </div>
+        </div>
       </form>
     </mat-step>
 
+    <mat-step label="Información adicional">
+      <!-- información Adicional (calorias, grasas, proteinas y carbohidratos)-->
+      <div class="w-full flex items-center justify-center p-5 gap-x-5">
+        <!-- calorias -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Calorias</mat-label>
+          <input type="number" matInput placeholder="Calorias de la comida" required
+            class="w-full p-2 border rounded-md">
+        </div>
+        <!-- grasas -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Grasas</mat-label>
+          <input type="number" matInput placeholder="Grasas de la comida" required class="w-full p-2 border rounded-md">
+        </div>
+
+      </div>
+      <div class="w-full flex items-center justify-center p-5 gap-x-5">
+        <!-- proteinas -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Proteinas</mat-label>
+          <input type="number" matInput placeholder="Proteinas de la comida" required
+            class="w-full p-2 border rounded-md">
+        </div>
+        <!-- carbohidratos -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Carbohidratos</mat-label>
+          <input type="number" matInput placeholder="Carbohidratos de la comida" required
+            class="w-full p-2 border rounded-md">
+        </div>
+      </div>
+    </mat-step>
     <!-- segundo input imagen -->
     <mat-step label="Imagen de la comida">
       <form action="" class="flex flex-col items-center justify-center mt-5">
