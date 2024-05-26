@@ -38,7 +38,7 @@
               </button>
             </mat-chip-row>
             }
-            <input class="w-full p-2 border rounded-md" matInput [matChipInputFor]="chipGrid"
+            <input name="chip" class="w-full p-2 border rounded-md" matInput [matChipInputFor]="chipGrid"
               [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
               (matChipInputTokenEnd)="addIngredient($event)" placeholder="Escribe ingredientes">
           </mat-chip-grid>
@@ -188,7 +188,7 @@
             <p>{{ comida.informacionAdicional.proteinas }}</p>
           </div>
           <div class="mb-4 flex items-center justify-center">
-            <h3 class="font-semibold">Carbohidratos:</h3>
+            <h3 class="font-semibold">Carbohidratos:</h3> 
             <p>{{ comida.informacionAdicional.carbohidratos }}</p>
           </div>
           <div class="mb-4 col-span-2 flex flex-col items-center justify-center">
