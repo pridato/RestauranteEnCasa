@@ -13,6 +13,8 @@ import {
   MatChipsModule,
 } from "@angular/material/chips";
 import { MatIconModule } from "@angular/material/icon";
+import { CommonModule } from "@angular/common";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-form-add-food",
@@ -24,6 +26,8 @@ import { MatIconModule } from "@angular/material/icon";
     MatInputModule,
     MatChipsModule,
     MatIconModule,
+    CommonModule,
+    FormsModule
   ],
   templateUrl: "./form-add-food.component.html",
   styleUrl: "./form-add-food.component.css",
@@ -33,6 +37,7 @@ export class FormAddFoodComponent {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   foodTypes: string[] = [];
+
   comida: IComida = {
     nombre: "",
     ingredientes: [],
@@ -49,8 +54,39 @@ export class FormAddFoodComponent {
     imagenBASE64: "",
   };
 
+  selectedImage: string | ArrayBuffer | null = null;
+
   constructor(private formAddFoodService: FormAddFoodService) {
     this.getFoodTypes();
+  }
+
+  /**
+   * metodo para guardar la comida registrada
+   */
+  saveFood() {
+    console.log(this.comida);
+  }
+
+  /**
+   * metodo para añadir la imagen de un plato
+   * @param event evento del input
+   */
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = (e) => {
+      this.selectedImage = e.target?.result as string;
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  /**
+   * metodo para abrir el explorador de archivos 
+   */
+  openFileInput() {
+    document.getElementById('dropzone-file')?.click();
   }
 
   /**
@@ -86,7 +122,9 @@ export class FormAddFoodComponent {
    
   }
 
-  // METODOS PARA LOS CHIPS DE INGREDIENTES
+
+
+  //#region  METODOS PARA LOS CHIPS DE INGREDIENTES
 
   /**
    * metodo para crear un nuevo ingrediente
@@ -135,4 +173,6 @@ export class FormAddFoodComponent {
       this.comida.ingredientes[index] = value;
     }
   }
+
+  //#endregion
 }
