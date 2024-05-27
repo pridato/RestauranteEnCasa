@@ -39,7 +39,7 @@ public class RestauranteController {
     public ResponseEntity<?> addFood(@RequestBody Comida comida){
         RestMessage message = comidaService.addFood(comida);
         try {
-            return ResponseEntity.status(message.getCodigo()).body(message.getMensaje());
+            return ResponseEntity.status(message.getCodigo()).body(message);
         } catch(Exception e){
             logger.error("Error: {}", e.getMessage());
             return ResponseEntity.status(500).body("Error: " + e.getMessage());

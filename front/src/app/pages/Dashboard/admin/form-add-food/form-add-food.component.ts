@@ -78,6 +78,7 @@ export class FormAddFoodComponent {
         }
       },
       (error) => {
+        console.log(error)
         this.toastr.error("Error al guardar la comida", "Error");
       }
     );
