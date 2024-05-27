@@ -21,4 +21,8 @@ public class RestMessage {
     private  Object otrosDatos;
 
 
+    public RestMessage(int codigo, String mensaje) {
+        this.codigo = codigo;
+        this.mensaje = mensaje;
+    }
 }

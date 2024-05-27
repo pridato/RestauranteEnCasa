@@ -117,8 +117,8 @@
     <!-- 3 input imagen -->
     <mat-step label="Imagen de la comida">
       <div class="mt-5 flex items-center justify-center w-full">
-        @if(selectedImage) {
-          <img [src]="selectedImage" [(ngModel)]="comida.imagenBASE64" alt="Imagen de la comida" class="w-[70%] h-[50%] object-cover rounded-lg" (click)="openFileInput()">
+        @if(this.comida.imagenBASE64) {
+          <img [src]="this.comida.imagenBASE64" [(ngModel)]="comida.imagenBASE64" name="img" alt="Imagen de la comida" class="w-[70%] h-[50%] object-cover rounded-lg" (click)="openFileInput()">
         }@else {
           <label for="dropzone-file"
             class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-300 hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-200 dark:hover:bg-gray-300">
@@ -135,7 +135,7 @@
           </label>
         }
         <!-- se saca fuera para k al seleccionar la imagen podamos invocar el input -->
-        <input id="dropzone-file" type="file" class="hidden" (change)="onFileSelected($event)" />
+        <input id="dropzone-file" type="file" class="hidden"  name="img" (change)="onFileSelected($event)" />
 
       </div>
 
@@ -193,13 +193,13 @@
           </div>
           <div class="mb-4 col-span-2 flex flex-col items-center justify-center">
             <h3 class="font-semibold">Imagen:</h3>
-            <ng-container *ngIf="selectedImage; else noImage">
-              <img [src]="selectedImage" alt="Imagen de la comida" class="w-auto h-auto rounded-lg cursor-pointer" (click)="openFileInput()">
+            <ng-container *ngIf="this.comida.imagenBASE64; else noImage">
+              <img [src]="this.comida.imagenBASE64" alt="Imagen de la comida" class="w-auto h-auto rounded-lg cursor-pointer" (click)="openFileInput()">
             </ng-container>
             <ng-template #noImage>
               <p>No se ha seleccionado ninguna imagen</p>
             </ng-template>
-            <input id="dropzone-file" type="file" class="hidden" (change)="onFileSelected($event)" />
+            <input id="dropzone-file" type="file" class="hidden" name="img" (change)="onFileSelected($event)" />
           </div>
         </div>
         <div class="flex items-center justify-center gap-x-3 mt-4">

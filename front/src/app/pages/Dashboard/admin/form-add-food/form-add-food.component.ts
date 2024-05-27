@@ -15,6 +15,8 @@ import {
 import { MatIconModule } from "@angular/material/icon";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { ToastrService } from "ngx-toastr";
+import { IRestMessage } from "src/app/core/models/message";
 
 @Component({
   selector: "app-form-add-food",
@@ -50,13 +52,14 @@ export class FormAddFoodComponent {
       grasas: 0,
       carbohidratos: 0,
     },
-    tiempoPreparacion: new Date(),
+    tiempoPreparacion: 0,
     imagenBASE64: "",
+    vecesComprado: 0
   };
 
   selectedImage: string | ArrayBuffer | null = null;
 
-  constructor(private formAddFoodService: FormAddFoodService) {
+  constructor(private formAddFoodService: FormAddFoodService, private toastr:ToastrService) {
     this.getFoodTypes();
   }
 
@@ -64,7 +67,20 @@ export class FormAddFoodComponent {
    * metodo para guardar la comida registrada
    */
   saveFood() {
-    console.log(this.comida);
+    this.formAddFoodService.saveFood(this.comida).subscribe(
+      (data:IRestMessage) => {
+        console.log(data);
+        // todo ok 201 <-> errores 400 / 500
+        if(data.codigo === 201){
+          this.toastr.success("Comida guardada correctamente", "Correcto");
+        } else {
+          this.toastr.error(data.error, "Error");
+        }
+      },
+      (error) => {
+        this.toastr.error("Error al guardar la comida", "Error");
+      }
+    );
   }
 
   /**
@@ -72,13 +88,25 @@ export class FormAddFoodComponent {
    * @param event evento del input
    */
   onFileSelected(event: any) {
-    const file = event.target.files[0];
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      this.convertToBase64(file);
+    }
+  }
+
+  /**
+   * metodo para convertir la imagen a base64
+   * @param file archivo a convertir 
+   */
+  convertToBase64(file: File): void {
     const reader = new FileReader();
-
-    reader.onload = (e) => {
-      this.selectedImage = e.target?.result as string;
+    reader.onload = () => {
+      this.comida.imagenBASE64 = reader.result + '';
     };
-
+    reader.onerror = (error) => {
+      console.error('Error: ', error);
+    };
     reader.readAsDataURL(file);
   }
 

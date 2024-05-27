@@ -1,8 +1,11 @@
 package com.avellaneda.pruebamongo.controller;
 
 import com.avellaneda.pruebamongo.Model.Comida;
+import com.avellaneda.pruebamongo.Model.RestMessage;
 import com.avellaneda.pruebamongo.repository.ComidaRepository;
 import com.avellaneda.pruebamongo.services.ComidaService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +18,8 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 public class RestauranteController {
 
+    private static final Logger logger = LogManager.getLogger(ComidaService.class);
+
 
     @Autowired
     private ComidaService comidaService;
@@ -26,6 +31,17 @@ public class RestauranteController {
             List<Comida> comidas = comidaService.getAllComida();
             return ResponseEntity.status(200).body(comidas);
         } catch(Exception e){
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("add-food")
+    public ResponseEntity<?> addFood(@RequestBody Comida comida){
+        RestMessage message = comidaService.addFood(comida);
+        try {
+            return ResponseEntity.status(message.getCodigo()).body(message.getMensaje());
+        } catch(Exception e){
+            logger.error("Error: {}", e.getMessage());
             return ResponseEntity.status(500).body("Error: " + e.getMessage());
         }
     }

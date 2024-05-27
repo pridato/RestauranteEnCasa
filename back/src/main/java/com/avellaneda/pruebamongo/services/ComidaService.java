@@ -39,6 +39,23 @@ public class ComidaService {
     }
 
     /**
+     * metodo para guardar una comida
+     * @param comida
+     * @return restMessage del resultado d la operacion
+     */
+    public RestMessage addFood(Comida comida) {
+        try {
+            this.comidaRepository.save(comida);
+            return new RestMessage(201, "Comida guardada correctamente");
+        } catch(Exception ex) {
+            logger.error("Error: {}", ex.getMessage());
+            return new RestMessage(400, "Error: " + ex.getMessage());
+        }
+
+    }
+
+
+    /**
      * metodo para obtener las categorias de las comidas
      * @return lista de categorias
      */
