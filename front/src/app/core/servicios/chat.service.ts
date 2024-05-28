@@ -3,6 +3,7 @@ import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
 import { webSocketUrl } from 'src/app/shared/globales/globales';
 import { ChatMessage } from '../models/ChatMessage';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,11 @@ export class ChatService {
 
   private stompClient: any;
 
-  constructor() { }
+  private messageSubject:BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([])
+
+  constructor() {
+    this.initConnectionSocket();
+   }
 
   /**
    * metodo para conectarnos con el websocket de spring a traves de sockjs
@@ -31,7 +36,7 @@ export class ChatService {
     this.stompClient.connect({}, () => {
       this.stompClient.subscribe(`/topic/${roomId}`, (message:any) => {
         const messageContent = JSON.parse(message.body);
-        console.log(messageContent);
+        this.messageSubject.next([...this.messageSubject.value, messageContent])
       });
     });
   }
@@ -39,10 +44,18 @@ export class ChatService {
   /**
    * metodo para enviar un mensaje a una sala -> si que lo manda al @MessageMapping
    * @param roomId string de la room que nos interesa
-   * @param message string del mensaje que queremos enviar
+   * @param message ChatMessage del mensaje que queremos enviar
    */
   sendMessage(roomId:string, message:ChatMessage){
-    this.stompClient.send(`/app/chat/${roomId}`, {}, JSON.stringify({message}));
+    this.stompClient.send(`/app/chat/${roomId}`, {}, JSON.stringify(message));
+  }
+
+  /**
+   * metodo para obtener todos los mensajes que se han enviado
+   * @returns 
+   */
+  getMessages() :Observable<ChatMessage[]>{
+    return this.messageSubject.asObservable()
   }
 
 }
