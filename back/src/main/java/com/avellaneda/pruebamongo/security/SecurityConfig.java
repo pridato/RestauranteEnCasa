@@ -39,6 +39,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request.requestMatchers(
                         new AntPathRequestMatcher("/Cliente/**")).permitAll())
                 .authorizeHttpRequests(request -> request.requestMatchers(
+                        new AntPathRequestMatcher("/chat-socket/**")).permitAll())
+                .authorizeHttpRequests(request -> request.requestMatchers(
                         new AntPathRequestMatcher("/google/**")).permitAll())
                 .authorizeHttpRequests(request -> request.requestMatchers(new
                                 AntPathRequestMatcher("/**"))
