@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { seguridadComidasGuard } from './core/guards/seguridad-comidas.guard';
 import { QuienesSomosComponent } from './pages/quienesSomos/quienes-somos.component';
+import { ChatComponent } from './pages/Chat/chat.component';
 
 export const routes: Routes = [
   {
@@ -15,6 +16,7 @@ export const routes: Routes = [
   {path: 'Dashboard',  canActivate: [seguridadComidasGuard], loadChildren: () => import('./pages/Dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES) },
   // redirigir directamente a registro
   { path: 'quienesSomos', component: QuienesSomosComponent},
+  {path: 'chat', component: ChatComponent},
   {
     path: '', redirectTo: '/Cliente/Login', pathMatch: 'full'
   },

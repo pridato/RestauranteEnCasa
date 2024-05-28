@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
+    "@types/sockjs-client": "^1.5.4",
     "angular-calendar": "^0.31.0",
     "angular-websocket": "^2.0.1",
     "chart.js": "^4.4.3",

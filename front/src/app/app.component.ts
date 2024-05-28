@@ -29,7 +29,7 @@ export class AppComponent {
   menu:boolean = false
 
   showPedido:boolean = false
-  user!:ICliente
+  user:ICliente | null = null
   // enlace al dashborad del rol
   linkRol:string = ''
 
