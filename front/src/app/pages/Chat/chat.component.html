@@ -1,3 +1,30 @@
 <div class="mt-14">
-  <p>chat works!</p>
+  <!-- background chat-->
+  <div class="bg-[#A97D5D] h-[100vh] w-[100vw] fixed top-0 right-0 z-10">
+    <!-- chat header -->
+    <div class="flex flex-row justify-between p-10 font-bold">
+      <h3 class="text-white ">Chat</h3>
+    </div>
+    <!-- chat body -->
+    <div class="flex flex-col">
+      <!-- chat messages -->
+      <div class="flex flex-col">
+        <div class="flex flex-row justify-between bg-[#F7DCB4] mt-5 mx-2 rounded-lg">
+          <div class="flex flex-row gap-x-5">
+            <img src="https://via.placeholder.com/150" alt="Imagen de la comida" class="w-20 h-20 rounded-2xl object-cover">
+            <div class="flex flex-col items-center justify-around">
+              <div class="flex items-center justify-between text-white">
+                <p class="">Nombre del usuario</p>
+              </div>
+              <div class="flex items-center justify-center text-white">
+                <p>mensaje del usuario</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- chat input -->
+      <div class="p-2 mb-5 flex justify-center items-center">
+        <input [(ngModel)]="this.message.message" type="text" class="bg-[#F7DCB4] text-black rounded-md text-lg px-2 py-1" placeholder="Escribe tu mensaje">
+        <button (click)="sendMessage()" class="bg-green-600 text-white rounded-md text-lg px-2 py-1">Enviar</button>
 </div>
