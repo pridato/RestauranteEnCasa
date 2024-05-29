@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import SockJS from 'sockjs-client';
 import { Stomp } from '@stomp/stompjs';
-import { webSocketUrl } from 'src/app/shared/globales/globales';
+import { springUrl, webSocketUrl } from 'src/app/shared/globales/globales';
 import { ChatMessage } from '../models/ChatMessage';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ChatService {
 
   private messageSubject:BehaviorSubject<ChatMessage[]> = new BehaviorSubject<ChatMessage[]>([])
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.initConnectionSocket();
    }
 
@@ -25,6 +26,9 @@ export class ChatService {
     const url = `${webSocketUrl}/chat-socket`
     const socket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
+
+     // Configurar el nivel de depuración para no mostrar logs
+     this.stompClient.debug = () => {};
   }
 
 
@@ -56,6 +60,10 @@ export class ChatService {
    */
   getMessages() :Observable<ChatMessage[]>{
     return this.messageSubject.asObservable()
+  }
+
+  getAllMessagesFromServer(): Observable<ChatMessage[]> {
+    return this.http.get<ChatMessage[]>(`${springUrl}/messages`);
   }
 
 }
