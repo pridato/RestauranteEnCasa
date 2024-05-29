@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { AfterViewInit, Component, ElementRef, EventEmitter, Output, ViewChild } from "@angular/core";
 import { FormsModule } from "@angular/forms";
+import { NavigationStart, Router } from "@angular/router";
 import { ChatMessage } from "src/app/core/models/ChatMessage";
 import { ICliente } from "src/app/core/models/cliente";
 import { ChatService } from "src/app/core/servicios/chat.service";
@@ -26,6 +27,7 @@ export class ChatComponent {
   };
 
   constructor(
+    private router: Router,
     private chatSvc: ChatService,
     private storageSvc: StorageService
   ) {
@@ -35,6 +37,14 @@ export class ChatComponent {
     this.user = this.storageSvc.cliente();
     this.chatSvc.joinRoom(defaultRoom);
     this.listenerMessage();
+
+    // cuando se cambie la ruta a login se cierra
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        if (event.url === "/Cliente/Login")
+        this.closeChat.emit(true);
+      }
+    });
   }
 
   /**

@@ -1,6 +1,6 @@
 <body class="flex flex-col items-center justify-center w-[30vw] fixed z-[90] rounded-xl bottom-0 right-0 h-1/2 bg-gray-50 text-gray-800 p-10" >
   <!-- Component Start -->
-  <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
+  <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden ">
     <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" (click)="toggleChatState()">
       <!-- img cerrar -->
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
@@ -12,7 +12,7 @@
       </svg>
     </button>
 
-    <div class="flex flex-col flex-grow h-0 p-4 overflow-auto relative " > 
+    <div class="flex flex-col flex-grow h-0 p-4 overflow-auto relative chat-container" > 
       <ng-container *ngFor="let message of messageList">
         <div class="flex w-full mt-2 space-x-3 max-w-xs" [ngClass]="{'ml-auto justify-end': message.user.id === user.id}">
           <div *ngIf="message.user.id !== user.id" class="flex-shrink-0 h-10 w-10 rounded-full">
