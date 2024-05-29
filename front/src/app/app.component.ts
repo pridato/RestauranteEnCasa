@@ -8,6 +8,7 @@ import { ComidasComponent } from './pages/Restaurante/Comidas/comidas.component'
 import { ComidascompradasComponent } from './pages/Restaurante/Comidas/ComidasCompradas/comidascompradas.component';
 import { ICliente } from './core/models/cliente';
 import { SpinnerComponent } from './shared/componentes/spinner/spinner.component';
+import { ChatComponent } from './pages/Chat/chat.component';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -19,6 +20,7 @@ import { SpinnerComponent } from './shared/componentes/spinner/spinner.component
     IconComponent, 
     ComidasComponent,
     ComidascompradasComponent,
+    ChatComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
@@ -27,7 +29,7 @@ export class AppComponent {
   title = 'proyecto';
 
   menu:boolean = false
-
+  showChat:boolean = false
   showPedido:boolean = false
   user:ICliente | null = null
   // enlace al dashborad del rol

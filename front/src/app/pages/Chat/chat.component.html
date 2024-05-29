@@ -1,31 +1,42 @@
-<div class="mt-14">
-  <!-- background chat-->
-  <div class="bg-[#A97D5D] h-[100vh] w-[100vw] fixed top-0 right-0 z-10">
-    <!-- chat header -->
-    <div class="flex flex-row justify-between p-10 font-bold">
-      <h3 class="text-white">Chat</h3>
-    </div>
-    <!-- chat body -->
-    <div class="flex flex-col h-[80vh] overflow-y-auto px-4">
-      <!-- chat messages -->
-      <div *ngFor="let msg of messageList" class="flex flex-col my-2">
-        <div [ngClass]="{'self-end': msg.user.id === user.id, 'self-start': msg.user.id !== user.id}" class="flex flex-row gap-x-5 bg-[#F7DCB4] p-4 rounded-lg">
-          <img src="https://via.placeholder.com/150" alt="Imagen del usuario" class="w-10 h-10 rounded-full object-cover">
-          <div class="flex flex-col">
-            <div class="text-gray-800 font-bold">
-              <p>{{ msg.user.nombre }}</p>
+<body class="flex flex-col items-center justify-center w-[30vw] fixed z-[90] rounded-xl bottom-0 right-0 h-1/2 bg-gray-50 text-gray-800 p-10">
+  <!-- Component Start -->
+  <div class="flex flex-col flex-grow w-full max-w-xl bg-white shadow-xl rounded-lg overflow-hidden">
+    <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-700" (click)="toggleChatState()">
+      <!-- img cerrar -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+        class="icon icon-tabler icon-tabler-x">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+        <path d="M18 6l-12 12" />
+        <path d="M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="flex flex-col flex-grow h-0 p-4 overflow-auto relative">
+      @for (message of this.messageList; track message) {
+        <div class="flex w-full mt-2 space-x-3 max-w-xs" [ngClass]="{'ml-auto justify-end': message.user.id === user.id}">
+          <div *ngIf="message.user.id !== user.id" class="flex-shrink-0 h-10 w-10 rounded-full">
+            <img [src]="getUserImage(message.user.rol)" alt="User Image" class="h-full w-full rounded-full object-cover">
+          </div>
+          <div>
+            <div [ngClass]="{'bg-blue-600 text-white rounded-l-lg rounded-br-lg': message.user.id === user.id, 'bg-gray-300 rounded-r-lg rounded-bl-lg': message.user.id !== user.id}" class="px-3 py-1 flex items-center justify-center">
+              <p class="text-sm">{{ message.message }}</p>
             </div>
-            <div class="text-gray-800">
-              <p>{{ msg.message }}</p>
-            </div>
+            <span class="text-xs text-gray-500 leading-none">2 min ago</span>
+          </div>
+          <div *ngIf="message.user.id === user.id" class="flex-shrink-0 h-10 w-10 rounded-full">
+            <img [src]="getUserImage(user.rol)" alt="User Image" class="h-full w-full rounded-full object-cover">
           </div>
         </div>
-      </div>
+      }
     </div>
-    <!-- chat input -->
-    <div class="p-2 mb-5 flex justify-center items-center">
-      <input [(ngModel)]="message.message" type="text" class="bg-[#F7DCB4] text-black rounded-md text-lg px-2 py-1 mr-2" placeholder="Escribe tu mensaje">
-      <button (click)="sendMessage()" class="bg-green-600 text-white rounded-md text-lg px-2 py-1">Enviar</button>
+
+    <!-- Chat input -->
+    <div class="bg-gray-300 p-4 flex">
+      <input class="flex items-center h-10 w-full rounded px-3 text-sm" type="text" placeholder="Type your message…"
+        [(ngModel)]="message.message">
+      <button class="ml-2 bg-blue-600 text-white p-2 rounded" (click)="sendMessage()">Enviar</button>
     </div>
   </div>
-</div>
+  <!-- Component End  -->
+</body>
