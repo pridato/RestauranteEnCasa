@@ -1,0 +1,121 @@
+<div class="xl:mx-96 md:mx-32 border rounded-3xl shadow-lg px-4 py-4 mt-8 pb-5" id="detalle">
+  <a [routerLink]="['/Restaurante/Comidas']" class="flex w-20 h-12 justify-center items-center p-4 border border-orange-400 rounded-full text-orange-400 hover:text-white hover:bg-orange-400">
+    <i class="text-2xl fa-solid fa-arrow-left"></i>
+  </a>
+  @if(!this.comida){
+    <div class="my-64 flex justify-center uppercase font-bold text-xl">Algo fue mal cargando el item {{this.id}}</div>
+  } @else {
+    <div class="xl:my-10 xl:py-5 grid grid-cols-1 xl:grid-cols-2">
+      <div class="font-bold flex flex-col items-center">
+        <img class="mb-10" [src]="comida.imagenBASE64" class="w-96 h-60  rounded-2xl object-cover mb-5"/>
+        <h3 class="text-amber-900 uppercase text-2xl font-semibold">{{this.comida.nombre}}</h3>
+        <!-- precio y tiempo -->
+        <div class="flex flex-col justify-center items-center">
+          <div class="text-sm my-2"><strong>{{this.comida.precio}}€</strong></div>
+          <div class="flex flex-row justify-center items-center">
+            <div class="text-sm my-1 text-[#9E9E9E]">Tiempo estimado: <strong>{{this.comida.tiempoPreparacion}} min</strong></div>
+            <!-- svg tiempo -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock-hour-1" width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="#9e9e9e" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+              <path d="M12 7v5" />
+              <path d="M12 12l2 -3" />
+            </svg>
+          </div>
+        </div>
+        <!-- guardar en favorito-->
+        <div class="w-full border flex items-center justify-center gap-x-2 px-28">
+          <button (click)="comprar()" class=" flex flex-row border bg-orange-500 rounded-2xl justify-center items-center text-white py-2 px-4 hover:bg-orange-600">
+            <div class="mr-4">Guardar Favoritos</div>
+            <!-- svg save -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-heart">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            </svg>
+          </button>
+
+        </div>  
+        
+        
+      </div>
+      <div class="">
+        <h2 class="font-sans px-10 py-2">{{this.comida.especificacion}}</h2>
+        <div class="mt-5 flex justify-center uppercase font-bold">¿Qué lleva?</div>
+        <div class="flex flex-col items-center justify-center">
+          <ul class="my-5 gap-y-2 flex flex-col justify-center items-center">
+              @for(ingrediente of this.comida.ingredientes; track ingrediente) {
+              <li class="text-gray-500">{{ingrediente}}</li>
+              }
+            </ul>
+          </div>
+      </div>
+  </div>
+  }
+  <div class="flex flex-col bg-white border-black rounded-2xl">
+    <h3 class="flex justify-center font-semibold text-xl my-5">Valor Nutricional</h3>
+    <div class="grid grid-cols-3 mx-10 mb-5">
+      <div class=""></div>
+      <div class="text-gray-400">Por cada 100g</div>
+      <div class="text-gray-400">Ración 400g</div>
+
+      <div class="flex flex-col gap-y-2 mt-5">
+        <div class="">Calorias</div>
+        <div class="">Carbohidratos</div>
+        <div>Grasas</div>
+        <div>Proteinas</div>
+      </div>
+      @if(this.comida) {
+        <div class="flex flex-col gap-y-2 mt-5">
+          <div class="text-gray-500">{{this.comida.informacionAdicional.calorias}} Kcal</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.carbohidratos}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.grasas}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.proteinas}} g</div>
+        </div>
+        <div class="flex flex-col gap-y-2 mt-5">
+          <div class="text-gray-500">{{this.comida.informacionAdicional.calorias * 4}} Kcal</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.carbohidratos * 4}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.grasas * 4}} g</div>
+          <div class="text-gray-500">{{this.comida.informacionAdicional.proteinas * 4}} g</div>
+        </div>
+      }
+      
+    </div>
+  </div>
+  
+</div>
+
+<!-- aviso de mesa input si no se ha seleccionado-->
+@if(this.showPedido) {
+  <div class="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-md">
+    <div class="bg-white rounded-lg p-8 shadow-lg">
+        <div class="flex flex-col justify-between items-center h-full">
+
+            <!-- imagne-->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin-question" width="52" height="52" viewBox="0 0 24 24" stroke-width="1.5" stroke="#A97D5D" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+              <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+              <path d="M14.997 19.317l-1.583 1.583a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 13.657 -5.584" />
+              <path d="M19 22v.01" />
+              <path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
+            </svg>
+
+            <p class="mt-4 text-xl font-bold text-gray-800 dark:text-gray-200">
+                Seleccionar mesa
+            </p>
+            <p class="px-6 py-2 text-xs text-gray-600 dark:text-gray-400">
+                ¿En que mesa estás sentado?
+            </p>
+            <!-- input del 1 al 12 -->
+            <input type="number" [(ngModel)]="tableSelected" class="w-full h-10 text-center border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent" placeholder="Mesa" />
+            <div class="flex items-center justify-between w-full gap-4 mt-8">
+              <button (click)="aceptarCompra(); this.showPedido = !this.showPedido;" type="button" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                    Aceptar
+                </button>
+                <button (click)="this.showPedido = !this.showPedido" type="button" class="py-2 px-4  bg-white hover:bg-gray-100 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-indigo-500w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>
+}

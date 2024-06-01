@@ -1,0 +1,29 @@
+<div class="slide-in-right absolute top-8 2xl:top-[10vh] right-0 h-[150vh] xl:h-screen px-5 z-10  bg-[#A97D5D]">
+  <div class="flex flex-row justify-between p-10 font-bold">
+    <h3 class="text-white ">Mi Pedido</h3>
+  </div>
+  <div class="flex flex-col">
+    @for(pedido of this.comidasCompradas; track pedido.comida.id){
+      <div class="flex flex-row justify-between bg-[#F7DCB4] mt-5 mx-2 rounded-lg">
+        <div class="flex flex-row gap-x-5">
+          <img [src]="pedido.comida.imagenBASE64" alt="Imagen de la comida" class="w-20 h-20 rounded-2xl object-cover">
+          <div class="flex flex-col items-center justify-around">
+            <div class="flex items-center justify-between text-white">
+              <p class="">{{pedido.comida.nombre}}</p>
+            </div>
+            <div class="flex items-center justify-center text-white">
+              <p>{{pedido.comida.precio}}€</p>
+              <button class="text-red-600 text-lg shake-lr mb-2 ml-2" (click)="handleCantidad('eliminar', pedido)"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    <!-- botón ordenar las comidas. Básicamente enviar a rest el pedido sin cambios... -->
+    <div class="p-2 mb-5 flex justify-center items-center">
+      <button (click)="this.realizarPedido()" class="bg-green-600 text-white rounded-md text-lg px-2 py-1">Enviar Order</button>
+    </div>
+  </div>
+</div>
+
+

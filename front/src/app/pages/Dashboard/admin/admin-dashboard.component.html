@@ -1,0 +1,46 @@
+<div class="flex flex-col w-full bg-[#F3F4F6] gap-y-5 min-w-[60vw] px-10 my-14 py-4 rounded-lg">
+  <!-- Header bienvenido usuario -->
+  <header>
+    <div class="w-full flex flex-col items-start justify-start">
+      <h1 class="text-5xl font-bold">Bienvenido {{this.cliente.nombre}}</h1>
+    </div>
+  </header>
+
+  <!-- vista administrador... -->
+  <div class="flex flex-col justify-around items-center gap-y-6 w-full">
+    <!-- importar excel -->
+    <mat-accordion class="w-full">
+      <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Importar Comidas
+          </mat-panel-title>
+          <mat-panel-description>
+
+            ¿Desea integrar nuevas comidas al menú?
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <!-- importar excel -->
+        <div class="flex flex-col items-center justify-center gap-y-3">
+          <form action="">
+            <input (change)="onFileChange($event)" type="file" name="file" id="file" accept=".xlsx">
+          </form>
+          
+          <!-- form add -->
+          <app-form-add-food></app-form-add-food>
+        </div>
+
+
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <h3 class="text-gray-700">Pedidos en la última semana: </h3>
+    <app-pedidos-chart class="w-full"></app-pedidos-chart>
+
+
+
+    <!-- pedidos registrados -->
+
+
+  </div>

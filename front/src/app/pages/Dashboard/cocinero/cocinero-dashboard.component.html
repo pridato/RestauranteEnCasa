@@ -1,0 +1,32 @@
+ <div class="text-lg flex flex-col justify-center items-center border gap-y-10 p-6 w-[1300px] border-lg mt-10">
+  <h1 class="text-9xl font-bold mb-4 p-2">Lista de Pedidos</h1>
+  <div class="flex overflow-x-auto items-start justify-center flex-wrap">
+    @if(this.pedidos.length > 0) {
+    <!-- Aquí se mostrarán los pedidos -->
+    @for(pedido of this.pedidos; track pedido) {
+    <!-- card de cada pedido -->
+    <div class="flex flex-col justify-center items-start border rounded-md p-10 max-w-[600px] mr-10 mb-10">
+      <h2 class="text-2xl font-semibold mb-2">{{ pedido.nombreUsuario }}</h2>
+      <p class="mb-2">Hora de pedido: {{ formatDate(pedido.horaPedido!) }}</p>
+      <div class="flex flex-col items-start justify-center w-full">
+        <span>Comidas pedidas:</span>
+        @for(comida of pedido.comidas; track comida) {
+          <!-- tenemos de aquí el id de la comida y la cantidad. Habría que sacar de spring el nombre a partir id-->
+          <div class="flex flex-row items-center justify-between gap-x-3">
+            <!-- primero hay que sacar el nombre de cada comida de spring -->
+            <span class="text-zinc-500 text-base">{{ comida.nombreComida }}</span>
+            <span class="text-base border px-1 rounded-md border-amber-950">{{ comida.cantidad }}</span>
+          </div>
+         
+        }
+      </div>
+      <!-- Agregar aquí un icono para indicar que el pedido está listo -->
+      <button (click)="marcarPedidoListo(pedido)" class="bg-[#A97D5D] text-white px-4 mt-4 py-2 rounded">
+        Marcar como listo
+      </button>
+    </div>
+    } } @else {
+    <div>No se ha procesado ningún pedido aún</div>
+    }
+  </div>
+</div>
