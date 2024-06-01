@@ -1,0 +1,216 @@
+<div class="mt-5 w-full">
+  <mat-stepper [linear]="false">
+    <!-- 1º formulario básico de la comida nombre, valor nutr... -->
+    <mat-step label="Nueva comida">
+      <form action="" class="w-full flex flex-col items-center border justify-center mt-5">
+        <!-- form nombre <=> tipo -->
+        <div class="flex items-center justify-center w-full  p-5 gap-x-5">
+          <!-- nombre -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Nombre</mat-label>
+            <input [(ngModel)]="comida.nombre" name="nombre" matInput placeholder="Nombre de la comida" required class="w-full p-2 border rounded-md">
+          </div>
+
+          <!-- tipo -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Tipo</mat-label>
+            <input [(ngModel)]="comida.tipo" name="tipo" (input)="filterFoods($event)" matInput placeholder="Tipo de comida" required
+              class="w-full p-2 border rounded-md" [matAutocomplete]="auto">
+            <!-- tipos de comida -->
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+              @for (option of foodTypes; track option) {
+              <mat-option [value]="option">{{option}}</mat-option>
+              }
+            </mat-autocomplete>
+          </div>
+        </div>
+
+        <!-- ingredientes (array) -->
+        <mat-form-field class="w-full mt-2 px-5 flex flex-col items-center justify-center ">
+          <mat-label>Ingredientes</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Escribe ingredientes">
+            @for (ingrediente of comida.ingredientes; track ingrediente) {
+            <mat-chip-row (removed)="removeIngredient(ingrediente)" [editable]="true"
+              (edited)="editIngredient(ingrediente, $event)" [aria-description]="'press enter to edit ' + ingrediente">
+              {{ingrediente}}
+              <button matChipRemove [attr.aria-label]="'remove ' + ingrediente">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+            }
+            <input name="chip" class="w-full p-2 border rounded-md" matInput [matChipInputFor]="chipGrid"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
+              (matChipInputTokenEnd)="addIngredient($event)" placeholder="Escribe ingredientes">
+          </mat-chip-grid>
+        </mat-form-field>
+
+
+        <!-- precio y especificacion -->
+        <div class="w-full flex items-center justify-center p-5 gap-x-5">
+          <!-- precio -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Precio</mat-label>
+            <div class="relative w-full">
+              <!-- svg euro -->
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="icon absolute left-2 top-1/2 transform -translate-y-1/2">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M17.2 7a6 7 0 1 0 0 10" />
+                <path d="M13 10h-8m0 4h8" />
+              </svg>
+              <input [(ngModel)]="comida.precio" name="precio" type="number" matInput placeholder="Precio de la comida" required
+                class="w-full p-2 pl-10 border rounded-md">
+            </div>
+          </div>
+          <!-- Resumen -->
+          <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+            <mat-label>Detalles</mat-label>
+            <input [(ngModel)]="comida.especificacion" name="detalles" type="text" matInput placeholder="Detalles de la comida" required
+              class="w-full p-2 border rounded-md">
+          </div>
+        </div>
+
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperNext>Siguiente</button>
+      </form>
+    </mat-step>
+
+    <!-- 2º información Adicional (calorias, grasas, proteinas y carbohidratos)-->
+    <mat-step label="Información adicional">
+
+      <div class="w-full flex items-center justify-center p-5 gap-x-5">
+        <!-- calorias -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Calorias</mat-label>
+          <input [(ngModel)]="comida.informacionAdicional.calorias" name="calorias" type="number" matInput placeholder="Calorias de la comida" required
+            class="w-full p-2 border rounded-md">
+        </div>
+        <!-- grasas -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Grasas</mat-label>
+          <input [(ngModel)]="comida.informacionAdicional.grasas" name="grasas" type="number" matInput placeholder="Grasas de la comida" required class="w-full p-2 border rounded-md">
+        </div>
+
+      </div>
+      <div class="w-full flex items-center justify-center p-5 gap-x-5">
+        <!-- proteinas -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Proteinas</mat-label>
+          <input [(ngModel)]="comida.informacionAdicional.proteinas" name="proteinas" type="number" matInput placeholder="Proteinas de la comida" required
+            class="w-full p-2 border rounded-md">
+        </div>
+        <!-- carbohidratos -->
+        <div class="flex flex-col items-start justify-center gap-y-2 w-full sm:w-1/2">
+          <mat-label>Carbohidratos</mat-label>
+          <input [(ngModel)]="comida.informacionAdicional.carbohidratos" name="carbohidratos" type="number" matInput placeholder="Carbohidratos de la comida" required
+            class="w-full p-2 border rounded-md">
+        </div>
+      </div>
+
+      <div class="flex items-center justify-center gap-x-3">
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperPrevious>Anterior</button>
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperNext>Siguiente</button>
+      </div>
+
+    </mat-step>
+
+    <!-- 3 input imagen -->
+    <mat-step label="Imagen de la comida">
+      <div class="mt-5 flex items-center justify-center w-full">
+        @if(this.comida.imagenBASE64) {
+          <img [src]="this.comida.imagenBASE64" [(ngModel)]="comida.imagenBASE64" name="img" alt="Imagen de la comida" class="w-[70%] h-[50%] object-cover rounded-lg" (click)="openFileInput()">
+        }@else {
+          <label for="dropzone-file"
+            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-300 hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-200 dark:hover:bg-gray-300">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+              </svg>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click para subir
+                  imagen</span> o arrastra y suelta</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG o JPG (MAX. 800x400px)</p>
+            </div>
+          </label>
+        }
+        <!-- se saca fuera para k al seleccionar la imagen podamos invocar el input -->
+        <input id="dropzone-file" type="file" class="hidden"  name="img" (change)="onFileSelected($event)" />
+
+      </div>
+
+      <div class="flex items-center justify-center gap-x-3 mt-4">
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperPrevious>Anterior</button>
+        <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperNext>Siguiente</button>
+      </div>
+    </mat-step>
+
+
+    <!-- 4 vista general del nuevo producto opcion guardar -->
+    <mat-step label="Confirmar cambios">
+      <div class="w-full flex flex-col items-center justify-center mt-5">
+        <h2 class="text-xl font-bold mb-4">Resumen de la nueva comida</h2>
+        <div class="w-full max-w-4xl p-4 border rounded-lg shadow-md bg-white grid grid-cols-2 gap-4">
+          <div class="flex items-center justify-center">
+            <h3 class="font-semibold">Nombre:</h3>
+            <p>{{ comida.nombre }}</p>
+          </div>
+          <div class="mb-4 flex items-center justify-center">
+            <h3 class="font-semibold">Tipo:</h3>
+            <p>{{ comida.tipo }}</p>
+          </div>
+          <div class="mb-4 col-span-2 flex flex-col items-center justify-center">
+            <h3 class="font-semibold">Ingredientes:</h3>
+            <div class="flex flex-wrap gap-2 justify-center">
+              <ng-container *ngFor="let ingrediente of comida.ingredientes">
+                <p>{{ ingrediente }}</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="mb-4 flex items-center justify-center">
+            <h3 class="font-semibold">Precio:</h3>
+            <p>{{ comida.precio }} €</p>
+          </div>
+          <div class="mb-4 flex items-center justify-center">
+            <h3 class="font-semibold">Especificación:</h3>
+            <p>{{ comida.especificacion }}</p>
+          </div>
+          <div class="mb-4 flex items-center justify-center">
+            <h3 class="font-semibold">Calorías:</h3>
+            <p>{{ comida.informacionAdicional.calorias }}</p>
+          </div>
+          <div class="mb-4 flex items-center justify-center">
+            <h3 class="font-semibold">Grasas:</h3>
+            <p>{{ comida.informacionAdicional.grasas }}</p>
+          </div>
+          <div class="mb-4 flex items-center justify-center">
+            <h3 class="font-semibold">Proteínas:</h3>
+            <p>{{ comida.informacionAdicional.proteinas }}</p>
+          </div>
+          <div class="mb-4 flex items-center justify-center">
+            <h3 class="font-semibold">Carbohidratos:</h3> 
+            <p>{{ comida.informacionAdicional.carbohidratos }}</p>
+          </div>
+          <div class="mb-4 col-span-2 flex flex-col items-center justify-center">
+            <h3 class="font-semibold">Imagen:</h3>
+            <ng-container *ngIf="this.comida.imagenBASE64; else noImage">
+              <img [src]="this.comida.imagenBASE64" alt="Imagen de la comida" class="w-auto h-auto rounded-lg cursor-pointer" (click)="openFileInput()">
+            </ng-container>
+            <ng-template #noImage>
+              <p>No se ha seleccionado ninguna imagen</p>
+            </ng-template>
+            <input id="dropzone-file" type="file" class="hidden" name="img" (change)="onFileSelected($event)" />
+          </div>
+        </div>
+        <div class="flex items-center justify-center gap-x-3 mt-4">
+          <button class="px-4 py-2 rounded-lg border my-3" mat-button matStepperPrevious>Anterior</button>
+          <button class="px-4 py-2 rounded-lg border my-3" mat-button (click)="saveFood()">Guardar</button>
+        </div>
+      </div>
+    </mat-step>
+    
+    
+
+
+  </mat-stepper>
+</div>

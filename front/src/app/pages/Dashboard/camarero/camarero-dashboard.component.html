@@ -1,0 +1,27 @@
+
+<div class="flex justify-center items-center rounded-md h-full mt-14">
+  <div class="container bg-amber-800 border border-gray-300 p-4 rounded-md">
+    <!-- primero vamos a hacer la prueba testeando como si hubiese 10 mesas.
+      Desde el dashboard de admin podría cambiar el número de mesas de 
+    -->
+    <div class="grid grid-cols-4 gap-4 text-white">
+      @for(i of this.mesas; track i) {
+        @if(comprobarMesaOcupada(i)) {
+          <!-- comidas para llevar -->
+          <div  (click)=" this.marcarPedidoCompletado(i)" class="wobble-hor-top container relative">
+            <div class="cursor-pointer p-10 px-10 m-10 bg-amber-900 rounded-md text-center text-lg">
+                @for(comida of getComidasByMesa(i); track comida) {
+                  {{ comida.nombreComida }}
+                }
+                <div class="absolute top-0 right-0 mt-2 mr-2 bg-red-800 rounded-full text-white text-center text-lg w-8 h-8">{{getComidasByMesa(i).length}}</div>
+            </div>
+          </div>
+         
+        } @else {
+          <div class="cursor-pointer p-10 px-10 m-10 bg-amber-900 rounded-md text-center text-lg">{{ i }}</div>
+        }
+       
+      }
+    </div>
+  </div>
+</div>
