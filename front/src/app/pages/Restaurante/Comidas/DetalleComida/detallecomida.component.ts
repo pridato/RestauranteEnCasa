@@ -1,4 +1,4 @@
-import { Component, Input, inject } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { RouterLink } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
@@ -15,6 +15,7 @@ import { StorageService } from "src/app/core/servicios/storage.service";
 })
 export class DetallecomidaComponent {
   @Input("id") id!: string;
+  @ViewChild('modalContent') modalContent!: ElementRef;
 
   private toastr = inject(ToastrService);
   private rest = inject(RestService);
@@ -34,6 +35,18 @@ export class DetallecomidaComponent {
 
   showPedido: boolean = false; // mostrar o no dialog para seleccionar mesa
   tableSelected!: number; // mesa seleccionada
+
+  /**
+   * metodo para una vez se presiona fuera del modal lo cierra
+   * @param event 
+   */
+  onBackdropClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    // si el target no esta dentro del modal lo cerramos, asi solo lo efectuamos en el resto de la pantalla que lo tenemos con el efecto de backdrop
+    if (!this.modalContent.nativeElement.contains(target)) {
+      this.showPedido = false;
+    }
+  }
 
   /**
    * metodo para alternar entre mostrar y no el aviso de tabla
@@ -72,3 +85,4 @@ export class DetallecomidaComponent {
     );
   }
 }
+

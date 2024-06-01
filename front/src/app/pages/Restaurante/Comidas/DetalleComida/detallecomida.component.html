@@ -1,4 +1,4 @@
-<div class="xl:mx-96 md:mx-32 border rounded-3xl shadow-lg px-4 py-4 mt-8 pb-5" id="detalle">
+<div  class="xl:mx-96 md:mx-32 border rounded-3xl shadow-lg px-4 py-4 mt-8 pb-5" id="detalle">
   <a [routerLink]="['/Restaurante/Comidas']" class="flex w-20 h-12 justify-center items-center p-4 border border-orange-400 rounded-full text-orange-400 hover:text-white hover:bg-orange-400">
     <i class="text-2xl fa-solid fa-arrow-left"></i>
   </a>
@@ -86,8 +86,8 @@
 
 <!-- aviso de mesa input si no se ha seleccionado-->
 @if(this.showPedido) {
-  <div class="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-md">
-    <div class="bg-white rounded-lg p-8 shadow-lg">
+  <<div (click)="onBackdropClick($event)" class="fixed inset-0 flex items-center justify-center backdrop-filter backdrop-blur-md">
+    <div #modalContent class="bg-white rounded-lg p-8 shadow-lg">
         <div class="flex flex-col justify-between items-center h-full">
 
             <!-- imagne-->
@@ -110,12 +110,9 @@
             <div class="flex items-center justify-between w-full gap-4 mt-8">
               <button (click)="aceptarCompra(); this.showPedido = !this.showPedido;" type="button" class="py-2 px-4  bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-white w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
                     Aceptar
-                </button>
-                <button (click)="this.showPedido = !this.showPedido" type="button" class="py-2 px-4  bg-white hover:bg-gray-100 focus:ring-indigo-500 focus:ring-offset-indigo-200 text-indigo-500w-full transition ease-in duration-200 text-center text-base font-semibold shadow-md focus:outline-none focus:ring-2 focus:ring-offset-2  rounded-lg ">
-                    Cancelar
-                </button>
+              </button>
             </div>
         </div>
     </div>
-  </div>
+  </div>>
 }
