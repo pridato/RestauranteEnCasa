@@ -81,22 +81,39 @@ public class PedidoService {
 
             // a partir del id de la comida lo dividimos entre el length de la lista
 
-            for (String id : idComidas) {
-                // sacamos la comida a partir del id y metemos el tiempo de preparacion
-                Comida comida = comidaRepository.findById(id).orElse(null);
-                if (comida != null) {
-
-                    int minutosPreparacion = (int) ChronoUnit.MINUTES.between(pedido.getHoraPedido().toInstant(), new Date().toInstant()) / idComidas.size();
-
-                    // aumentamos las veces que se ha preparado y lo dividimos entre este
-                    comida.setVecesComprado(comida.getVecesComprado() + 1);
-                    comida.setTiempoPreparacion(minutosPreparacion / comida.getVecesComprado());
-                    comidaRepository.save(comida);
-                }
-            }
+            this.calculatePreparationTime(idComidas, pedido);
             this.pedidoRepository.save(pedido);
         }
         return pedido != null;
+    }
+
+    /**
+     * metodo para calcular el tiempo de preparacion de un pedido
+     * @param foodIds las comidas de ese pedido en concreto
+     * @param pedido pedido a iterar
+     */
+    private void calculatePreparationTime(List<String> foodIds, Pedido pedido) {
+
+        int totalPreparationTime = (int) ChronoUnit.MINUTES.between(pedido.getHoraPedido().toInstant(), new Date().toInstant());
+
+        foodIds.stream()
+                .map(id -> comidaRepository.findById(id))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .forEach(food -> {
+                    // Increment the purchased count
+                    food.setVecesComprado(food.getVecesComprado() + 1);
+
+                    // Calculate the new average preparation time
+                    int totalAccumulatedTime = food.getTiempoPreparacion() * (food.getVecesComprado() - 1) + totalPreparationTime;
+                    int newPreparationTime = totalAccumulatedTime / food.getVecesComprado();
+
+                    // Update the food's preparation time
+                    food.setTiempoPreparacion(newPreparationTime);
+
+                    // Save the updated food in the repository
+                    comidaRepository.save(food);
+                });
     }
 
     /**

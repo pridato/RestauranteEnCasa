@@ -42,7 +42,7 @@ export class AppComponent {
   constructor(private router:Router, private storage:StorageService) {
     effect(()=>{
       this.user = this.storage.cliente()
-      this.linkRol = this.user.rol ? `Dashboard/${this.user.rol.toLowerCase()}` : ''
+      this.linkRol = this.user.rol ? `Dashboard/${this.user?.rol?.toLowerCase()}` : ''
     })
     
   }
