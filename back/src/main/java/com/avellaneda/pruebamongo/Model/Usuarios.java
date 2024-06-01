@@ -4,7 +4,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.processing.Generated;
 import java.util.Date;
 
 @RequiredArgsConstructor
@@ -25,12 +24,13 @@ public class Usuarios {
     private String email;
     @NonNull
     private String password;
-    @NonNull
-    private int telefono;
+    private long telefono;
     @NonNull
     private Date fechaRegistro;
     @NonNull
     private String rol;
+    @NonNull
+    private boolean emailVerificado;
 
     private int mesa;
 }

@@ -7,6 +7,7 @@ import { ICliente } from "../models/cliente";
 import { IComida } from "../models/comida";
 import { springUrl } from "src/app/shared/globales/globales";
 import { Pedido } from "../models/pedido";
+import { Usuario } from "../models/usuario";
 
 @Injectable({
   providedIn: "root",
@@ -16,7 +17,7 @@ export class RestService {
 
   //#region  ZONA CLIENTE
 
-  insertCliente(cliente: ICliente): Promise<IRestMessage> {
+  insertCliente(cliente: Usuario): Promise<IRestMessage> {
     return lastValueFrom(
       this._httpClient.post<IRestMessage>(springUrl + "/Cliente/add", cliente, {
         headers: new HttpHeaders({

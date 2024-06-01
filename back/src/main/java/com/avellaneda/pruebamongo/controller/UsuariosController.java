@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.avellaneda.pruebamongo.repository.UsuarioRepository;
+import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/Cliente")
@@ -25,8 +26,22 @@ public class UsuariosController {
 
   @PostMapping("/add")
   public ResponseEntity<?> saveUsuario(@RequestBody Usuarios usuario) {
-    RestMessage restMessage = userService.crearUsuario(usuario);
-    return ResponseEntity.status(200).body(restMessage);
+    try {
+      RestMessage restMessage = userService.crearUsuario(usuario);
+      return ResponseEntity.status(restMessage.getCodigo()).body(restMessage);
+    } catch(Exception e) {
+      RestMessage restMessage = new RestMessage();
+        restMessage.setCodigo(500);
+        restMessage.setMensaje("Error: " + e.getMessage());
+      return ResponseEntity.status(restMessage.getCodigo()).body(restMessage);
+    }
+
+  }
+
+  @GetMapping("/verify-email")
+  public RedirectView verifyEmail(@RequestParam("email") String email, @RequestParam("jwt") String token) {
+      RestMessage restMessage = userService.verifyEmail(email, token);
+      return new RedirectView("http://localhost:4200/");
   }
 
 

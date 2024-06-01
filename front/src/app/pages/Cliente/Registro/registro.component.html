@@ -1,35 +1,39 @@
-<div class="container w-full border rounded-lg flex flex-col justify-center items-center p-5">
+<div class="container w-full border shadow-xl rounded-lg flex flex-col justify-center items-center p-5 mt-24">
   <!-- titulo vista -->
-  <h1 class="text-4xl text-center font-bold mb-5">
+  <h1 class="text-5xl text-center font-bold mb-5">
     Registro
   </h1>
 
+  @if (this.errorForm) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+      <strong class="font-bold">Error!</strong>
+      <span class="block sm:inline">{{ this.errorForm }}</span>
+    </div>
+  }
+  <div></div>
   <!-- contenedor del form -->
   <form class="flex flex-col items-start justify-center w-full mb-4">
-
     <!-- contenedor nombre y apellido -->
-    <div class="flex flex-row items-center justify-between w-full gap-x-16">
-
+    <div class="flex flex-row items-center justify-between w-full">
       <!-- nombre input -->
       <div class="mb-4 block text-gray-700 font-bold">
         <label class="flex py-2" for="nombre"> Nombre </label>
         <input
           [(ngModel)]="cliente.nombre"
           name="nombre"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="nombre"
           type="text"
           placeholder="Nombre"
         />
       </div>
-
       <!-- apellido input -->
       <div class="mb-4 block text-gray-700 text-sm font-bold">
-        <label class="flex py-2" for="apellido"> Apellido </label>
+        <label class="flex py-2" for="apellido"> Apellidos </label>
         <input
           [(ngModel)]="cliente.apellido"
           name="apellido"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="apellido"
           type="text"
           placeholder="Apellido"
@@ -46,9 +50,9 @@
       <div class="mb-4 block text-gray-700 text-sm font-bold">
         <label class="flex py-2" for="email"> Email </label>
         <input
-          [(ngModel)]="cliente.credenciales.email"
+          [(ngModel)]="cliente.email"
           name="email"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="email"
           type="email"
           placeholder="Email"
@@ -59,9 +63,9 @@
       <div class="mb-4 block text-gray-700 text-sm font-bold">
         <label class="flex py-2" for="password"> Contraseña </label>
         <input
-          [(ngModel)]="cliente.credenciales.password"
+          [(ngModel)]="cliente.password"
           name="password"
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           id="Contraseña"
           type="password"
           placeholder="Contraseña"
@@ -76,7 +80,7 @@
       <input
         [(ngModel)]="cliente.telefono"
         name="telefono"
-        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         id="telefono"
         type="number"
         placeholder="Teléfono"
@@ -85,14 +89,12 @@
 
     <!-- opcion rol -->
     <div class="flex flex-col items-center justify-center gap-y-2 font-bold w-full">
-      <label for="tipoUsuario">Tipo de Usuario:</label>
-      <select [(ngModel)]="this.cliente.rol" name="tipoUsuario" class="shadow appearance-none w-full p-1 px-4 border rounded-md bg-gray-50 border-gray-300 text-gray-900">
-          <option value="USUARIO" selected>Usuario</option>
-          <option value="ADMINISTRADOR">Administrador</option>
-          <option value="COCINERO">Cocinero</option>
-          <option value="CAMARERO">Camarero</option>
+      <mat-label>Tipo de Usuario:</mat-label>
+      <select matNativeControl required [(ngModel)]="cliente.rol" name="tipoUsuario" class="shadow appearance-none w-full p-1 px-4 border rounded-md bg-gray-50 border-gray-300 text-gray-900">
+          <option *ngFor="let userType of userTypes" [value]="userType">{{ userType }}</option>
       </select>
   </div>
+  
 
 
     <div class="pt-4 flex justify-center w-full">
@@ -102,6 +104,11 @@
       >
       Enviar
       </button>
+    </div>
+
+    <!-- spinner-->
+    <div class="flex justify-center mt-4" *ngIf="showSpinner">
+      <mat-spinner diameter="30"></mat-spinner>
     </div>
   </form>
 

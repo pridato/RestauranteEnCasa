@@ -4,9 +4,12 @@ import com.avellaneda.pruebamongo.Model.RestMessage;
 import com.avellaneda.pruebamongo.Model.Usuarios;
 import com.avellaneda.pruebamongo.repository.UsuarioRepository;
 import com.avellaneda.pruebamongo.security.JwtTokenProvider;
+import com.avellaneda.pruebamongo.utils.Consts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,7 @@ import java.util.UUID;
 
 @Service
 public class UserService {
+
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     // variable para controlar los intentos de login
@@ -28,18 +32,126 @@ public class UserService {
 
     @Autowired
     // autowired al haberse configurado en securityconffig...
-    private PasswordEncoder passwordEncoder ;
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     /**
      * @param usuario
      * @return enviamos el objeto usuario a crear y devolvemos el rest message con el usuario para angular
      */
     public RestMessage crearUsuario(Usuarios usuario) {
-        usuarioRepository.save(usuario);
+
+        // 1º comprobamos todos los errores posibles del formulario
         RestMessage restMessage = new RestMessage();
-        restMessage.setCodigo(0);
+        restMessage = checkErrores(usuario);
+
+        if(!restMessage.getError().equals(""))  {
+            // hay errores del form
+            return restMessage;
+        }
+
+        usuario.setEmailVerificado(false);
+
+
+        // generamos un jwt para enviar x el email a la confirmacion verificando que es esa persona
+        String jwt = jwtTokenProvider.generarToken(usuario);
+
+        String subject = "Verificación de correo electrónico";
+
+        String text = "Hola,\n\n"
+                + "Gracias por registrarte. Para verificar tu correo electrónico, haz clic en el siguiente enlace:\n\n"
+                + Consts.URL + "/Cliente/verify-email?email=" + usuario.getEmail() + "&jwt=" + jwt + "\n\n" + "Atentamente,\n"
+                + "TuRestauranteEnCasa";
+
+        try {
+            // enviamos el email al usuario para verificar
+            SimpleMailMessage SMmessage = new SimpleMailMessage();
+            SMmessage.setTo(usuario.getEmail());
+            SMmessage.setSubject(subject);
+            SMmessage.setText(text);
+            mailSender.send(SMmessage);
+
+            usuarioRepository.save(usuario);
+
+
+        } catch(Exception ex) {
+            logger.error("Error al enviar el email de verificación", ex);
+            restMessage.setCodigo(500);
+            restMessage.setMensaje("Error al enviar el email de verificación");
+            return restMessage;
+        }
+
+
+        restMessage.setCodigo(200);
+        restMessage.setMensaje("Usuario creado correctamente");
         restMessage.setDatosCliente(usuario);
-        restMessage.setMensaje("Cliente creado correctamente");
+        return restMessage;
+    }
+
+    /**
+     * metodo para comprobar que todos los validadores del formulario son correctos
+     * @param usuario usuario a verificar
+     * @return si hay algo mal devuelve rest message 500 con el mensaje de error
+     */
+    private RestMessage checkErrores(Usuarios usuario) {
+        RestMessage restMessage = new RestMessage();
+        restMessage.setError(""); // -> si se mantiene asi es xk no ha habido errores
+        restMessage.setCodigo(400);
+
+        if(usuario.getEmail().isEmpty()) {
+            restMessage.setError("*El email es obligatorio");
+        } else if(!usuario.getEmail().contains("@")) {
+            restMessage.setError("*El email no tiene el formato correcto");
+        }
+
+        if(usuario.getPassword().isEmpty()) {
+            restMessage.setError("*La contraseña es obligatoria");
+        } else if (!usuario.getPassword().matches("^(?=.*[A-Z])(?=.*\\d).{6,}$")) {
+            restMessage.setError("*La contraseña debe tener al menos 6 caracteres, una mayúscula y un número");
+        }
+
+        // comprobamos que el email no exista ya
+        boolean existeEmail = usuarioRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(usuario.getEmail()));
+
+        if(existeEmail) {
+            restMessage.setError("*El email está en uso");
+        }
+
+        // comprobamos que el telefono tiene 9 caracteres
+        if (String.valueOf(usuario.getTelefono()).length() != 9) {
+            restMessage.setError("*El teléfono debe tener 9 caracteres");
+        }
+
+        return restMessage;
+    }
+
+    /**
+     * metodo para verificar el email del usuario, si el jwt es invalido no deja
+     * @param email email de quien se ha creado la cuenta
+     * @param token jwt creado a partir del user
+     * @return rest message con el result. operacion
+     */
+    public RestMessage verifyEmail(String email, String token) {
+        RestMessage restMessage = new RestMessage();
+        Usuarios usuario = usuarioRepository.findByEmail(email);
+
+        if (usuario == null) {
+            restMessage.setCodigo(1);
+            restMessage.setMensaje("Email no encontrado");
+            return restMessage;
+        }
+
+        if (!jwtTokenProvider.validateToken(token).isEmpty()) {
+            usuario.setEmailVerificado(true);
+            usuarioRepository.save(usuario);
+            restMessage.setCodigo(200);
+            restMessage.setMensaje("Email verificado correctamente");
+        } else {
+            restMessage.setCodigo(1);
+            restMessage.setMensaje("Token inválido");
+        }
 
         return restMessage;
     }
@@ -68,9 +180,18 @@ public class UserService {
         // String passwordEncoded = passwordEncoder.encode(password);
         // String passwordDTOEncoded = passwordEncoder.encode(usuarios.getPassword());
 
+
+
         if(!password.equals(usuarios.getPassword())){
             restMessage.setCodigo(1);
             restMessage.setMensaje("Contraseña incorrecta");
+            restMessage.setOtrosDatos(tries);
+            return restMessage;
+        }
+
+        if(!usuarios.isEmailVerificado()) {
+            restMessage.setCodigo(1);
+            restMessage.setMensaje("Email no verificado");
             restMessage.setOtrosDatos(tries);
             return restMessage;
         }

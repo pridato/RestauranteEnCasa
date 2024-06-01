@@ -1,15 +1,25 @@
-import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule, FormControl, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { ICliente } from 'src/app/core/models/cliente';
 import { RestService } from 'src/app/core/servicios/RestService.service';
+import {MatSelectModule} from '@angular/material/select';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { UserTypes } from 'src/app/shared/enums/UsersTypes';
+import { Usuario } from 'src/app/core/models/usuario';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registro',
   standalone: true,
   imports : [
-    ReactiveFormsModule, FormsModule, RouterLink
+    ReactiveFormsModule, FormsModule, RouterLink, MatSelectModule, MatFormFieldModule, CommonModule, MatProgressSpinnerModule
   ],
   providers: [RestService],
   templateUrl: './registro.component.html',
@@ -17,28 +27,49 @@ import { RestService } from 'src/app/core/servicios/RestService.service';
 })
 export class RegistroComponent {
 
-  cliente:ICliente ={
+  selectFormControl = new FormControl('', Validators.required);
+  userTypes = Object.values(UserTypes);
+
+  cliente:Usuario ={
     nombre: '',
     apellido: '',
-    credenciales: {
-      email: '',
-      password: ''
-    },
-    direccion: '',
+    email: '',
+    password: '',
+    telefono: 0,
+    emailVerificado: false,
     fechaRegistro: new Date(),
-    rol: '',
+    rol: UserTypes.USUARIO,
   }
+
+  errorForm:string = ''
+  showSpinner:boolean = false
   
-  constructor( private restService:RestService) {}
+  constructor( private restService:RestService, private _snackBar: MatSnackBar) {}
 
   registrarUsuario() {
-
-    console.log(this.cliente)
+    this.showSpinner = true
     this.restService.insertCliente(this.cliente).then(
+      
       (data) => {
-        console.log(data)
+        this.showSpinner = false
+        this.openSnackBar()
+      }, 
+      error => {
+        this.showSpinner = false
+        this.errorForm = error.error.error
       }
     )
 
+  }
+
+  /**
+   * metodo para mostrar un mensaje emergente
+   */
+  openSnackBar() {
+    this._snackBar.open('Revisa tu correo personal para verificar la cuenta.', 'Cerrar', {
+      horizontalPosition: 'start',
+      verticalPosition: 'bottom',
+      duration: 5000,
+    });
   }
 }

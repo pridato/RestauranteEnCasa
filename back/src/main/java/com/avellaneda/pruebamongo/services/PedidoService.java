@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Service
 public class PedidoService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PedidoController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PedidoService.class);
 
     @Autowired
     private PedidoRepository pedidoRepository;
