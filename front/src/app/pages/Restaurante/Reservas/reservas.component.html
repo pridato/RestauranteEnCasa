@@ -1,8 +1,0 @@
-<div class="flex flex-col justify-center items-center gap-y-10 mt-10 shadow-lg">
-  @if(this.mostrarDialog){
-    <app-guardar-fecha [fecha]="this.selected!" (cerrarDialog)="recibirDialog($event)"></app-guardar-fecha>
-  } 
-    <mat-card class="demo-inline-calendar-card z-10">
-      <mat-calendar [(selected)]="selected" (selectedChange)="handleDateChange($event)"></mat-calendar>
-    </mat-card>
-</div>
