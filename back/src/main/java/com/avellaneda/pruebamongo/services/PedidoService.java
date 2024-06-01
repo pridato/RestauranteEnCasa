@@ -152,46 +152,30 @@ public class PedidoService {
             Calendar calFecha1 = getCalendar(fecha1);
             Calendar calFecha2 = getCalendar(fecha2);
 
-            int dia1 = calFecha1.get(Calendar.DAY_OF_MONTH);
-            int mes1 = calFecha1.get(Calendar.MONTH);
+            // Asegurarse de que la fecha1 es anterior o igual a fecha2
 
-            int dia2 = calFecha2.get(Calendar.DAY_OF_MONTH);
-            int mes2 = calFecha2.get(Calendar.MONTH);
-
-
-            for (int i = dia1; i <= dia2; i++) {
-                for (int j = mes1; j <= mes2; j++) {
-
-                    // para evitar el fallo de expresiones lambda
-                    final int dia = i;
-                    final int mes = j;
-
-                    // 1º creamos el calendario con el formato DIA - MES - AÑO de cada fecha
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(Calendar.DAY_OF_MONTH, i);
-                    cal.set(Calendar.MONTH, j);
-                    cal.set(Calendar.YEAR, calFecha1.get(Calendar.YEAR));
-
-
-                    // obtenemos los pedidos de esa fecha
-                    List<Pedido> pedidos = this.pedidoRepository.findAll()
-                            .stream()
-                            .filter(pedido -> {
-                                Calendar calPedido = Calendar.getInstance();
-                                calPedido.setTime(pedido.getHoraPedido());
-                                int diaPedido = calPedido.get(Calendar.DAY_OF_MONTH);
-                                int mesPedido = calPedido.get(Calendar.MONTH);
-
-                                return diaPedido == dia && mesPedido == mes;
-                            })
-                            .toList();
-
-                    // guardamos en el map la fecha formateada y el numero de pedidos
-                    Date fechaSeleccionada = cal.getTime();
-
-                    pedidosPorFecha.put(fechaSeleccionada, pedidos.size());
-                }
+            if (calFecha1.after(calFecha2)) {
+                throw new IllegalArgumentException("fecha1 debe ser anterior o igual a fecha2");
             }
+
+            // iteramos todas las fechas desde la 1ª hasta la 2ª
+            while (!calFecha1.after(calFecha2)) {
+
+                Date fechaActual = calFecha1.getTime();
+
+                List<Pedido> pedidos = this.pedidoRepository.findAll()
+                        .stream()
+                        .filter(pedido -> {
+                            Calendar calPedido = Calendar.getInstance();
+                            calPedido.setTime(pedido.getHoraPedido());
+                            return calPedido.get(Calendar.YEAR) == calFecha1.get(Calendar.YEAR) &&
+                                    calPedido.get(Calendar.DAY_OF_YEAR) == calFecha1.get(Calendar.DAY_OF_YEAR);
+                        })
+                        .toList();
+                pedidosPorFecha.put(fechaActual, pedidos.size());
+                calFecha1.add(Calendar.DAY_OF_MONTH, 1);
+            }
+
 
         } catch (ParseException e) {
             System.err.println("Error al parsear la fecha");
