@@ -69,7 +69,6 @@ export class FormAddFoodComponent {
   saveFood() {
     this.formAddFoodService.saveFood(this.comida).subscribe(
       (data:IRestMessage) => {
-        console.log(data);
         // todo ok 201 <-> errores 400 / 500
         if(data.codigo === 201){
           this.toastr.success("Comida guardada correctamente", "Correcto");
@@ -78,7 +77,6 @@ export class FormAddFoodComponent {
         }
       },
       (error) => {
-        console.log(error)
         this.toastr.error("Error al guardar la comida", "Error");
       }
     );

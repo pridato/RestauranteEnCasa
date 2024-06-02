@@ -48,7 +48,6 @@ export class ComidascompradasComponent {
     }
     effect(() => {
       this.comidasCompradas = this.storage.recuperarComidasCompradas();
-      console.log("new comidas compradas", this.comidasCompradas);
     });
   }
 
@@ -65,7 +64,6 @@ export class ComidascompradasComponent {
     comida: { comida: IComida; cantidad: number }
   ) {
     this.storage.actualizarComidasCompradas(comida, operacion);
-    console.log(this.storage.comidasCompradas());
   }
 
   /**

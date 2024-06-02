@@ -16,7 +16,6 @@ export class AdminDashboardService {
   }
 
   public cargarPedidosEntrantes(date:Date) :Observable<Pedido[]> {  
-    console.log(date)
     return this.http.get<Pedido[]>(`${springUrl}/Pedido/obtener-pedidos-fecha?fecha=${date}`)
   }
 

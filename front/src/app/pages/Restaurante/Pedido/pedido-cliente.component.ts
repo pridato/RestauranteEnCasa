@@ -89,7 +89,6 @@ export class PedidoClienteComponent {
       (data) => {
         this.pedidosUsuario = []
         this.pedidosUsuario = data
-        console.log(this.pedidosUsuario)
       })
   }
 
@@ -109,7 +108,6 @@ export class PedidoClienteComponent {
       this.stepper.selectedIndex = this.selectedStepIndex
     }
 
-    console.log(this.selectedStepIndex)
   }
 
   toggleStepper() {

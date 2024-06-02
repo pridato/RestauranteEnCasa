@@ -63,8 +63,6 @@ export class PedidosChartComponent {
       for (const [fecha, total] of Object.entries(pedidos)) {
         this.counts.push(total)
         this.dates.push(new Date(fecha))
-
-        console.log(fecha, total)
       }
       this.updateChartData();
     })

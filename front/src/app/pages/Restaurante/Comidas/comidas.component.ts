@@ -54,8 +54,7 @@ export class ComidasComponent {
       this.filtrarComidas();
 
       // recogemos el texto de busqueda
-    }),
-      (error: any) => console.log(error);
+    })
   }
 
 

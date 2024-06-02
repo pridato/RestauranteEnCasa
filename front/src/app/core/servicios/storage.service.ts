@@ -78,7 +78,6 @@ export class StorageService {
     }
 
     comida.cantidad = operacion === 'restar' && comida.cantidad > 1 ? comida.cantidad - 1 : comida.cantidad + 1
-    console.log(comida.cantidad)
     let _index = this.comidasCompradas().findIndex((elemento) => elemento.comida.id === comida.comida.id)
     if(_index !== -1) {
       this.comidasCompradas.update((comidas) => {

@@ -27,6 +27,5 @@ export class IconComponent {
     this.style = this.isBlack ? 'fa-solid fa-sun text-4xl' : 'fa-solid fa-moon text-4xl'
     this.themeService.switchTheme(theme)
     this.isBlack = !this.isBlack;
-    console.log(theme)
   }
 }
