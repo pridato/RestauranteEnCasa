@@ -1,3 +1,21 @@
 .demo-inline-calendar-card {
   width: 700px;
 }
+
+@media (max-width: 1024px) {
+  .demo-inline-calendar-card {
+    width: 600px;
+  }
+}
+
+@media (max-width: 768px) {
+  .demo-inline-calendar-card {
+    width: 500px;
+  }
+}
+
+@media (max-width: 480px) {
+  .demo-inline-calendar-card {
+    width: 300px;
+  }
+}

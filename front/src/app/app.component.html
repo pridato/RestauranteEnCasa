@@ -1,14 +1,14 @@
 <div class="flex flex-col justify-center items-center " >
   @if (this.menu) {
     <!-- TODO refactorizar esto al header -->
-    <div id="mobile" class="flex justify-center items-center  fixed inset-0 text-white">
+    <div id="mobile" class="flex justify-center items-center  fixed z-[99] inset-0 text-white">
       <div  (click)="onToggleMenu(!this.menu)" class="font-bold text-4xl" >
         <span class="cursor-pointer absolute right-20 top-20 ">
           <i class="fa-solid fa-x"></i>
         </span>
         <div class="flex flex-col gap-y-10  justify-center items-center">
           <a [routerLink]="['/Restaurante/Comidas']" class="cursor-pointer">Carta</a>
-          <span class="cursor-pointer">Quiénes somos</span>
+          <a [routerLink]="['/quienesSomos']" class="cursor-pointer">Quiénes somos</a>
           <a [routerLink]="[this.linkRol]" class="cursor-pointer">zona {{ this.user?.rol }}</a>
           <span (click)="onTogglePedido(true)" class="cursor-pointer">Gustados</span>
           <span [routerLink]="['/Restaurante/Reservas']" class="px-5 block mt-4 xl:inline-block xl:mt-0">
