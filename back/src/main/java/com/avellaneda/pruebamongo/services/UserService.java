@@ -53,7 +53,8 @@ public class UserService {
         }
 
         usuario.setEmailVerificado(false);
-
+        String passwordEncoded = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(passwordEncoded);
 
         // generamos un jwt para enviar x el email a la confirmacion verificando que es esa persona
         String jwt = jwtTokenProvider.generarToken(usuario);
@@ -177,17 +178,18 @@ public class UserService {
 
         // encode la contraseña y comprobar si todo ok
         // TODO encode en el registro...
-        // String passwordEncoded = passwordEncoder.encode(password);
-        // String passwordDTOEncoded = passwordEncoder.encode(usuarios.getPassword());
 
-
-
-        if(!password.equals(usuarios.getPassword())){
-            restMessage.setCodigo(1);
-            restMessage.setMensaje("Contraseña incorrecta");
-            restMessage.setOtrosDatos(tries);
-            return restMessage;
+        // comprobamos que la contraseña es correcta
+        if(!passwordEncoder.matches(password, usuarios.getPassword())) {
+            // al tener algunos usuarios creados con la password directamente se comprueba asi...
+            if(!password.equals(usuarios.getPassword())){
+                restMessage.setCodigo(1);
+                restMessage.setMensaje("Contraseña incorrecta");
+                restMessage.setOtrosDatos(tries);
+                return restMessage;
+            }
         }
+
 
         if(!usuarios.isEmailVerificado()) {
             restMessage.setCodigo(1);

@@ -30,6 +30,10 @@ export class RegistroComponent {
   selectFormControl = new FormControl('', Validators.required);
   userTypes = Object.values(UserTypes);
 
+  mostrarPassword:boolean = false
+  // mostrar ocultar display toggle (password - text)
+  estiloPassword:string = 'password'
+
   cliente:Usuario ={
     nombre: '',
     apellido: '',
@@ -71,5 +75,14 @@ export class RegistroComponent {
       verticalPosition: 'bottom',
       duration: 5000,
     });
+  }
+
+  /**
+   * metodo para alternar password y text para mostrar texto
+   */
+  toggleMostrarPassword() {
+    this.mostrarPassword = !this.mostrarPassword
+    if(this.mostrarPassword) this.estiloPassword = 'text'
+    else this.estiloPassword = 'password'
   }
 }

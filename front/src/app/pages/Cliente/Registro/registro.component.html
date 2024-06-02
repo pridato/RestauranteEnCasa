@@ -5,10 +5,10 @@
   </h1>
 
   @if (this.errorForm) {
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-      <strong class="font-bold">Error!</strong>
-      <span class="block sm:inline">{{ this.errorForm }}</span>
-    </div>
+  <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+    <strong class="font-bold">Error!</strong>
+    <span class="block sm:inline">{{ this.errorForm }}</span>
+  </div>
   }
   <div></div>
   <!-- contenedor del form -->
@@ -18,102 +18,87 @@
       <!-- nombre input -->
       <div class="mb-4 block text-gray-700 font-bold">
         <label class="flex py-2" for="nombre"> Nombre </label>
-        <input
-          [(ngModel)]="cliente.nombre"
-          name="nombre"
+        <input [(ngModel)]="cliente.nombre" name="nombre"
           class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="nombre"
-          type="text"
-          placeholder="Nombre"
-        />
+          id="nombre" type="text" placeholder="Nombre" />
       </div>
       <!-- apellido input -->
       <div class="mb-4 block text-gray-700 text-sm font-bold">
         <label class="flex py-2" for="apellido"> Apellidos </label>
-        <input
-          [(ngModel)]="cliente.apellido"
-          name="apellido"
+        <input [(ngModel)]="cliente.apellido" name="apellido"
           class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="apellido"
-          type="text"
-          placeholder="Apellido"
-        />
+          id="apellido" type="text" placeholder="Apellido" />
       </div>
-    
-    <!-- fin container nombre - apellido -->
+
+      <!-- fin container nombre - apellido -->
     </div>
-    
+
     <!-- contenedor email contraseña -->
     <div class="flex flex-row items-center justify-between gap-x-16">
 
       <!-- email -->
       <div class="mb-4 block text-gray-700 text-sm font-bold">
         <label class="flex py-2" for="email"> Email </label>
-        <input
-          [(ngModel)]="cliente.email"
-          name="email"
+        <input [(ngModel)]="cliente.email" name="email"
           class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="email"
-          type="email"
-          placeholder="Email"
-        />
+          id="email" type="email" placeholder="Email" />
       </div>
 
       <!-- contraseña -->
-      <div class="mb-4 block text-gray-700 text-sm font-bold">
+
+      <div class="mb-4 text-gray-700 text-sm font-bold">
         <label class="flex py-2" for="password"> Contraseña </label>
-        <input
-          [(ngModel)]="cliente.password"
-          name="password"
-          class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          id="Contraseña"
-          type="password"
-          placeholder="Contraseña"
-        />
+
+        <!-- input unido a toggle password -->
+        <div class="flex items-center border rounded shadow focus:outline-none focus:shadow-outline">
+          <input [(ngModel)]="cliente.password" name="password" [type]="estiloPassword"
+            class=" w-full py-2 px-3 text-gray-700 focus:outline-none" id="Contraseña" type="password"
+            placeholder="Contraseña" />
+          <span class="toggle-password ml-2 cursor-pointer relative right-2" (click)="toggleMostrarPassword()">
+            <i class="far fa-eye toggle-eye"
+              [ngClass]="{'fa-eye': mostrarPassword, 'fa-eye-slash': !mostrarPassword}"></i>
+          </span>
+        </div>
+
       </div>
 
     </div>
-    
+
     <!-- telefono input -->
     <div class="mb-4 text-gray-700 text-sm font-bold w-full flex flex-col items-center justify-center">
       <label class="flex py-2" for="telefono"> Teléfono </label>
-      <input
-        [(ngModel)]="cliente.telefono"
-        name="telefono"
+      <input [(ngModel)]="cliente.telefono" name="telefono"
         class="shadow appearance-none border rounded w-full py-2 px-6 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-        id="telefono"
-        type="number"
-        placeholder="Teléfono"
-      />
+        id="telefono" type="number" placeholder="Teléfono" />
     </div>
 
     <!-- opcion rol -->
     <div class="flex flex-col items-center justify-center gap-y-2 font-bold w-full">
       <mat-label>Tipo de Usuario:</mat-label>
-      <select matNativeControl required [(ngModel)]="cliente.rol" name="tipoUsuario" class="shadow appearance-none w-full p-1 px-4 border rounded-md bg-gray-50 border-gray-300 text-gray-900">
-          <option *ngFor="let userType of userTypes" [value]="userType">{{ userType }}</option>
+      <select matNativeControl required [(ngModel)]="cliente.rol" name="tipoUsuario"
+        class="shadow appearance-none w-full p-1 px-4 border rounded-md bg-gray-50 border-gray-300 text-gray-900">
+        <option *ngFor="let userType of userTypes" [value]="userType">{{ userType }}</option>
       </select>
-  </div>
-  
+    </div>
+
 
 
     <div class="pt-4 flex justify-center w-full">
-      <button
-      (click)="registrarUsuario()"
-        class="w-full rounded-xl bg-[#A97D5D] hover:bg-[#6c4a32] text-white font-bold py-2 px-2 uppercase"
-      >
-      Enviar
+      <button (click)="registrarUsuario()"
+        class="w-full rounded-xl bg-[#A97D5D] hover:bg-[#6c4a32] text-white font-bold py-2 px-2 uppercase">
+        Enviar
       </button>
     </div>
 
     <!-- spinner-->
     <div class="flex justify-center items-center w-full mt-4" *ngIf="showSpinner">
-      <mat-spinner diameter="30"></mat-spinner>
+      <mat-spinner diameter="50"></mat-spinner>
     </div>
   </form>
 
 </div>
 
-  <div class="flex justify-center">
-      <span>¿Tienes ya cuenta? <a class="font-bold hover:text-blue-400" [routerLink]="['/Cliente/Login']">Logueate aquí!</a></span>
-  </div>
+<div class="flex justify-center">
+  <span>¿Tienes ya cuenta? <a class="font-bold hover:text-blue-400" [routerLink]="['/Cliente/Login']">Logueate
+      aquí!</a></span>
+</div>
