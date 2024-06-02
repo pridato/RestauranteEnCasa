@@ -13,6 +13,7 @@ import { RestService } from 'src/app/core/servicios/RestService.service';
 import { PedidoClienteService } from 'src/app/core/servicios/pedido-cliente.service';
 import { StorageService } from 'src/app/core/servicios/storage.service';
 import { DateFormatHoursPipe } from 'src/app/shared/pipes/date-format-hours.pipe';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-pedido-cliente',
@@ -43,6 +44,8 @@ export class PedidoClienteComponent {
   @ViewChild('stepper', { static: false }) stepper!: MatStepper;
 
 
+  stepperOrientation: 'horizontal' | 'vertical' = 'horizontal';
+
   firstFormGroup = this._formBuilder.group({
     firstCtrl: ['', Validators.required],
   });
@@ -59,12 +62,26 @@ export class PedidoClienteComponent {
 
   pedidosUsuario:Pedido[] = []
 
-  constructor(private _formBuilder: FormBuilder, private pedidoSvc:PedidoClienteService, private storage:StorageService) {
+  constructor(private _formBuilder: FormBuilder,private breakpointObserver: BreakpointObserver, private pedidoSvc:PedidoClienteService, private storage:StorageService) {
     this.cargarPedidos()
+    this.getStepperOrientation()
     // cada 20 segundos se actualizan los pedidos
     setInterval(() => {
       this.cargarPedidos()
     }, 20000)
+  }
+
+  /**
+   * metodo para obtener la orientacion del stepper segun el tamaño de la pantalla
+   */
+  getStepperOrientation() {
+    this.breakpointObserver.observe([Breakpoints.Small, Breakpoints.XSmall]).subscribe(result => {
+      if (result.matches) {
+        this.stepperOrientation = 'vertical';
+      } else {
+        this.stepperOrientation = 'horizontal';
+      }
+    });
   }
 
   cargarPedidos() {
