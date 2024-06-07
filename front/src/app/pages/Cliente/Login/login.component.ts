@@ -66,7 +66,6 @@ export class LoginComponent {
    * Ambas nos dejarán acceder a páginas determinadas...
    * Para los roles en cada controlador de la página que nos interesa lo comprobamos a mano y listo
    *
-   * @memberof LoginComponent
    */
    login() {
     this.restService.login(this.credenciales).then(res => {
@@ -75,7 +74,15 @@ export class LoginComponent {
         this.error = ''
         this.updateStorageAndRedirect(res.datosCliente!, res.token);
       } 
+      else {
+        throw new Error(res.mensaje)
+      }
     }).catch(err => {
+      console.log(err)
+      if(err.statusText === 'Unknown Error'){
+        this.error = 'Error al iniciar sesión'
+        return 
+      } 
       this.error = err.error.mensaje
       if(!this.error) {
         this.toastr.error('Error no controlado', 'Error')

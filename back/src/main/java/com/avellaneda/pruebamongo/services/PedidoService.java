@@ -101,14 +101,11 @@ public class PedidoService {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .forEach(food -> {
-                    // Increment the purchased count
                     food.setVecesComprado(food.getVecesComprado() + 1);
 
-                    // Calculate the new average preparation time
                     int totalAccumulatedTime = food.getTiempoPreparacion() * (food.getVecesComprado() - 1) + totalPreparationTime;
                     int newPreparationTime = totalAccumulatedTime / food.getVecesComprado();
 
-                    // Update the food's preparation time
                     food.setTiempoPreparacion(newPreparationTime);
 
                     // Save the updated food in the repository

@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import com.avellaneda.pruebamongo.repository.UsuarioRepository;
 import org.springframework.web.servlet.view.RedirectView;
 
+import static com.avellaneda.pruebamongo.utils.Consts.URL_VERIFICACION;
+
 @RestController
 @RequestMapping("/Cliente")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class UsuariosController {
 
   private static final Logger logger = LoggerFactory.getLogger(UsuariosController.class);
@@ -41,7 +43,7 @@ public class UsuariosController {
   @GetMapping("/verify-email")
   public RedirectView verifyEmail(@RequestParam("email") String email, @RequestParam("jwt") String token) {
       RestMessage restMessage = userService.verifyEmail(email, token);
-      return new RedirectView("http://localhost:4200/");
+      return new RedirectView(URL_VERIFICACION);
   }
 
 

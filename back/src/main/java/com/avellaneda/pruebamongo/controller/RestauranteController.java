@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/restaurantes")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "*")
 public class RestauranteController {
 
     private static final Logger logger = LogManager.getLogger(ComidaService.class);
