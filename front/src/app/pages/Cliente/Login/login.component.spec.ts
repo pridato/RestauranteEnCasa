@@ -1,16 +1,18 @@
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 import { LoginComponent } from "./login.component";
-import { of } from "rxjs";
+import { of, throwError } from "rxjs";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { ToastrService } from "ngx-toastr";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { IRestMessage } from "src/app/core/models/message";
 
 /**
  * Usamos un mock para imitar la clase rest service, (los metodos usados) aislando así login del resto de comps.
  */
 class MockRestService {
   login(credenciales: any) {
-    return Promise.resolve({
+    return of({
       codigo: 0,
       mensaje: "Login exitoso",
       datosCliente: { id: 1, rol: "ADMINISTRADOR", nombre: "Cliente Mock" },
@@ -55,7 +57,7 @@ describe("LoginComponent", () => {
     };
 
     await TestBed.configureTestingModule({
-      imports: [HttpClientModule, LoginComponent],
+      imports: [HttpClientTestingModule, LoginComponent],
       providers: [
         { provide: mockRestService, useClass: MockRestService },
         { provide: mockStorageService, useClass: MockStorageService },
@@ -100,6 +102,31 @@ describe("LoginComponent", () => {
     expect(component.error).toBe('')
   })
 
+  it("should redirect to admin dashboard after successful login as admin", () => {
+  
+    component.credenciales = { email: 'test@example.com', password: '123456' }
+
+    const loginResponse = {
+      codigo: 0,
+      mensaje: "Login exitoso",
+      datosCliente: { id: 'aa', rol: "ADMINISTRADOR", nombre: "Admin User", apellido: "Admin", credenciales: component.credenciales, direccion: "123 Main St", fechaRegistro: new Date() },
+      token: "fake-jwt-token",
+    };
+
+    spyOn(component.restService, 'login').and.returnValue(of(loginResponse));
+    spyOn(component.storage, 'guardarCliente');
+    spyOn(component.storage, 'guardarJwt');
+    spyOn(component.router, 'navigateByUrl')
+
+    component.login();
+    fixture.detectChanges();
+  
+    expect(component.storage.guardarCliente).toHaveBeenCalledWith(loginResponse.datosCliente);
+    expect(component.storage.guardarJwt).toHaveBeenCalledWith(loginResponse.token);
+    expect(component.router.navigateByUrl).toHaveBeenCalledWith('Dashboard/administrador');
+  });
+  
+
   /**
    * test para controlar los errores de login, asegurarnos que los errores que genera la funcion se leen en el html
    */
@@ -107,9 +134,8 @@ describe("LoginComponent", () => {
     const errorMessage = 'Error al iniciar sesión';
 
     component.credenciales = {email: 'test@example.com', 'password': '123456'}
-    spyOn(mockRestService, 'login').and.returnValue(Promise.reject({ error: { mensaje: errorMessage } }))
+    spyOn(component.restService, 'login').and.returnValue(throwError({ error: { mensaje: errorMessage } }));
     component.login()
-    component.error = errorMessage
     fixture.detectChanges()
     expect(component.error).toBe(errorMessage)
     }

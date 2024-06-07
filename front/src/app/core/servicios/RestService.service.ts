@@ -27,13 +27,10 @@ export class RestService {
     );
   }
 
-  login(credenciales: ICredenciales): Promise<IRestMessage> {
-    // by get method
-    return lastValueFrom(
-      this._httpClient.get<IRestMessage>(
-        springUrl +
-          `/Cliente/login?email=${credenciales.email}&password=${credenciales.password}`
-      )
+  login(credenciales: ICredenciales): Observable<IRestMessage> {
+    return this._httpClient.get<IRestMessage>(
+      springUrl +
+      `/Cliente/login?email=${credenciales.email}&password=${credenciales.password}`
     );
   }
 
