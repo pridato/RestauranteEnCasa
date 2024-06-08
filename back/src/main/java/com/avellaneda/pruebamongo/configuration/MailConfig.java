@@ -21,7 +21,7 @@ public class MailConfig {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
 
         mailSender.setHost(dotenv.get("SMTP_HOST"));
-        mailSender.setPort(Integer.parseInt(Objects.requireNonNull(dotenv.get("SMTP_PORT")))); // Set your port
+        mailSender.setPort(Integer.parseInt(Objects.requireNonNull(dotenv.get("SMTP_PORT"))));
         mailSender.setUsername(dotenv.get("SMTP_USERNAME"));
         mailSender.setPassword(dotenv.get("SMTP_PASSWORD"));
 
